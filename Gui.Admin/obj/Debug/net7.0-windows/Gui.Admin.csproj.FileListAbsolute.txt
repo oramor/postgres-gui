@@ -4,7 +4,6 @@ C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\bin\Debug\net7.0-window
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\bin\Debug\net7.0-windows\Gui.Admin.dll
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\bin\Debug\net7.0-windows\Gui.Admin.pdb
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.csproj.AssemblyReference.cache
-C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.Form1.resources
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.csproj.GenerateResource.cache
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.AssemblyInfoInputs.cache
@@ -18,3 +17,5 @@ C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-window
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\bin\Debug\net7.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\bin\Debug\net7.0-windows\Npgsql.dll
 C:\Users\Roma\Source\Repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.csproj.CopyComplete
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.ConnectionForm.resources
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Admin\obj\Debug\net7.0-windows\Gui.Admin.MainForm.resources
