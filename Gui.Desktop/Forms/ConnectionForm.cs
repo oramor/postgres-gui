@@ -4,7 +4,8 @@ namespace Gui.Desktop.Forms
 {
     public partial class ConnectionForm : Form
     {
-        private PostgresProvider _pg;
+        private readonly PostgresProvider _pg;
+        private readonly ReloadParentForm _reloadParent;
 
         private string _hostField = string.Empty;
         private string _portField = string.Empty;
@@ -12,12 +13,28 @@ namespace Gui.Desktop.Forms
         private string _usernameField = string.Empty;
         private string _passwordField = string.Empty;
 
-        public ConnectionForm(PostgresProvider pg)
+        public delegate void ReloadParentForm();
+
+        public ConnectionForm(PostgresProvider pg, ReloadParentForm reload)
         {
             InitializeComponent();
             _pg = pg;
+            _reloadParent = reload;
 
             ReloadButtons();
+
+            if (pg.IsConnected)
+            {
+                FillFields();
+            }
+        }
+
+        private void FillFields()
+        {
+            this.textBoxHost.Text = _pg.Host;
+            this.textBoxPort.Text = _pg.Port;
+            this.textBoxDatabase.Text = _pg.Database;
+            this.textBoxUsername.Text = _pg.Username;
         }
 
         private void SetFieldValues()
@@ -63,6 +80,21 @@ namespace Gui.Desktop.Forms
             }
 
             ReloadButtons();
+            _reloadParent();
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _pg.TryDisconnect();
+            } catch
+            {
+                MessageBox.Show("Error due DB disconnection");
+            }
+
+            ReloadButtons();
+            _reloadParent();
         }
     }
 }

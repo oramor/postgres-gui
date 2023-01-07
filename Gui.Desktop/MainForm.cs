@@ -16,15 +16,15 @@ namespace Gui.Desktop
         private void ReloadConnectionStatusLabel()
         {
             this.toolStripStatusLabel1.Text = _pg.IsConnected
-                    ? "Connected"
-                    : "Not connected to database";
+                    ? $"Connected to PostgreSQL {_pg.ServerVersion} (database {_pg.Database})"
+                    : "Without database connection";
         }
 
         #region Events
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ConnectionForm(_pg);
+            var form = new ConnectionForm(_pg, ReloadConnectionStatusLabel);
             form.ShowDialog();
         }
 

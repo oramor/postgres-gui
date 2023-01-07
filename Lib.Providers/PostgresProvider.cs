@@ -17,11 +17,35 @@ namespace Lib.Providers
         {
         }
 
-        private NpgsqlConnection? objConn = null;
+        private NpgsqlDataSource? dataSource = null;
+        private NpgsqlConnection? connection = null;
+
+        public string Host { get => connection?.Host ?? string.Empty; }
+        public string Port { get => connection?.Port.ToString() ?? string.Empty; }
+        public string Database { get => connection?.Database ?? string.Empty; }
+        public string Username { get => connection?.UserName ?? string.Empty; }
 
         public bool IsConnected
         {
-            get => objConn is not null;
+            get {
+                if (connection == null) return false;
+
+                var state = connection.State;
+                if (state == System.Data.ConnectionState.Open)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public string ServerVersion
+        {
+            get {
+                if (connection == null) return string.Empty;
+                return connection.ServerVersion.ToString();
+            }
         }
 
         public static string MakeConnectionString(PostgresConnectionParams connParams)
@@ -31,13 +55,14 @@ namespace Lib.Providers
 
         public void TryConnect(PostgresConnectionParams connParams)
         {
-            if (objConn != null) return;
+            if (dataSource != null) return;
 
             var connString = MakeConnectionString(connParams);
 
             try
             {
-                objConn = new NpgsqlConnection(connString);
+                dataSource = NpgsqlDataSource.Create(connString);
+                connection = dataSource.OpenConnection();
             } catch
             {
                 throw new Exception("Connection filed");
@@ -46,10 +71,15 @@ namespace Lib.Providers
 
         public void TryDisconnect()
         {
-            if (objConn == null) return;
+            if (connection == null) return;
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
 
-            objConn.Close();
-            objConn = null;
+            if (dataSource == null) return;
+            dataSource.Dispose();
+            dataSource = null;
         }
     }
 }

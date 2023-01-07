@@ -141,6 +141,7 @@
             this.btnDisconnect.TabIndex = 21;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // ConnectionForm
             // 
