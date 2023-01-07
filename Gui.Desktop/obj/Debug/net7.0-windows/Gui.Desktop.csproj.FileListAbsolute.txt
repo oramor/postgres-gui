@@ -16,3 +16,8 @@ C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-wind
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.pdb
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.genruntimeconfig.cache
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\ref\Gui.Desktop.dll
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Npgsql.dll
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Providers.dll
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Providers.pdb
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.csproj.CopyComplete

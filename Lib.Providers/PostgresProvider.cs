@@ -2,6 +2,15 @@
 
 namespace Lib.Providers
 {
+    public readonly struct PostgresConnectionParams
+    {
+        public string Host { get; init; }
+        public string Port { get; init; }
+        public string Database { get; init; }
+        public string Username { get; init; }
+        public string Password { get; init; }
+    }
+
     public class PostgresProvider
     {
         static PostgresProvider()
@@ -10,31 +19,32 @@ namespace Lib.Providers
 
         private NpgsqlConnection? objConn = null;
 
-        public bool isConnected
+        public bool IsConnected
         {
             get => objConn is not null;
         }
 
-        public static string MakeConnectionString(string host, string port, string username, string password, string database)
+        public static string MakeConnectionString(PostgresConnectionParams connParams)
         {
-            return $"Host={host};Port={port};Username={username};Password={password};Database={database}";
+            return $"Host={connParams.Host};Port={connParams.Port};Username={connParams.Username};Password={connParams.Password};Database={connParams.Database}";
         }
 
-        public NpgsqlConnection TryConnect(string connString)
+        public void TryConnect(PostgresConnectionParams connParams)
         {
-            if (objConn != null) return objConn;
+            if (objConn != null) return;
+
+            var connString = MakeConnectionString(connParams);
 
             try
             {
                 objConn = new NpgsqlConnection(connString);
-                return objConn;
             } catch
             {
                 throw new Exception("Connection filed");
             };
         }
 
-        public void tryDisconnect()
+        public void TryDisconnect()
         {
             if (objConn == null) return;
 

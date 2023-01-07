@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "bpMgBx2ozH6jj1HmdojRYz5gUOsRU2HrQVb8M7CbzgTTjg2kL5JlfKTk8Ie0BGYdZzNTNmff1/quLtGahCCn5g==",
+  "dgSpecHash": "FjEiaxtLtEq3GdaNCmXn2ne+6uE2KPTzYfb9FVfwHUtqhJfGNX7DyXjNhj8US5XMiWhSmTplClr9nEnHZfb5Lw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Gui.Desktop\\Gui.Desktop.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Roma\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Roma\\.nuget\\packages\\npgsql\\7.0.1\\npgsql.7.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
