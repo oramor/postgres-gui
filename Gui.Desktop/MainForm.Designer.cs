@@ -37,6 +37,13 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTablePartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newDTOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tablePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dTOsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -67,18 +74,26 @@
             // 
             this.connectToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.connectToolStripMenuItem.Text = "Connect";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.connectToolStripMenuItem.Text = "Connect to Postgres...";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // createToolStripMenuItem
             // 
+            this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newEntityToolStripMenuItem,
+            this.newTablePartToolStripMenuItem,
+            this.newDTOToolStripMenuItem});
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
             this.createToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.createToolStripMenuItem.Text = "Create";
             // 
             // listsToolStripMenuItem
             // 
+            this.listsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.entitiesToolStripMenuItem,
+            this.tablePartsToolStripMenuItem,
+            this.dTOsToolStripMenuItem});
             this.listsToolStripMenuItem.Name = "listsToolStripMenuItem";
             this.listsToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
             this.listsToolStripMenuItem.Text = "Lists";
@@ -91,6 +106,8 @@
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -111,6 +128,48 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(154, 17);
             this.toolStripStatusLabel1.Text = "Not connection to database";
             this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // newEntityToolStripMenuItem
+            // 
+            this.newEntityToolStripMenuItem.Name = "newEntityToolStripMenuItem";
+            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newEntityToolStripMenuItem.Text = "New Entity...";
+            // 
+            // newTablePartToolStripMenuItem
+            // 
+            this.newTablePartToolStripMenuItem.Name = "newTablePartToolStripMenuItem";
+            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newTablePartToolStripMenuItem.Text = "New Table Part....";
+            // 
+            // entitiesToolStripMenuItem
+            // 
+            this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
+            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.entitiesToolStripMenuItem.Text = "Entities";
+            // 
+            // newDTOToolStripMenuItem
+            // 
+            this.newDTOToolStripMenuItem.Name = "newDTOToolStripMenuItem";
+            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newDTOToolStripMenuItem.Text = "New DTO";
+            // 
+            // tablePartsToolStripMenuItem
+            // 
+            this.tablePartsToolStripMenuItem.Name = "tablePartsToolStripMenuItem";
+            this.tablePartsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tablePartsToolStripMenuItem.Text = "Table Parts";
+            // 
+            // dTOsToolStripMenuItem
+            // 
+            this.dTOsToolStripMenuItem.Name = "dTOsToolStripMenuItem";
+            this.dTOsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dTOsToolStripMenuItem.Text = "DTOs";
             // 
             // MainForm
             // 
@@ -144,5 +203,12 @@
         private ToolStripMenuItem helpToolStripMenuItem;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripMenuItem newEntityToolStripMenuItem;
+        private ToolStripMenuItem newTablePartToolStripMenuItem;
+        private ToolStripMenuItem newDTOToolStripMenuItem;
+        private ToolStripMenuItem entitiesToolStripMenuItem;
+        private ToolStripMenuItem tablePartsToolStripMenuItem;
+        private ToolStripMenuItem dTOsToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
