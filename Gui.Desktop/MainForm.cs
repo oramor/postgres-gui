@@ -24,5 +24,11 @@ namespace Gui.Desktop
         {
 
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Todo close connection
+            Application.Exit();
+        }
     }
 }

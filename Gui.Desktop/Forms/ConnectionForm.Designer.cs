@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox6
@@ -131,11 +132,22 @@
             this.textBox2.Size = new System.Drawing.Size(200, 23);
             this.textBox2.TabIndex = 4;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(136, 182);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(85, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Disconnect";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // ConnectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(314, 221);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox5);
@@ -152,7 +164,7 @@
             this.MinimizeBox = false;
             this.Name = "ConnectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ConnectionForm";
+            this.Text = "Postgres Connection";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,5 +183,6 @@
         private Label label2;
         private Label label1;
         private TextBox textBox2;
+        private Button button2;
     }
 }
