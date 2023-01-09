@@ -18,16 +18,16 @@
 
         private void SetFieldValues()
         {
-            this.textBoxEntityName.Text = _entityName;
-            this.textBoxPascalName.Text = _pascalName;
-            this.checkBoxIsDocument.Checked = _isDocument;
+            _entityName = this.textBoxEntityName.Text;
+            _pascalName = this.textBoxPascalName.Text;
+            _isDocument = this.checkBoxIsDocument.Checked;
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
             SetFieldValues();
-            var cmdString = ApiCommands.CreateEntity(_entityName, _pascalName, _isDocument);
-            var entityId = CallApiMethod<int>(cmdString).FirstOrDefault();
+            var cmdString = ApiAdmin.CreateEntity(_entityName, _pascalName, _isDocument);
+            var entityId = CallApiMethod<int>(cmdString);
             MessageBox.Show(entityId.ToString());
         }
     }

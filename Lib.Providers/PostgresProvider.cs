@@ -74,16 +74,57 @@ namespace Lib.Providers
             dataSource = null;
         }
 
-        IEnumerable<T> IDbProvider.Execute<T>(string cmdString)
+        T IDbProvider.Execute<T>(ApiCommand apiCommand)
         {
-            var cmd = new NpgsqlCommand(cmdString, connection);
+            var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
+            var apiParams = apiCommand.Params;
+
+            foreach (var param in apiParams)
+            {
+                if (param.ParamType == ApiParameterType.Out)
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, DbType.Int32) { Direction = ParameterDirection.Output });
+                }
+
+                if (param.ParamType == ApiParameterType.In)
+                {
+
+                }
+            }
+
+        }
+
+        T IDbProvider.Execute<T>(string cmdString)
+        {
+            var cmd = new NpgsqlCommand("CALL api_admin.pr_create_entity_n(NULL, @p_public_name, @p_pascal_name, @p_is_doc);", connection);
+            cmd.Parameters.Add(new NpgsqlParameter("p_entity_id", DbType.Int32) { Direction = ParameterDirection.Output }
+            );
+
+            cmd.Parameters.Add(new NpgsqlParameter("p_public_name", DbType.String) { NpgsqlValue = "Тест2" });
+            cmd.Parameters.Add(new NpgsqlParameter("p_pascal_name", DbType.String) { NpgsqlValue = "TestTwo" });
+            cmd.Parameters.Add(new NpgsqlParameter("p_is_doc", DbType.Boolean) { NpgsqlValue = false });
+
+            cmd.ExecuteNonQuery();
+            var outParam = cmd.Parameters[0];
+            var result = outParam.Value;
+
+            try
+            {
+                var t = (T)result;
+                if (t == null) throw new Exception("Got null");
+
+                return t;
+            } catch
+            {
+                throw;
+            }
+
 
             /// CommandBehavior.Default означает, что может вернуться
             /// несколько строк.
-            NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
-
-            var result = reader.Cast<T>();
-            return result;
+            //NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
         }
+
+
     }
 }

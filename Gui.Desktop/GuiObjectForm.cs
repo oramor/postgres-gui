@@ -1,4 +1,6 @@
-﻿namespace Gui.Desktop
+﻿using Lib.Providers;
+
+namespace Gui.Desktop
 {
     public partial class GuiObjectForm : Form
     {
@@ -31,7 +33,7 @@
             }
         }
 
-        protected static IEnumerable<T> CallApiMethod<T>(string cmd)
+        protected static T CallApiCommand<T>(ApiCommand cmd)
         {
             var db = App.DbProvider;
             var result = db.Execute<T>(cmd);

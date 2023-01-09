@@ -19,6 +19,7 @@
         bool IsConnected { get; }
         void TryConnect(IDbConnectionParams connParams);
         void TryDisconnect();
-        IEnumerable<T> Execute<T>(string cmdString);
+        T Execute<T>(string cmdString);
+        T Execute<T>(ApiCommand cmd);
     }
 }
