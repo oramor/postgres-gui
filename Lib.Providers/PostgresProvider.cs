@@ -74,6 +74,13 @@ namespace Lib.Providers
             dataSource = null;
         }
 
+        private DbType GetDbType(object value)
+        {
+            if (value is string) return DbType.String;
+            if (value is int) return DbType.Int32;
+            return DbType.Byte;
+        }
+
         T IDbProvider.Execute<T>(ApiCommand apiCommand)
         {
             var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
@@ -83,15 +90,30 @@ namespace Lib.Providers
             {
                 if (param.ParamType == ApiParameterType.Out)
                 {
+                    //TODO
                     cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, DbType.Int32) { Direction = ParameterDirection.Output });
                 }
 
                 if (param.ParamType == ApiParameterType.In)
                 {
-
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, DbType.String) { NpgsqlValue = param.ParamValue });
                 }
             }
 
+            cmd.ExecuteNonQuery();
+            var outParam = cmd.Parameters[0];
+            var result = outParam.Value;
+
+            try
+            {
+                var t = (T)result;
+                if (t == null) throw new Exception("Got null");
+
+                return t;
+            } catch
+            {
+                throw;
+            }
         }
 
         T IDbProvider.Execute<T>(string cmdString)
