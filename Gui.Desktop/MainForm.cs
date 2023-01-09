@@ -26,7 +26,7 @@ namespace Gui.Desktop
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowModalForm(new ConnectionForm(_pg, ReloadConnectionStatusLabel));
+            App.ShowModalForm(new ConnectionForm(_pg, ReloadConnectionStatusLabel));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -49,7 +49,12 @@ namespace Gui.Desktop
 
         private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowModalForm(new EntityForm());
+            App.ShowModalForm(new EntityForm());
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(App.About);
         }
     }
 }

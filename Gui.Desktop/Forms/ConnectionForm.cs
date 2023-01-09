@@ -13,8 +13,8 @@ namespace Gui.Desktop.Forms
 
     public partial class ConnectionForm : Form
     {
-        private readonly IDbProvider _pg;
-        private readonly ReloadParentForm _reloadParent;
+        private readonly IDbProvider _db;
+        private readonly ReloadParentForm _reloadParentDelegate;
 
         private string _hostField = string.Empty;
         private string _portField = string.Empty;
@@ -27,12 +27,12 @@ namespace Gui.Desktop.Forms
         public ConnectionForm(IDbProvider pg, ReloadParentForm reload)
         {
             InitializeComponent();
-            _pg = pg;
-            _reloadParent = reload;
+            _db = App.DbProvider;
+            _reloadParentDelegate = reload;
 
             ReloadButtons();
 
-            if (pg.IsConnected)
+            if (_db.IsConnected)
             {
                 FillFields();
             }
@@ -40,10 +40,10 @@ namespace Gui.Desktop.Forms
 
         private void FillFields()
         {
-            this.textBoxHost.Text = _pg.Host;
-            this.textBoxPort.Text = _pg.Port;
-            this.textBoxDatabase.Text = _pg.Database;
-            this.textBoxUsername.Text = _pg.Username;
+            this.textBoxHost.Text = _db.Host;
+            this.textBoxPort.Text = _db.Port;
+            this.textBoxDatabase.Text = _db.Database;
+            this.textBoxUsername.Text = _db.Username;
         }
 
         private void SetFieldValues()
@@ -59,14 +59,14 @@ namespace Gui.Desktop.Forms
         {
             if (String.IsNullOrEmpty(_hostField))
             {
-                FormHelper.ShowInputRequiredDialog("Host", this);
+                App.ShowInputRequiredDialog("Host", this);
             }
         }
 
         private void ReloadButtons()
         {
-            this.btnDisconnect.Visible = _pg.IsConnected;
-            this.btnConnect.Enabled = !_pg.IsConnected;
+            this.btnDisconnect.Visible = _db.IsConnected;
+            this.btnConnect.Enabled = !_db.IsConnected;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace Gui.Desktop.Forms
 
             try
             {
-                _pg.TryConnect(new DbConnectionParams {
+                _db.TryConnect(new DbConnectionParams {
                     Host = _hostField,
                     Port = _portField,
                     Database = _databaseField,
@@ -85,25 +85,25 @@ namespace Gui.Desktop.Forms
                 });
             } catch
             {
-                FormHelper.ShowErrorDialog("Connection attempt failed: database error occured");
+                App.ShowErrorDialog("Connection attempt failed: database error occured");
             }
 
             ReloadButtons();
-            _reloadParent();
+            _reloadParentDelegate();
         }
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
             try
             {
-                _pg.TryDisconnect();
+                _db.TryDisconnect();
             } catch
             {
-                FormHelper.ShowErrorDialog("Disconnection attempt failed: database error occured");
+                App.ShowErrorDialog("Disconnection attempt failed: database error occured");
             }
 
             ReloadButtons();
-            _reloadParent();
+            _reloadParentDelegate();
         }
     }
 }

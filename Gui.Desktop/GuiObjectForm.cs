@@ -3,7 +3,6 @@
     public partial class GuiObjectForm : Form
     {
         int? _objectId;
-        IDiContainer? _di;
 
         protected GuiObjectForm()
         {
@@ -32,19 +31,9 @@
             }
         }
 
-        public void InjectDi(IDiContainer di)
+        protected static IEnumerable<T> CallApiMethod<T>(string cmd)
         {
-            _di = di;
-        }
-
-        protected IEnumerable<T> CallApiMethod<T>(string cmd)
-        {
-            var db = _di?.DbProvider;
-            if (db == null)
-            {
-                throw new Exception("Can't get DbProvider");
-            }
-
+            var db = App.DbProvider;
             var result = db.Execute<T>(cmd);
             return result;
         }

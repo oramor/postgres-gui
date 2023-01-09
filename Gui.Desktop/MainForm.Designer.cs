@@ -100,20 +100,20 @@
             // newEntityToolStripMenuItem
             // 
             this.newEntityToolStripMenuItem.Name = "newEntityToolStripMenuItem";
-            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.newEntityToolStripMenuItem.Text = "New Entity...";
             this.newEntityToolStripMenuItem.Click += new System.EventHandler(this.newEntityToolStripMenuItem_Click);
             // 
             // newTablePartToolStripMenuItem
             // 
             this.newTablePartToolStripMenuItem.Name = "newTablePartToolStripMenuItem";
-            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.newTablePartToolStripMenuItem.Text = "New Table Part....";
             // 
             // newDTOToolStripMenuItem
             // 
             this.newDTOToolStripMenuItem.Name = "newDTOToolStripMenuItem";
-            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.newDTOToolStripMenuItem.Text = "New DTO";
             // 
             // listsToolStripMenuItem
@@ -161,8 +161,9 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 

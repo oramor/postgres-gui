@@ -27,7 +27,7 @@
         {
             SetFieldValues();
             var cmdString = ApiCommands.CreateEntity(_entityName, _pascalName, _isDocument);
-            var entityId = this.CallApiMethod<int>(cmdString).FirstOrDefault();
+            var entityId = CallApiMethod<int>(cmdString).FirstOrDefault();
             MessageBox.Show(entityId.ToString());
         }
     }
