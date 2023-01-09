@@ -2,9 +2,18 @@
 
 namespace Gui.Desktop.Forms
 {
+    public readonly struct DbConnectionParams : IDbConnectionParams
+    {
+        public string Host { get; init; }
+        public string Port { get; init; }
+        public string Database { get; init; }
+        public string Username { get; init; }
+        public string Password { get; init; }
+    }
+
     public partial class ConnectionForm : Form
     {
-        private readonly PostgresProvider _pg;
+        private readonly IDbProvider _pg;
         private readonly ReloadParentForm _reloadParent;
 
         private string _hostField = string.Empty;
@@ -15,7 +24,7 @@ namespace Gui.Desktop.Forms
 
         public delegate void ReloadParentForm();
 
-        public ConnectionForm(PostgresProvider pg, ReloadParentForm reload)
+        public ConnectionForm(IDbProvider pg, ReloadParentForm reload)
         {
             InitializeComponent();
             _pg = pg;
@@ -50,7 +59,7 @@ namespace Gui.Desktop.Forms
         {
             if (String.IsNullOrEmpty(_hostField))
             {
-                MessageBox.Show("Host field is required");
+                FormHelper.ShowInputRequiredDialog("Host", this);
             }
         }
 
@@ -67,7 +76,7 @@ namespace Gui.Desktop.Forms
 
             try
             {
-                _pg.TryConnect(new PostgresConnectionParams {
+                _pg.TryConnect(new DbConnectionParams {
                     Host = _hostField,
                     Port = _portField,
                     Database = _databaseField,
@@ -76,7 +85,7 @@ namespace Gui.Desktop.Forms
                 });
             } catch
             {
-                MessageBox.Show("Error due DB connection");
+                FormHelper.ShowErrorDialog("Connection attempt failed: database error occured");
             }
 
             ReloadButtons();
@@ -90,7 +99,7 @@ namespace Gui.Desktop.Forms
                 _pg.TryDisconnect();
             } catch
             {
-                MessageBox.Show("Error due DB disconnection");
+                FormHelper.ShowErrorDialog("Disconnection attempt failed: database error occured");
             }
 
             ReloadButtons();

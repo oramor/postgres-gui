@@ -76,14 +76,14 @@
             // 
             this.connectToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.connectToolStripMenuItem.Text = "Connect to Postgres...";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.connectToolStripMenuItem.Text = "Postgres connection";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -100,19 +100,20 @@
             // newEntityToolStripMenuItem
             // 
             this.newEntityToolStripMenuItem.Name = "newEntityToolStripMenuItem";
-            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newEntityToolStripMenuItem.Text = "New Entity...";
+            this.newEntityToolStripMenuItem.Click += new System.EventHandler(this.newEntityToolStripMenuItem_Click);
             // 
             // newTablePartToolStripMenuItem
             // 
             this.newTablePartToolStripMenuItem.Name = "newTablePartToolStripMenuItem";
-            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newTablePartToolStripMenuItem.Text = "New Table Part....";
             // 
             // newDTOToolStripMenuItem
             // 
             this.newDTOToolStripMenuItem.Name = "newDTOToolStripMenuItem";
-            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newDTOToolStripMenuItem.Text = "New DTO";
             // 
             // listsToolStripMenuItem

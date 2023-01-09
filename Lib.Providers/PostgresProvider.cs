@@ -2,16 +2,7 @@
 
 namespace Lib.Providers
 {
-    public readonly struct PostgresConnectionParams
-    {
-        public string Host { get; init; }
-        public string Port { get; init; }
-        public string Database { get; init; }
-        public string Username { get; init; }
-        public string Password { get; init; }
-    }
-
-    public class PostgresProvider
+    public class PostgresProvider : IDbProvider
     {
         static PostgresProvider()
         {
@@ -48,12 +39,12 @@ namespace Lib.Providers
             }
         }
 
-        public static string MakeConnectionString(PostgresConnectionParams connParams)
+        private static string MakeConnectionString(IDbConnectionParams connParams)
         {
             return $"Host={connParams.Host};Port={connParams.Port};Username={connParams.Username};Password={connParams.Password};Database={connParams.Database}";
         }
 
-        public void TryConnect(PostgresConnectionParams connParams)
+        public void TryConnect(IDbConnectionParams connParams)
         {
             if (dataSource != null) return;
 

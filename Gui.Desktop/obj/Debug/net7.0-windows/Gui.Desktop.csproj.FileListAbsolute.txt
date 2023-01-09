@@ -21,3 +21,5 @@ C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-wind
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Providers.dll
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Providers.pdb
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.csproj.CopyComplete
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.Forms.EntityForm.resources
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.GuiObjectForm.resources

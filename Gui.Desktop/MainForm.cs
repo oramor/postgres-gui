@@ -3,15 +3,17 @@ using Lib.Providers;
 
 namespace Gui.Desktop
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IDiContainer
     {
-        private readonly PostgresProvider _pg = new();
+        private readonly IDbProvider _pg = new PostgresProvider();
 
         public MainForm()
         {
             InitializeComponent();
             ReloadConnectionStatusLabel();
         }
+
+        public IDbProvider DbProvider { get { return _pg; } }
 
         private void ReloadConnectionStatusLabel()
         {
@@ -24,8 +26,7 @@ namespace Gui.Desktop
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ConnectionForm(_pg, ReloadConnectionStatusLabel);
-            form.ShowDialog();
+            FormHelper.ShowModalForm(new ConnectionForm(_pg, ReloadConnectionStatusLabel));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -45,5 +46,10 @@ namespace Gui.Desktop
         }
 
         #endregion
+
+        private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormHelper.ShowChildForm(new EntityForm());
+        }
     }
 }
