@@ -26,8 +26,9 @@
         private void btnCreate_Click(object sender, EventArgs e)
         {
             SetFieldValues();
-            var cmd = ApiCommands.CreateEntity(_entityName, _pascalName, _isDocument);
-
+            var cmdString = ApiCommands.CreateEntity(_entityName, _pascalName, _isDocument);
+            var entityId = this.CallApiMethod<int>(cmdString).FirstOrDefault();
+            MessageBox.Show(entityId.ToString());
         }
     }
 }

@@ -24,6 +24,11 @@ namespace Gui.Desktop
             }
         }
 
+        public static IDiContainer GetMainFormAsDiContainer()
+        {
+
+        }
+
         public static void ShowModalForm(Form form)
         {
             form.ShowDialog();
@@ -43,6 +48,7 @@ namespace Gui.Desktop
 
 
             //form.MdiParent = mainForm;
+
             form.Show();
         }
 

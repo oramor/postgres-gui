@@ -2,7 +2,8 @@
 {
     public partial class GuiObjectForm : Form
     {
-        private int? _objectId;
+        int? _objectId;
+        IDiContainer? _di;
 
         protected GuiObjectForm()
         {
@@ -14,21 +15,38 @@
         {
             InitializeComponent();
             _objectId = objectId;
-            SetTitle();
+            SetTitle(objectName);
 
             this.MaximizeBox = false;
         }
 
-        private void SetTitle()
+        private void SetTitle(string objectName)
         {
             if (_objectId.HasValue)
             {
-                this.Text = $"Entity {_objectId.Value}";
+                this.Text = $"{objectName} {_objectId.Value}";
             }
             else
             {
-                this.Text = "Create new";
+                this.Text = $"Create new {objectName}";
             }
+        }
+
+        public void InjectDi(IDiContainer di)
+        {
+            _di = di;
+        }
+
+        protected IEnumerable<T> CallApiMethod<T>(string cmd)
+        {
+            var db = _di?.DbProvider;
+            if (db == null)
+            {
+                throw new Exception("Can't get DbProvider");
+            }
+
+            var result = db.Execute<T>(cmd);
+            return result;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Gui.Desktop
 
         private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowChildForm(new EntityForm());
+            FormHelper.ShowModalForm(new EntityForm());
         }
     }
 }

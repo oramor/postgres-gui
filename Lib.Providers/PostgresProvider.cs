@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using System.Data;
 
 namespace Lib.Providers
 {
@@ -71,6 +72,18 @@ namespace Lib.Providers
             if (dataSource == null) return;
             dataSource.Dispose();
             dataSource = null;
+        }
+
+        IEnumerable<T> IDbProvider.Execute<T>(string cmdString)
+        {
+            var cmd = new NpgsqlCommand(cmdString, connection);
+
+            /// CommandBehavior.Default означает, что может вернуться
+            /// несколько строк.
+            NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
+
+            var result = reader.Cast<T>();
+            return result;
         }
     }
 }

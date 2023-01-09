@@ -7,7 +7,7 @@ namespace Gui.Desktop
     /// Простейший DI-контейнер, который хранится на уровне
     /// инстанса главной формы
     /// </summary>
-    internal interface IDiContainer
+    public interface IDiContainer
     {
         IDbProvider DbProvider { get; }
     }
