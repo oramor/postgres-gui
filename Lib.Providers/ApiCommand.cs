@@ -53,6 +53,7 @@ namespace Lib.Providers
             get {
                 var str = string.Empty;
 
+                // Out-параметры возможны только для процедур?
                 if (this.CommandType == ApiCommandType.Proc)
                 {
                     str = $"CALL {_schemaName}.{_routineName}(";

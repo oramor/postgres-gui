@@ -14,7 +14,7 @@ namespace Gui.Desktop
         public static ApiCommand CreateEntity(string publicName, string pascalName, bool isDocument)
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
-            cmd.AddParam(new ApiParameter("p_entity_id", 0, ApiParameterType.Out));
+            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
             cmd.AddParam(new ApiParameter("p_public_name", publicName));
             cmd.AddParam(new ApiParameter("p_pascal_name", pascalName));
             cmd.AddParam(new ApiParameter("p_is_doc", isDocument));

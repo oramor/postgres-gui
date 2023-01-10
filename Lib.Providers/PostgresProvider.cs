@@ -74,7 +74,7 @@ namespace Lib.Providers
             dataSource = null;
         }
 
-        private DbType GetDbType(object value)
+        private static DbType GetDbType(object value)
         {
             if (value is string) return DbType.String;
             if (value is int) return DbType.Int32;
