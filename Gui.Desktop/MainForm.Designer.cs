@@ -130,8 +130,9 @@
             // entitiesToolStripMenuItem
             // 
             this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
-            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.entitiesToolStripMenuItem.Text = "Entities";
+            this.entitiesToolStripMenuItem.Click += new System.EventHandler(this.entitiesToolStripMenuItem_Click);
             // 
             // tablePartsToolStripMenuItem
             // 
@@ -186,8 +187,8 @@
             // toolStripStatusLastCommandReport
             // 
             this.toolStripStatusLastCommandReport.Name = "toolStripStatusLastCommandReport";
-            this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLastCommandReport.Text = "toolStripStatusLabel2";
+            this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
+            this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
             // MainForm
             // 

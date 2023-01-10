@@ -84,6 +84,18 @@ namespace Lib.Providers
             };
         }
 
+        private DataTable ReadTable(NpgsqlDataReader reader)
+        {
+            var dt = new DataTable();
+
+            // Otherwise will be returned an empty DataTable
+            if (reader.HasRows)
+            {
+                dt.Load(reader);
+            }
+
+            return dt;
+        }
 
         T IDbProvider.Execute<T>(ApiCommand apiCommand)
         {
@@ -105,7 +117,7 @@ namespace Lib.Providers
 
             object? result = null;
 
-            /// Если функция или процдура содержит out-параметр, то мы будем
+            /// Если функция или процедура содержит out-параметр, то мы будем
             /// получать данные именно из этого параметра.
             if (apiCommand.HasOutParam)
             {
@@ -115,13 +127,23 @@ namespace Lib.Providers
             }
             else if (apiCommand.CommandType == ApiCommandType.Func)
             {
-                /// Пока что реализовано только для одиночных ячеек,
-                /// т.е. для постфиксов _n, _b, _s
-                /// 
-                /// CommandBehavior.Default означает, что может вернуться
-                /// несколько строк.
-                var reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
-                result = reader.GetValue(0);
+                NpgsqlDataReader reader;
+
+                switch (apiCommand.ResultType)
+                {
+                    // Для постфиксов _n, _b, _s ожадается возврат одной ячейки
+                    case ApiCommandResultType.Cell:
+                        reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                        result = reader.GetValue(0);
+                        break;
+                    // Для таблиц _t
+                    case ApiCommandResultType.Table:
+                        reader = cmd.ExecuteReader(CommandBehavior.Default);
+                        result = ReadTable(reader);
+                        break;
+                    default:
+                        throw new NotSupportedException("Not supported value of ApiCommandResultType");
+                }
             }
             else
             {
@@ -172,7 +194,7 @@ namespace Lib.Providers
 
 
 
-            //NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
+        //NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
         //}
 
         /// <summary>

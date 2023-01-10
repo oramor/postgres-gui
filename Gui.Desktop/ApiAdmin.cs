@@ -24,5 +24,10 @@ namespace Gui.Desktop
 
             return cmd;
         }
+
+        public static ApiCommand GetEntityList()
+        {
+            return new ApiCommand(_schemaName, "fn_get_entity_list_t");
+        }
     }
 }

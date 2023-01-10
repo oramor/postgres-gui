@@ -6,6 +6,14 @@
         Proc
     }
 
+    public enum ApiCommandResultType
+    {
+        Void,
+        Cell,
+        Row,
+        Table
+    }
+
     public class ApiCommand
     {
         List<ApiParameter> _params = new();
@@ -46,6 +54,32 @@
             }
         }
 
+        private string RoutinePostfix
+        {
+            get {
+                if (_routineName == null)
+                {
+                    throw new Exception("Routine name doesn't filled");
+                }
+                return _routineName[^1..];
+            }
+        }
+
+        public ApiCommandResultType ResultType
+        {
+            get {
+                return RoutinePostfix switch {
+                    "_" => ApiCommandResultType.Void,
+                    "t" => ApiCommandResultType.Table,
+                    "r" => ApiCommandResultType.Row,
+                    "n" => ApiCommandResultType.Cell,
+                    "s" => ApiCommandResultType.Cell,
+                    "b" => ApiCommandResultType.Cell,
+                    _ => throw new NotSupportedException($"Routine name contains unknown postfix: _{RoutinePostfix}")
+                };
+            }
+        }
+
         public bool HasOutParam
         {
             get {
@@ -56,29 +90,27 @@
         public string CommandString
         {
             get {
-                var str = string.Empty;
+                var str = this.CommandType == ApiCommandType.Proc
+                    ? $"CALL {_schemaName}.{_routineName}("
+                    : $"SELECT * FROM {_schemaName}.{_routineName}(";
 
-                // Out-параметры возможны только для процедур?
-                if (this.CommandType == ApiCommandType.Proc)
+                var outParamStr = string.Empty;
+                var inParamStr = string.Empty;
+
+                foreach (var param in _params)
                 {
-                    str = $"CALL {_schemaName}.{_routineName}(";
-                    var outParamStr = string.Empty;
-                    var inParamStr = string.Empty;
-
-                    foreach (var param in _params)
+                    /// В текущей реализации может быть только один
+                    /// out-параметр
+                    if (param.ParamType == ApiParameterType.Out)
                     {
-                        /// В текущей реализации может быть только один
-                        /// out-параметр
-                        if (param.ParamType == ApiParameterType.Out)
-                        {
-                            outParamStr = "NULL,";
-                        }
-
-                        if (param.ParamType == ApiParameterType.In)
-                        {
-                            inParamStr += $"@{param.ParamName},";
-                        }
+                        outParamStr = "NULL,";
                     }
+
+                    if (param.ParamType == ApiParameterType.In)
+                    {
+                        inParamStr += $"@{param.ParamName},";
+                    }
+
 
                     // Concat and remove last comma
                     str += (outParamStr + inParamStr).TrimEnd(',');

@@ -66,5 +66,10 @@ namespace Gui.Desktop
         {
             MessageBox.Show(App.About);
         }
+
+        private void entitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            App.ShowModalForm(new EntityListForm());
+        }
     }
 }
