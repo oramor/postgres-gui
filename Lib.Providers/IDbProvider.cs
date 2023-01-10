@@ -19,7 +19,7 @@
         bool IsConnected { get; }
         void TryConnect(IDbConnectionParams connParams);
         void TryDisconnect();
-        T Execute<T>(string cmdString);
         T Execute<T>(ApiCommand cmd);
+        void ExecuteVoid(ApiCommand cmd);
     }
 }

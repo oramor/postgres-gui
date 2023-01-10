@@ -5,21 +5,31 @@ namespace Gui.Desktop
 {
     public partial class MainForm : Form, IDiContainer
     {
-        private readonly IDbProvider _pg = new PostgresProvider();
+        readonly IDbProvider _pg = new PostgresProvider();
+        readonly ILogger _logger;
 
         public MainForm()
         {
             InitializeComponent();
             ReloadConnectionStatusLabel();
+            UpdateLastCommandReportStatusStrip(string.Empty);
+
+            _logger = new Logger(UpdateLastCommandReportStatusStrip);
         }
 
-        public IDbProvider DbProvider { get { return _pg; } }
+        public IDbProvider DbProvider => _pg;
+        public ILogger Logger => _logger;
 
         private void ReloadConnectionStatusLabel()
         {
             this.toolStripStatusLabel1.Text = _pg.IsConnected
                     ? $"Connected to PostgreSQL {_pg.ServerVersion} (database {_pg.Database})"
                     : "Without database connection";
+        }
+
+        private void UpdateLastCommandReportStatusStrip(string message)
+        {
+            this.toolStripStatusLastCommandReport.Text = message;
         }
 
         #region Events

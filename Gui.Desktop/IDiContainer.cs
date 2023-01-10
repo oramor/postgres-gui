@@ -1,5 +1,4 @@
 ﻿using Lib.Providers;
-using System.CodeDom;
 
 namespace Gui.Desktop
 {
@@ -10,5 +9,6 @@ namespace Gui.Desktop
     public interface IDiContainer
     {
         IDbProvider DbProvider { get; }
+        ILogger Logger { get; }
     }
 }

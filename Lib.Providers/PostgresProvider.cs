@@ -74,12 +74,16 @@ namespace Lib.Providers
             dataSource = null;
         }
 
-        private static DbType GetDbType(object value)
+        private static DbType GetDbType(ApiParameterDataType value)
         {
-            if (value is string) return DbType.String;
-            if (value is int) return DbType.Int32;
-            return DbType.Byte;
+            return value switch {
+                ApiParameterDataType.String => DbType.String,
+                ApiParameterDataType.Number => DbType.Int32,
+                ApiParameterDataType.Bool => DbType.Boolean,
+                _ => throw new Exception("Not matched DbType for ApiParameterType")
+            };
         }
+
 
         T IDbProvider.Execute<T>(ApiCommand apiCommand)
         {
@@ -90,19 +94,44 @@ namespace Lib.Providers
             {
                 if (param.ParamType == ApiParameterType.Out)
                 {
-                    //TODO
-                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, DbType.Int32) { Direction = ParameterDirection.Output });
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetDbType(param.ParamDataType)) { Direction = ParameterDirection.Output });
                 }
 
                 if (param.ParamType == ApiParameterType.In)
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, DbType.String) { NpgsqlValue = param.ParamValue });
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetDbType(param.ParamDataType)) { NpgsqlValue = param.ParamValue });
                 }
             }
 
-            cmd.ExecuteNonQuery();
-            var outParam = cmd.Parameters[0];
-            var result = outParam.Value;
+            object? result = null;
+
+            /// Если функция или процдура содержит out-параметр, то мы будем
+            /// получать данные именно из этого параметра.
+            if (apiCommand.HasOutParam)
+            {
+                cmd.ExecuteNonQuery();
+                var outParam = cmd.Parameters[0];
+                result = outParam?.Value;
+            }
+            else if (apiCommand.CommandType == ApiCommandType.Func)
+            {
+                /// Пока что реализовано только для одиночных ячеек,
+                /// т.е. для постфиксов _n, _b, _s
+                /// 
+                /// CommandBehavior.Default означает, что может вернуться
+                /// несколько строк.
+                var reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                result = reader.GetValue(0);
+            }
+            else
+            {
+                throw new Exception("Procedure without out-param can't be called within this method because it will never return value. Use ExecuteVoid method");
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Got null");
+            }
 
             try
             {
@@ -116,37 +145,43 @@ namespace Lib.Providers
             }
         }
 
-        T IDbProvider.Execute<T>(string cmdString)
-        {
-            var cmd = new NpgsqlCommand("CALL api_admin.pr_create_entity_n(NULL, @p_public_name, @p_pascal_name, @p_is_doc);", connection);
-            cmd.Parameters.Add(new NpgsqlParameter("p_entity_id", DbType.Int32) { Direction = ParameterDirection.Output }
-            );
+        //T IDbProvider.Execute<T>(string cmdString)
+        //{
+        //    var cmd = new NpgsqlCommand("CALL api_admin.pr_create_entity_n(NULL, @p_public_name, @p_pascal_name, @p_is_doc);", connection);
+        //    cmd.Parameters.Add(new NpgsqlParameter("p_entity_id", DbType.Int32) { Direction = ParameterDirection.Output }
+        //    );
 
-            cmd.Parameters.Add(new NpgsqlParameter("p_public_name", DbType.String) { NpgsqlValue = "Тест2" });
-            cmd.Parameters.Add(new NpgsqlParameter("p_pascal_name", DbType.String) { NpgsqlValue = "TestTwo" });
-            cmd.Parameters.Add(new NpgsqlParameter("p_is_doc", DbType.Boolean) { NpgsqlValue = false });
+        //    cmd.Parameters.Add(new NpgsqlParameter("p_public_name", DbType.String) { NpgsqlValue = "Тест2" });
+        //    cmd.Parameters.Add(new NpgsqlParameter("p_pascal_name", DbType.String) { NpgsqlValue = "TestTwo" });
+        //    cmd.Parameters.Add(new NpgsqlParameter("p_is_doc", DbType.Boolean) { NpgsqlValue = false });
 
-            cmd.ExecuteNonQuery();
-            var outParam = cmd.Parameters[0];
-            var result = outParam.Value;
+        //    cmd.ExecuteNonQuery();
+        //    var outParam = cmd.Parameters[0];
+        //    var result = outParam.Value;
 
-            try
-            {
-                var t = (T)result;
-                if (t == null) throw new Exception("Got null");
+        //    try
+        //    {
+        //        var t = (T)result;
+        //        if (t == null) throw new Exception("Got null");
 
-                return t;
-            } catch
-            {
-                throw;
-            }
+        //        return t;
+        //    } catch
+        //    {
+        //        throw;
+        //    }
 
 
-            /// CommandBehavior.Default означает, что может вернуться
-            /// несколько строк.
+
             //NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.Default);
+        //}
+
+        /// <summary>
+        /// Для функцй, вызываемых с этой оберткой, возвращаемое значение
+        /// будет игнорироваться
+        /// </summary>
+        public void ExecuteVoid(ApiCommand cmd)
+        {
+            throw new NotImplementedException();
         }
-
-
     }
 }

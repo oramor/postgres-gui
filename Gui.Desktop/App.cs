@@ -36,7 +36,8 @@ namespace Gui.Desktop
             }
         }
 
-        public static IDbProvider DbProvider { get => DiContainer.DbProvider; }
+        public static IDbProvider DbProvider => DiContainer.DbProvider;
+        public static ILogger Logger => DiContainer.Logger;
 
         public static void ShowChildForm(Form form)
         {

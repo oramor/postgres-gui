@@ -26,9 +26,10 @@
         private void btnCreate_Click(object sender, EventArgs e)
         {
             SetFieldValues();
-            var cmdString = ApiAdmin.CreateEntity(_entityName, _pascalName, _isDocument);
-            var entityId = CallApiCommand<int>(cmdString);
-            MessageBox.Show(entityId.ToString());
+            var apiCmd = ApiAdmin.CreateEntity(_entityName, _pascalName, _isDocument);
+            var entityId = CallApiCommand<int>(apiCmd);
+            App.Logger.GuiOperationReport("Created Entity with Id " + entityId);
+            this.Close();
         }
     }
 }

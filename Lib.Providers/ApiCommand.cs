@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Lib.Providers
+﻿namespace Lib.Providers
 {
     public enum ApiCommandType
     {
@@ -10,7 +8,7 @@ namespace Lib.Providers
 
     public class ApiCommand
     {
-        IList<ApiParameter> _params = new Collection<ApiParameter>();
+        List<ApiParameter> _params = new();
         string _schemaName = string.Empty;
         string _routineName = string.Empty;
 
@@ -45,6 +43,13 @@ namespace Lib.Providers
                     "pr" => ApiCommandType.Proc,
                     _ => throw new NotImplementedException(),
                 };
+            }
+        }
+
+        public bool HasOutParam
+        {
+            get {
+                return _params.Exists(v => v.ParamType is ApiParameterType.Out);
             }
         }
 
