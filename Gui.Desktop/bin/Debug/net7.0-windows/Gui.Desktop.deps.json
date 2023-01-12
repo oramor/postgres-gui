@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v7.0": {
       "Gui.Desktop/1.0.0": {
         "dependencies": {
-          "Lib.Providers": "1.0.0"
+          "Lib.Providers": "1.0.0",
+          "Lib.Wf": "1.0.0"
         },
         "runtime": {
           "Gui.Desktop.dll": {}
@@ -40,6 +41,11 @@
         "runtime": {
           "Lib.Providers.dll": {}
         }
+      },
+      "Lib.Wf/1.0.0": {
+        "runtime": {
+          "Lib.Wf.dll": {}
+        }
       }
     }
   },
@@ -64,6 +70,11 @@
       "hashPath": "npgsql.7.0.1.nupkg.sha512"
     },
     "Lib.Providers/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Lib.Wf/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

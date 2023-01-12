@@ -29,7 +29,7 @@ namespace Gui.Desktop
                 var di = (IDiContainer)mainForm;
                 if (di == null)
                 {
-                    ShowErrorDialog("MainForm should be compatible with IDiContainer");
+                    throw new Exception("MainForm should be compatible with IDiContainer");
                 }
 
                 return di;

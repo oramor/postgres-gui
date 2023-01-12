@@ -2,31 +2,35 @@
 {
     public partial class EntityForm : GuiObjectForm
     {
-        private string _entityName = string.Empty;
-        private string _pascalName = string.Empty;
-        private bool _isDocument = false;
+        private EntityDto _dao = new();
 
         public EntityForm() : base()
         {
             InitializeComponent();
         }
 
-        public EntityForm(int id) : base("entity", id)
+        public EntityForm(EntityDto? dao) : base()
         {
             InitializeComponent();
+
+            if (dao != null)
+            {
+                _dao = dao;
+                SetFieldValues();
+            }
         }
 
         private void SetFieldValues()
         {
-            _entityName = this.textBoxEntityName.Text;
-            _pascalName = this.textBoxPascalName.Text;
-            _isDocument = this.checkBoxIsDocument.Checked;
+            _dao.PublicName = this.textBoxEntityName.Text;
+            _dao.PascalName = this.textBoxPascalName.Text;
+            _dao.IsDocument = this.checkBoxIsDocument.Checked;
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
             SetFieldValues();
-            var apiCmd = ApiAdmin.CreateEntity(_entityName, _pascalName, _isDocument);
+            var apiCmd = ApiAdmin.CreateEntity(_dao);
             var entityId = CallApiCommand<int>(apiCmd);
             App.Logger.GuiOperationReport("Created Entity with Id " + entityId);
             this.Close();

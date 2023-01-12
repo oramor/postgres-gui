@@ -24,3 +24,5 @@ C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-wind
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.Forms.EntityForm.resources
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.GuiObjectForm.resources
 C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\obj\Debug\net7.0-windows\Gui.Desktop.Forms.EntityListForm.resources
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Wf.dll
+C:\Users\Roma\source\repos\oramor\postgres-gui\Gui.Desktop\bin\Debug\net7.0-windows\Lib.Wf.pdb

@@ -6,13 +6,13 @@ namespace Gui.Desktop
     {
         static readonly string _schemaName = "api_admin";
 
-        public static ApiCommand CreateEntity(string publicName, string pascalName, bool isDocument)
+        public static ApiCommand CreateEntity(EntityDto dao)
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
             cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
-            cmd.AddParam(new ApiParameter("p_public_name", publicName));
-            cmd.AddParam(new ApiParameter("p_pascal_name", pascalName));
-            cmd.AddParam(new ApiParameter("p_is_doc", isDocument));
+            cmd.AddParam(new ApiParameter("p_public_name", dao.PublicName!));
+            cmd.AddParam(new ApiParameter("p_pascal_name", dao.PascalName!));
+            cmd.AddParam(new ApiParameter("p_is_doc", dao.IsDocument));
 
             return cmd;
         }
