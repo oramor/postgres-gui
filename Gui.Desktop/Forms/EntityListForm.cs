@@ -21,7 +21,8 @@ namespace Gui.Desktop.Forms
 
         private void entityDataGridView_MouseUp(object sender, MouseEventArgs e)
         {
-            // Если был клик правой клавишей мыши
+            //OpenEntity();
+            //Если был клик правой клавишей мыши
             if (e.Button == MouseButtons.Right)
             {
                 var isClickOnCell = entityDataGridView.DataGridViewCellClicked(MousePosition);
@@ -33,9 +34,10 @@ namespace Gui.Desktop.Forms
         {
             // Здесь запрос прав доступа
             var canOpen = true;
+            var id = entityDataGridView.GetColumnIdValue();
 
             // Отображаем пункты меню
-            openEntityContextMenuStrip.Visible = canOpen & isClickOnCell;
+            openEntityContextMenuStrip.Visible = canOpen & (id > 0) & isClickOnCell;
             return entityContextMenuStrip;
         }
 
@@ -47,14 +49,10 @@ namespace Gui.Desktop.Forms
         private void OpenEntity()
         {
             var canOpen = true;
-            if (canOpen && entityDataGridView.SelectedRows.Count == 1)
+            var id = entityDataGridView.GetColumnIdValue();
+            if (canOpen && id > 0)
             {
-                DataGridViewRow selected = entityDataGridView.SelectedRows[0];
-                var dto = selected.DataBoundItem as EntityDto;
-                if (dto != null)
-                {
-                    MessageBox.Show(dto.PublicName);
-                }
+                MessageBox.Show(id.ToString());
             }
         }
     }

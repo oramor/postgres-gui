@@ -9,15 +9,9 @@
             InitializeComponent();
         }
 
-        public EntityForm(EntityDto? dao) : base()
+        public EntityForm(int entityId) : base()
         {
             InitializeComponent();
-
-            if (dao != null)
-            {
-                _dao = dao;
-                SetFieldValues();
-            }
         }
 
         private void SetFieldValues()
@@ -32,7 +26,7 @@
             SetFieldValues();
             var apiCmd = ApiAdmin.CreateEntity(_dao);
             var entityId = CallApiCommand<int>(apiCmd);
-            App.Logger.GuiOperationReport("Created Entity with Id " + entityId);
+            App.Logger.GuiReport("Created Entity with Id " + entityId);
             this.Close();
         }
     }

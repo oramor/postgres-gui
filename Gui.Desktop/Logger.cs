@@ -2,7 +2,7 @@
 {
     public interface ILogger
     {
-        void GuiOperationReport(string message);
+        void GuiReport(string message);
     }
 
     public class Logger : ILogger
@@ -15,7 +15,7 @@
             _updDelegate = updDelegate;
         }
 
-        public void GuiOperationReport(string message)
+        public void GuiReport(string message)
         {
             _updDelegate(message);
         }
