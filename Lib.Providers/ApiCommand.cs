@@ -110,11 +110,10 @@
                     {
                         inParamStr += $"@{param.ParamName},";
                     }
-
-
-                    // Concat and remove last comma
-                    str += (outParamStr + inParamStr).TrimEnd(',');
                 }
+
+                // Concat and remove last comma
+                str += (outParamStr + inParamStr).TrimEnd(',');
 
                 return str + ");";
             }

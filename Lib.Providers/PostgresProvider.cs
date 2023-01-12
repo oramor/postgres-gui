@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using NpgsqlTypes;
 using System.Data;
 
 namespace Lib.Providers
@@ -74,12 +75,13 @@ namespace Lib.Providers
             dataSource = null;
         }
 
-        private static DbType GetDbType(ApiParameterDataType value)
+        private static NpgsqlDbType GetNpgsqlDbType(ApiParameterDataType value)
         {
             return value switch {
-                ApiParameterDataType.String => DbType.String,
-                ApiParameterDataType.Number => DbType.Int32,
-                ApiParameterDataType.Bool => DbType.Boolean,
+                ApiParameterDataType.String => NpgsqlDbType.Text,
+                ApiParameterDataType.Number => NpgsqlDbType.Numeric,
+                ApiParameterDataType.Bool => NpgsqlDbType.Boolean,
+                ApiParameterDataType.Json => NpgsqlDbType.Jsonb,
                 _ => throw new Exception("Not matched DbType for ApiParameterType")
             };
         }
@@ -106,12 +108,12 @@ namespace Lib.Providers
             {
                 if (param.ParamType == ApiParameterType.Out)
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetDbType(param.ParamDataType)) { Direction = ParameterDirection.Output });
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetNpgsqlDbType(param.ParamDataType)) { Direction = ParameterDirection.Output });
                 }
 
                 if (param.ParamType == ApiParameterType.In)
                 {
-                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetDbType(param.ParamDataType)) { NpgsqlValue = param.ParamValue });
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetNpgsqlDbType(param.ParamDataType)) { NpgsqlValue = param.ParamValue });
                 }
             }
 

@@ -1,4 +1,7 @@
-﻿namespace Lib.Providers
+﻿using System.Text.Json;
+
+namespace Lib.Providers
+
 {
     public enum ApiParameterType
     {
@@ -11,7 +14,8 @@
     {
         String,
         Number,
-        Bool
+        Bool,
+        Json
     }
 
     public class ApiParameter
@@ -42,8 +46,24 @@
             _paramDataType = dataType;
         }
 
-        public string ParamName { get => _paramName; }
-        public object? ParamValue { get => _paramValue; }
+        public string ParamName => _paramName;
+
+        /// <summary>
+        /// Для параметров, которые заявлены как Json, производится
+        /// сериализация в строку
+        /// </summary>
+        public object? ParamValue
+        {
+            get {
+                if (ParamDataType == ApiParameterDataType.Json)
+                {
+                    return JsonSerializer.Serialize(_paramValue);
+                }
+
+                return _paramValue;
+            }
+        }
+
         public ApiParameterType ParamType { get => _paramType; }
 
         /// <summary>
@@ -60,7 +80,7 @@
                 if (_paramValue is int) return ApiParameterDataType.Number;
                 if (_paramValue is bool) return ApiParameterDataType.Bool;
 
-                throw new NotSupportedException("Not supported parameter value");
+                return ApiParameterDataType.Json;
             }
         }
     }

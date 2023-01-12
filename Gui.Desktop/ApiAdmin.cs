@@ -10,12 +10,16 @@ namespace Gui.Desktop
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
             cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
-            cmd.AddParam(new ApiParameter("p_public_name", dao.PublicName!));
-            cmd.AddParam(new ApiParameter("p_pascal_name", dao.PascalName!));
-            cmd.AddParam(new ApiParameter("p_is_doc", dao.IsDocument));
+            cmd.AddParam(new ApiParameter("p_obj", dao));
+
+            //cmd.AddParam(new ApiParameter("p_public_name", dao.PublicName!));
+            //cmd.AddParam(new ApiParameter("p_pascal_name", dao.PascalName!));
+            //cmd.AddParam(new ApiParameter("p_is_doc", dao.IsDocument));
 
             return cmd;
         }
+
+
 
         public static ApiCommand RemoveEntity(int entityId)
         {
