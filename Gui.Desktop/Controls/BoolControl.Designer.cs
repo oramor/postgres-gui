@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop.Controls
 {
-    partial class StringControl
+    partial class BoolControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,16 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            //components = new System.ComponentModel.Container();
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.SuspendLayout();
-            // 
-            // StringControl
-            // 
-            this.Size = new System.Drawing.Size(250, 20);
-            this.TextChanged += new System.EventHandler(this.StringControl_TextChanged);
-            this.Enter += new System.EventHandler(this.StringControl_Enter);
-            this.ResumeLayout(false);
+            components = new System.ComponentModel.Container();
+            this.SuspendLayout(); this.ResumeLayout(false);
         }
 
         #endregion

@@ -83,7 +83,7 @@ namespace Gui.Desktop.Controls
         public event ControlChangedEventHandler ControlChanged;
         protected void OnControlChanged(object sender, EventArgs e)
         {
-            if (ControlChanged != null) ControlChanged(sender, e);
+            ControlChanged?.Invoke(sender, e);
         }
 
         #endregion

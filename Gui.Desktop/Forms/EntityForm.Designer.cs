@@ -110,7 +110,6 @@
             this.Controls.Add(this.labelEntityName);
             this.Controls.Add(this.textBoxPascalName);
             this.Controls.Add(this.textBoxEntityName);
-            this.MaximizeBox = false;
             this.Name = "EntityForm";
             this.Text = "Entity";
             this.ResumeLayout(false);
