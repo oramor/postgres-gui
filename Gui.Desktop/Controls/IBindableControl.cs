@@ -1,4 +1,6 @@
-﻿namespace Gui.Desktop.Controls
+﻿using Gui.Desktop.Metadata;
+
+namespace Gui.Desktop.Controls
 {
     /// <summary>
     /// Событие ловится на форме <see cref="GuiObjectForm"/> и обновляет статус
@@ -8,12 +10,11 @@
 
     public interface IBindableControl
     {
-        int Id { get; set; }
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
         string ColumnName { get; set; }
-        void Bind();
+        void Bind(BizObject obj);
         event ControlChangedEventHandler ControlChanged;
     }
 }
