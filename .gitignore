@@ -377,14 +377,17 @@ InteropTests/NativeTests/out
 *.received.*
 
 # Others
-*.dll
-*.cache
-*.pdb
-*obj/
-*bin/
-*obj\
-*bin\
-./obj/
-./bin/
-.\obj\
-.\bin\
+/Gui.Desktop/bin/Debug/net7.0-windows/Gui.Desktop.dll
+/Gui.Desktop/bin/Debug/net7.0-windows/Gui.Desktop.pdb
+/Gui.Desktop/obj/Debug/net7.0-windows/ref/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/refint/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.csproj.AssemblyReference.cache
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.pdb
+/Gui.Desktop/bin/Debug/net7.0-windows/Gui.Desktop.pdb
+/Gui.Desktop/bin/Debug/net7.0-windows/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/ref/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/refint/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.csproj.AssemblyReference.cache
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.dll
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.pdb
