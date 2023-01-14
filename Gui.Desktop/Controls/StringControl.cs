@@ -27,9 +27,9 @@ namespace Gui.Desktop.Controls
             set {
                 _isRequired = value;
                 if (_readOnly)
-                    BackColor = GlobalSettings.ControlReadOnlyColor;
+                    BackColor = AppSettings.ControlReadOnlyColor;
                 else
-                    BackColor = _isRequired ? GlobalSettings.ControlMandatoryColor : GlobalSettings.ControlBaseColor;
+                    BackColor = _isRequired ? AppSettings.ControlMandatoryColor : AppSettings.ControlBaseColor;
             }
         }
 
@@ -63,9 +63,9 @@ namespace Gui.Desktop.Controls
                 _readOnly = value;
                 base.ReadOnly = value;
                 if (_readOnly)
-                    BackColor = GlobalSettings.ControlReadOnlyColor;
+                    BackColor = AppSettings.ControlReadOnlyColor;
                 else
-                    BackColor = _isRequired ? GlobalSettings.ControlMandatoryColor : GlobalSettings.ControlBaseColor;
+                    BackColor = _isRequired ? AppSettings.ControlMandatoryColor : AppSettings.ControlBaseColor;
             }
         }
 
@@ -121,7 +121,7 @@ namespace Gui.Desktop.Controls
                 if (_bizObject[_columnName].ToString() != Text)
                 {
                     _bizObject[_columnName] = Text;
-                    OnStateChanged(this, EventArgs.Empty);
+                    OnControlChanged(this, EventArgs.Empty);
                 }
             }
         }

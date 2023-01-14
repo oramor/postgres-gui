@@ -24,8 +24,8 @@ namespace Gui.Desktop.Metadata
     /// </summary>
     public class BizObject
     {
-        DataTable _data;
-        DataRow _dataRow;
+        readonly DataTable _data;
+        readonly DataRow _dataRow;
 
         public BizObject(DataTable _data)
         {
