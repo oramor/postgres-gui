@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Lib.Wf\Lib.Wf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+
 </Project>

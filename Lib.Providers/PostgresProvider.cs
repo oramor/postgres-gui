@@ -10,6 +10,12 @@ namespace Lib.Providers
         {
         }
 
+        /// <summary>
+        /// It is an abstraction over System.Data class (new in Npgsql 7).
+        /// Best choice to put into DI containers, because the instance
+        /// of this class incapsulate all majority methods, including
+        /// db connection
+        /// </summary>
         private NpgsqlDataSource? dataSource = null;
         private NpgsqlConnection? connection = null;
 

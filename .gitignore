@@ -379,11 +379,12 @@ InteropTests/NativeTests/out
 # Others
 *.dll
 *.cache
+*.pdb
 *obj/
 *bin/
 *obj\
 *bin\
-obj/
-bin/
-obj\
-bin\
+./obj/
+./bin/
+.\obj\
+.\bin\

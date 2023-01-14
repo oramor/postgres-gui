@@ -57,7 +57,15 @@ namespace Lib.Providers
             get {
                 if (ParamDataType == ApiParameterDataType.Json)
                 {
-                    return JsonSerializer.Serialize(_paramValue);
+                    JsonSerializerOptions opts = new JsonSerializerOptions() {
+#if DEBUG
+                        // For human readability 
+                        WriteIndented = true,
+#endif
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    };
+
+                    return JsonSerializer.Serialize(_paramValue, opts);
                 }
 
                 return _paramValue;
