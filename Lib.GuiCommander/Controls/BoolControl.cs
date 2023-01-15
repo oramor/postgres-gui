@@ -1,17 +1,9 @@
-﻿using Gui.Desktop.Metadata;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
+using static Lib.GuiCommander.IBaseControl;
 
-namespace Gui.Desktop.Controls
+namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBindableControl
+    public partial class BoolControl : CheckBox, IBaseControl
     {
         bool _isRequired;
         string _columnName;
@@ -89,9 +81,9 @@ namespace Gui.Desktop.Controls
                 bool oldValue = _entityObject[_columnName] == DBNull.Value
                     ? false
                     : Convert.ToBoolean(_entityObject[_columnName]);
-                
+
                 _entityObject[_columnName] = Checked;
-                
+
                 if (oldValue != Checked) OnStateChanged(this, EventArgs.Empty);
             }
         }

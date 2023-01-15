@@ -1,4 +1,7 @@
-﻿namespace Gui.Desktop.Forms
+﻿using Lib.GuiCommander;
+using Lib.GuiCommander.Controls;
+
+namespace Gui.Desktop.Forms
 {
     partial class EntityForm
     {
@@ -32,9 +35,9 @@
             this.labelPascalName = new System.Windows.Forms.Label();
             this.btnCreate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.textBoxEntityName = new Gui.Desktop.Controls.StringControl();
-            this.textBoxPascalName = new Gui.Desktop.Controls.StringControl();
-            this.checkBoxIsDocument = new Gui.Desktop.Controls.BoolControl();
+            this.textBoxEntityName = new StringControl();
+            this.textBoxPascalName = new StringControl();
+            this.checkBoxIsDocument = new BoolControl();
             this.SuspendLayout();
             // 
             // labelEntityName
@@ -134,8 +137,8 @@
         private Label labelPascalName;
         private Button btnCreate;
         private Button btnCancel;
-        private Controls.StringControl textBoxEntityName;
-        private Controls.StringControl textBoxPascalName;
-        private Controls.BoolControl checkBoxIsDocument;
+        private StringControl textBoxEntityName;
+        private StringControl textBoxPascalName;
+        private BoolControl checkBoxIsDocument;
     }
 }

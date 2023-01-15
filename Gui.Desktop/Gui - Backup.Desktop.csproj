@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Lib.Providers\Lib.Providers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
+
 </Project>

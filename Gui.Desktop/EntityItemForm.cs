@@ -1,4 +1,4 @@
-﻿using Gui.Desktop.Metadata;
+﻿using Lib.GuiCommander;
 using Lib.Providers;
 
 namespace Gui.Desktop
@@ -24,7 +24,6 @@ namespace Gui.Desktop
         protected EntityItemForm()
         {
             InitializeComponent();
-            this.MaximizeBox = false;
         }
 
         public EntityItemForm(string entityName, int entityId)
@@ -32,9 +31,6 @@ namespace Gui.Desktop
             InitializeComponent();
             _entityName = entityName;
             _entityId = entityId;
-            SetTitle(entityName);
-
-            this.MaximizeBox = false;
         }
 
         #endregion
@@ -45,7 +41,6 @@ namespace Gui.Desktop
         {
             get => _entityObject == null ? -1 : _entityObject.Version;
             set => _entityObject.Version = value;
-
         }
 
         public EntityObjectState State
@@ -59,23 +54,20 @@ namespace Gui.Desktop
             get => _isModified;
             set {
                 _isModified = value;
-                SetText();
+                SetTitle();
             }
         }
 
         #endregion
 
-        private void SetTitle(string objectName)
+        #region Virtual methods
+
+        protected virtual void SetTitle()
         {
-            if (_entityId.HasValue)
-            {
-                this.Text = $"{objectName} {_entityId.Value}";
-            }
-            else
-            {
-                this.Text = $"Create new {objectName}";
-            }
+            this.Text = $"Title for {_entityName}";
         }
+
+        #endregion
 
         protected static T CallApiCommand<T>(ApiCommand cmd)
         {

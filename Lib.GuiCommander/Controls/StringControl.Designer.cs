@@ -1,6 +1,6 @@
-﻿namespace Gui.Desktop.Controls
+﻿namespace Lib.GuiCommander.Controls
 {
-    partial class BoolControl
+    partial class StringControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.SuspendLayout(); this.ResumeLayout(false);
+            this.SuspendLayout();
+            this.Size = new System.Drawing.Size(250, 20);
+            this.TextChanged += new System.EventHandler(this.StringControl_TextChanged);
+            this.Enter += new System.EventHandler(this.StringControl_Enter);
+            this.ResumeLayout(false);
         }
 
         #endregion

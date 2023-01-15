@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Gui.Desktop.Metadata
+namespace Lib.GuiCommander
 {
     public enum EntityObjectState
     {

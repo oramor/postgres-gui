@@ -1,9 +1,9 @@
-﻿using Gui.Desktop.Metadata;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using static Lib.GuiCommander.IBaseControl;
 
-namespace Gui.Desktop.Controls
+namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBindableControl
+    public partial class StringControl : TextBox, IBaseControl
     {
         bool _isRequired;
         string _columnName;
@@ -27,9 +27,9 @@ namespace Gui.Desktop.Controls
             set {
                 _isRequired = value;
                 if (_readOnly)
-                    BackColor = AppSettings.ControlReadOnlyColor;
+                    BackColor = LibSettings.ControlReadOnlyColor;
                 else
-                    BackColor = _isRequired ? AppSettings.ControlMandatoryColor : AppSettings.ControlBaseColor;
+                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
             }
         }
 
@@ -63,9 +63,9 @@ namespace Gui.Desktop.Controls
                 _readOnly = value;
                 base.ReadOnly = value;
                 if (_readOnly)
-                    BackColor = AppSettings.ControlReadOnlyColor;
+                    BackColor = LibSettings.ControlReadOnlyColor;
                 else
-                    BackColor = _isRequired ? AppSettings.ControlMandatoryColor : AppSettings.ControlBaseColor;
+                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
             }
         }
 
@@ -134,3 +134,4 @@ namespace Gui.Desktop.Controls
         #endregion
     }
 }
+

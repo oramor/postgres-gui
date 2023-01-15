@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "Gui.Desktop/1.0.0": {
         "dependencies": {
-          "Lib.BusinessCommander": "1.0.0",
+          "Lib.GuiCommander": "1.0.0",
           "Lib.Providers": "1.0.0"
         },
         "runtime": {
@@ -34,9 +34,9 @@
           }
         }
       },
-      "Lib.BusinessCommander/1.0.0": {
+      "Lib.GuiCommander/1.0.0": {
         "runtime": {
-          "Lib.BusinessCommander.dll": {}
+          "Lib.GuiCommander.dll": {}
         }
       },
       "Lib.Providers/1.0.0": {
@@ -69,7 +69,7 @@
       "path": "npgsql/7.0.1",
       "hashPath": "npgsql.7.0.1.nupkg.sha512"
     },
-    "Lib.BusinessCommander/1.0.0": {
+    "Lib.GuiCommander/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
