@@ -1,6 +1,6 @@
-﻿namespace Gui.Desktop
+﻿namespace Lib.GuiCommander
 {
-    partial class EntityItemForm
+    partial class EntityBaseForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // EntityItemForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 226);
@@ -42,7 +39,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EntityItemForm";
             this.ResumeLayout(false);
-
         }
 
         #endregion

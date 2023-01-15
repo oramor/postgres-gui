@@ -62,5 +62,11 @@ namespace Gui.Desktop
         }
 
         public static string About { get => "The about message will be soon later"; }
+
+        public static T CallApiCommand<T>(ApiCommand cmd)
+        {
+            var result = DbProvider.Execute<T>(cmd);
+            return result;
+        }
     }
 }

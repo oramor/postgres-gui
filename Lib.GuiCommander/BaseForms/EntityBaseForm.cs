@@ -1,13 +1,6 @@
-﻿using Lib.GuiCommander;
-using Lib.Providers;
-
-namespace Gui.Desktop
+﻿namespace Lib.GuiCommander
 {
-    /// <summary>
-    /// Общий класс для форм, отображающих экземпляр сущности — справочник
-    /// или документ
-    /// </summary>
-    public partial class EntityItemForm : Form
+    public partial class EntityBaseForm : Form
     {
         /// <summary>
         /// Имя сущностия прописывается на уровне кода конкретной формы (например,
@@ -21,12 +14,12 @@ namespace Gui.Desktop
 
         #region Constructors
 
-        protected EntityItemForm()
+        protected EntityBaseForm()
         {
             InitializeComponent();
         }
 
-        public EntityItemForm(string entityName, int entityId)
+        public EntityBaseForm(string entityName, int entityId)
         {
             InitializeComponent();
             _entityName = entityName;
@@ -68,12 +61,5 @@ namespace Gui.Desktop
         }
 
         #endregion
-
-        protected static T CallApiCommand<T>(ApiCommand cmd)
-        {
-            var db = App.DbProvider;
-            var result = db.Execute<T>(cmd);
-            return result;
-        }
     }
 }

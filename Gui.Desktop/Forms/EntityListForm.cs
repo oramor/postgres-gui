@@ -8,15 +8,9 @@ namespace Gui.Desktop.Forms
         public EntityListForm()
         {
             InitializeComponent();
-
-            var db = App.DbProvider;
-            if (db.IsConnected)
-            {
-                var cmd = ApiAdmin.GetEntityList();
-                var result = db.Execute<DataTable>(cmd);
-
-                entityDataGridView.DataSource = result;
-            }
+            var cmd = ApiAdmin.GetEntityList();
+            var result = App.CallApiCommand<DataTable>(cmd);
+            entityDataGridView.DataSource = result;
         }
 
         private void entityDataGridView_MouseUp(object sender, MouseEventArgs e)

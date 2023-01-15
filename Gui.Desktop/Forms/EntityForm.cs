@@ -1,6 +1,8 @@
-﻿namespace Gui.Desktop.Forms
+﻿using Lib.GuiCommander;
+
+namespace Gui.Desktop.Forms
 {
-    public partial class EntityForm : EntityItemForm
+    public partial class EntityForm : EntityBaseForm
     {
         private EntityDto _dao = new();
 
@@ -25,7 +27,7 @@
         {
             SetFieldValues();
             var apiCmd = ApiAdmin.CreateEntity(_dao);
-            var entityId = CallApiCommand<int>(apiCmd);
+            var entityId = App.CallApiCommand<int>(apiCmd);
             App.Logger.GuiReport("Created Entity with Id " + entityId);
             this.Close();
         }
