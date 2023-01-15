@@ -14,7 +14,7 @@ namespace Gui.Desktop.Controls
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
         string ColumnName { get; set; }
-        void Bind(BizObject obj);
+        void Bind(EntityObject obj);
         event ControlChangedEventHandler ControlChanged;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Gui.Desktop.Metadata
 {
-    public enum BizObjectState
+    public enum EntityObjectState
     {
         None = 0,       // не записан
         Active = 1,     // активный
@@ -11,29 +11,28 @@ namespace Gui.Desktop.Metadata
     }
 
     /// <summary>
-    /// Это объект представляет бизнес-сущность (переименовать в EntityObject), но не содержит
-    /// ее табличных частей (по этой причине используется DataTable, а не DataSet).
+    /// Это объект представляет бизнес-сущность но не содержит ее табличных частей
+    /// (по этой причине используется DataRow, а не DataTable и тем более не DataSet,
+    /// как в предыдущей версии системы).
     /// По идее, можно ограничиться DataRow
     /// 
-    /// Более того, объект можно типизировать:
+    /// Объект можно типизировать:
     /// var row = Execute<DataRow>(cmd);
     /// var product = new EntityObject(row).GetType<Product>();
     /// 
     /// При получении Name нужна будет проверки, есть ли связь с DataTable через DataRowState.Detached
     /// https://learn.microsoft.com/en-us/dotnet/api/system.data.datarow.table?view=net-7.0#system-data-datarow-table
     /// </summary>
-    public class BizObject
+    public class EntityObject
     {
-        readonly DataTable _data;
         readonly DataRow _dataRow;
 
-        public BizObject(DataTable _data)
+        public EntityObject(DataRow dataRow)
         {
-            this._data = _data;
-            this._dataRow = _data.Rows[0];
+            this._dataRow = dataRow;
         }
 
-        public DataTable Data => _data;
+        public DataRow Data => _dataRow;
 
         public int Id
         {
@@ -41,13 +40,13 @@ namespace Gui.Desktop.Metadata
             set => _dataRow["id"] = value;
         }
 
-        public string Name => _data.TableName;
+        public string Name => _dataRow.Table.TableName;
 
-        public BizObjectState State
+        public EntityObjectState State
         {
             get => _dataRow["state"] == DBNull.Value
-                ? BizObjectState.None
-                : (BizObjectState)Convert.ToInt32(_dataRow["state"]);
+                ? EntityObjectState.None
+                : (EntityObjectState)Convert.ToInt32(_dataRow["state"]);
             set => _dataRow["state"] = (int)value;
         }
 
@@ -62,5 +61,10 @@ namespace Gui.Desktop.Metadata
             get => _dataRow[columnName];
             set => _dataRow[columnName] = value;
         }
+
+        //public T GetType<T>()
+        //{
+        //    var entityType = _dataRow.DataBoundItem as EntityDao;
+        //}
     }
 }

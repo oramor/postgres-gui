@@ -28,12 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            //components = new System.ComponentModel.Container();
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.SuspendLayout();
-            // 
-            // StringControl
-            // 
             this.Size = new System.Drawing.Size(250, 20);
             this.TextChanged += new System.EventHandler(this.StringControl_TextChanged);
             this.Enter += new System.EventHandler(this.StringControl_Enter);

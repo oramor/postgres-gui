@@ -9,7 +9,7 @@ namespace Gui.Desktop.Controls
         string _columnName;
         string _jsonName;
         bool _readOnly;
-        BizObject _bizObject;
+        EntityObject _entityObject;
 
         public StringControl()
         {
@@ -38,8 +38,8 @@ namespace Gui.Desktop.Controls
 		/// и содержит название колонки в базе данных (snake_case).
         /// Соответственно, от лежит в Designer-классе. Именно _columnName является
         /// ключем, по которому выполняется привязка к значению. Само значение
-        /// берется из <see cref="BizObject"/> — объекта метадаты, который
-		/// содержит все поля сущности и передается в метод <see cref="Init(BizObject)"/>.
+        /// берется из <see cref="EntityObject"/> — объекта метадаты, который
+		/// содержит все поля сущности и передается в метод <see cref="Init(EntityObject)"/>.
         /// </summary>
         [Bindable(true), Category("Object properties")]
         public string ColumnName
@@ -69,15 +69,15 @@ namespace Gui.Desktop.Controls
             }
         }
 
-        public void Bind(BizObject _bizObject)
+        public void Bind(EntityObject _entityObject)
         {
-            this._bizObject = _bizObject;
+            this._entityObject = _entityObject;
 
             if (string.IsNullOrEmpty(_columnName))
                 return;
 
-            if (_bizObject != null && _bizObject[_columnName] != DBNull.Value)
-                base.Text = _bizObject[_columnName].ToString();
+            if (_entityObject != null && _entityObject[_columnName] != DBNull.Value)
+                base.Text = _entityObject[_columnName].ToString();
         }
 
         public event ControlChangedEventHandler ControlChanged;
@@ -102,9 +102,9 @@ namespace Gui.Desktop.Controls
             get => base.Text;
             set {
                 base.Text = value;
-                if (_bizObject != null || !string.IsNullOrEmpty(_columnName))
+                if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
                 {
-                    _bizObject[_columnName] = value;
+                    _entityObject[_columnName] = value;
                     OnControlChanged(this, EventArgs.Empty);
                 }
             }
@@ -116,11 +116,11 @@ namespace Gui.Desktop.Controls
 
         private void StringControl_TextChanged(object sender, EventArgs e)
         {
-            if (_bizObject != null || !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
             {
-                if (_bizObject[_columnName].ToString() != Text)
+                if (_entityObject[_columnName].ToString() != Text)
                 {
-                    _bizObject[_columnName] = Text;
+                    _entityObject[_columnName] = Text;
                     OnControlChanged(this, EventArgs.Empty);
                 }
             }

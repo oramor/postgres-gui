@@ -17,7 +17,7 @@ namespace Gui.Desktop.Controls
         string _columnName;
         string _jsonName;
         bool _readOnly;
-        BizObject _bizObject;
+        EntityObject _entityObject;
 
         public BoolControl()
         {
@@ -62,13 +62,13 @@ namespace Gui.Desktop.Controls
             set { }
         }
 
-        public void Bind(BizObject bizObject)
+        public void Bind(EntityObject entityObject)
         {
-            this._bizObject = bizObject;
+            this._entityObject = entityObject;
 
-            if (_bizObject != null && !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null && !string.IsNullOrEmpty(_columnName))
             {
-                this.Checked = _bizObject[_columnName] == DBNull.Value ? false : Convert.ToBoolean(_bizObject[_columnName]);
+                this.Checked = _entityObject[_columnName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[_columnName]);
             }
 
             this.CheckedChanged += new EventHandler(BoolControl_CheckedChanged);
@@ -84,13 +84,13 @@ namespace Gui.Desktop.Controls
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
-            if (_bizObject != null && !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null && !string.IsNullOrEmpty(_columnName))
             {
-                bool oldValue = _bizObject[_columnName] == DBNull.Value
+                bool oldValue = _entityObject[_columnName] == DBNull.Value
                     ? false
-                    : Convert.ToBoolean(_bizObject[_columnName]);
+                    : Convert.ToBoolean(_entityObject[_columnName]);
                 
-                _bizObject[_columnName] = Checked;
+                _entityObject[_columnName] = Checked;
                 
                 if (oldValue != Checked) OnStateChanged(this, EventArgs.Empty);
             }
