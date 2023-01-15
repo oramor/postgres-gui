@@ -1,4 +1,4 @@
-﻿using Lib.BusinessCommander;
+﻿using Lib.GuiCommander;
 using System.Data;
 
 namespace Gui.Desktop.Forms

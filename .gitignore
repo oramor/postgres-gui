@@ -394,3 +394,6 @@ InteropTests/NativeTests/out
 /Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.csproj.GenerateResource.cache
 /Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.csproj.FileListAbsolute.txt
 /Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.csproj.CoreCompileInputs.cache
+/Gui.Desktop/obj/project.nuget.cache
+/Gui.Desktop/obj/Gui.Desktop.csproj.nuget.dgspec.json
+/Gui.Desktop/obj/project.assets.json

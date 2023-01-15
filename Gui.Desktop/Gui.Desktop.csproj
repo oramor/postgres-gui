@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lib.BusinessCommander\Lib.BusinessCommander.csproj" />
+    <ProjectReference Include="..\Lib.GuiCommander\Lib.GuiCommander.csproj" />
     <ProjectReference Include="..\Lib.Providers\Lib.Providers.csproj" />
   </ItemGroup>
 

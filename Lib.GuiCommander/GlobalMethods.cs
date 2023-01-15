@@ -1,4 +1,4 @@
-﻿namespace Lib.BusinessCommander
+﻿namespace Lib.GuiCommander
 {
     public static class GlobalMethods
     {
