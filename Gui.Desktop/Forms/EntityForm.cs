@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop.Forms
 {
-    public partial class EntityForm : GuiObjectForm
+    public partial class EntityForm : EntityItemForm
     {
         private EntityDto _dao = new();
 

@@ -2,17 +2,17 @@
 
 namespace Gui.Desktop
 {
-    public partial class GuiObjectForm : Form
+    public partial class EntityItemForm : Form
     {
         int? _objectId;
 
-        protected GuiObjectForm()
+        protected EntityItemForm()
         {
             InitializeComponent();
             this.MaximizeBox = false;
         }
 
-        public GuiObjectForm(string objectName, int objectId)
+        public EntityItemForm(string objectName, int objectId)
         {
             InitializeComponent();
             _objectId = objectId;
