@@ -28,13 +28,71 @@
           "net7.0-windows7.0": {
             "targetAlias": "net7.0-windows",
             "projectReferences": {
+              "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj": {
+                "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj"
+              },
               "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Providers\\Lib.Providers.csproj": {
                 "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Providers\\Lib.Providers.csproj"
-              },
-              "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj": {
-                "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj"
               }
             }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj",
+        "projectName": "Lib.BusinessCommander",
+        "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj",
+        "packagesPath": "C:\\Users\\Roma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Roma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -124,64 +182,6 @@
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj",
-        "projectName": "Lib.Wf",
-        "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj",
-        "packagesPath": "C:\\Users\\Roma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\Roma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net7.0-windows"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net7.0-windows7.0": {
-            "targetAlias": "net7.0-windows",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net7.0-windows7.0": {
-          "targetAlias": "net7.0-windows",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            },
-            "Microsoft.WindowsDesktop.App.WindowsForms": {
-              "privateAssets": "none"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"

@@ -7,6 +7,9 @@
     <Compile Update="Controls\StringControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="EntityItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\ConnectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -14,9 +17,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\EntityListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EntityItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="MainForm.cs">

@@ -34,6 +34,19 @@
           }
         }
       },
+      "Lib.BusinessCommander/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/Lib.BusinessCommander.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Lib.BusinessCommander.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
       "Lib.Providers/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -46,19 +59,6 @@
         "runtime": {
           "bin/placeholder/Lib.Providers.dll": {}
         }
-      },
-      "Lib.Wf/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "compile": {
-          "bin/placeholder/Lib.Wf.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Lib.Wf.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WindowsForms"
-        ]
       }
     }
   },
@@ -140,21 +140,21 @@
         "postgresql.png"
       ]
     },
+    "Lib.BusinessCommander/1.0.0": {
+      "type": "project",
+      "path": "../Lib.BusinessCommander/Lib.BusinessCommander.csproj",
+      "msbuildProject": "../Lib.BusinessCommander/Lib.BusinessCommander.csproj"
+    },
     "Lib.Providers/1.0.0": {
       "type": "project",
       "path": "../Lib.Providers/Lib.Providers.csproj",
       "msbuildProject": "../Lib.Providers/Lib.Providers.csproj"
-    },
-    "Lib.Wf/1.0.0": {
-      "type": "project",
-      "path": "../Lib.Wf/Lib.Wf.csproj",
-      "msbuildProject": "../Lib.Wf/Lib.Wf.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
-      "Lib.Providers >= 1.0.0",
-      "Lib.Wf >= 1.0.0"
+      "Lib.BusinessCommander >= 1.0.0",
+      "Lib.Providers >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -184,11 +184,11 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "projectReferences": {
+            "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj": {
+              "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.BusinessCommander\\Lib.BusinessCommander.csproj"
+            },
             "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Providers\\Lib.Providers.csproj": {
               "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Providers\\Lib.Providers.csproj"
-            },
-            "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj": {
-              "projectPath": "C:\\Users\\Roma\\source\\repos\\oramor\\postgres-gui\\Lib.Wf\\Lib.Wf.csproj"
             }
           }
         }

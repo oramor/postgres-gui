@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lib.BusinessCommander\Lib.BusinessCommander.csproj" />
     <ProjectReference Include="..\Lib.Providers\Lib.Providers.csproj" />
-    <ProjectReference Include="..\Lib.Wf\Lib.Wf.csproj" />
   </ItemGroup>
 
   <ItemGroup>
