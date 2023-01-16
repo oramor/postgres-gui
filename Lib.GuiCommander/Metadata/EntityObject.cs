@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Lib.Providers;
+using System.Data;
 
 namespace Lib.GuiCommander
 {
@@ -23,16 +24,33 @@ namespace Lib.GuiCommander
     /// При получении Name нужна будет проверки, есть ли связь с DataTable через DataRowState.Detached
     /// https://learn.microsoft.com/en-us/dotnet/api/system.data.datarow.table?view=net-7.0#system-data-datarow-table
     /// </summary>
-    public class EntityObject
+    public class EntityObject : IJsonParameter
     {
         readonly DataRow _dataRow;
+        IDictionary<string, TablePartObject> _tableParts;
 
         public EntityObject(DataRow dataRow)
         {
             this._dataRow = dataRow;
         }
 
-        public DataRow Data => _dataRow;
+        #region IJsonParameter members
+
+        public DataRow DataHeader => _dataRow;
+
+        public IDictionary<string, DataTable> DataTables
+        {
+            get {
+                var dic = new Dictionary<string, DataTable>();
+                foreach (var t in _tableParts)
+                {
+                    dic.Add(t.Key, t.Value.TableData);
+                }
+                return dic;
+            }
+        }
+
+        #endregion
 
         public int Id
         {

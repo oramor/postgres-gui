@@ -25,8 +25,10 @@ namespace Lib.Providers
         ApiParameterType _paramType;
         ApiParameterDataType _paramDataType;
 
+        #region Constructors
+
         /// <summary>
-        /// Constructor for in-parameters (parameter data type casts
+        /// For in-parameters (parameter data type casts
         /// from paramValue)
         /// </summary>
         public ApiParameter(string paramName, object paramValue)
@@ -37,7 +39,12 @@ namespace Lib.Providers
         }
 
         /// <summary>
-        /// It is usless to pass value into out-parameters
+        /// For in-parameters which will be converted to json/jsonb
+        /// </summary>
+        // public ApiParameter(string paramName, ) { }
+
+        /// <summary>
+        /// For out-parameters (it is usless to pass value into)
         /// </summary>
         public ApiParameter(string paramName, ApiParameterDataType dataType)
         {
@@ -45,6 +52,8 @@ namespace Lib.Providers
             _paramType = ApiParameterType.Out;
             _paramDataType = dataType;
         }
+
+        #endregion
 
         public string ParamName => _paramName;
 
