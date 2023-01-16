@@ -30,5 +30,7 @@ namespace Lib.GuiCommander
         }
 
         #endregion
+
+        //public static EntityMetadata GetEntityMetadataByName(string name) { }
     }
 }
