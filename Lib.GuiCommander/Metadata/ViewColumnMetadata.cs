@@ -3,19 +3,16 @@
     public class ViewColumnMetadata
     {
         readonly string _camelName;
-        readonly string _publicName;
-        readonly int _priority;
 
-        public ViewColumnMetadata(string columnName, string publicName, int priority)
+        public ViewColumnMetadata(string columnName)
         {
             _camelName = columnName;
-            _publicName = publicName;
-            _priority = priority;
         }
 
         public string CamelName => _camelName;
-        public string PublicName => _publicName;
-        public int Priority => _priority;
+        public required string PublicName { get; init; }
+        public required LogicalDataTypeEnum LogicalDataType { get; init; }
+        public required int Priority { get; init; } = 1;
 
         /// <summary>
         /// Поскольку названия колонок во всех вьюхах приводится (на стороне БД)
@@ -51,5 +48,7 @@
         public bool IsImage => _camelName.Length > 4
             ? _camelName[^5..].ToLower() == "image"
             : false;
+
+        // IsImageUri
     }
 }
