@@ -27,7 +27,7 @@ namespace Lib.GuiCommander
     public class EntityObject : IJsonParameter
     {
         readonly DataRow _dataRow;
-        IDictionary<string, TablePartObject> _tableParts;
+        readonly Dictionary<string, TablePartObject> _tableParts = new();
 
         public EntityObject(DataRow dataRow)
         {

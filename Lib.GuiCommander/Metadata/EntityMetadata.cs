@@ -15,7 +15,7 @@
         /// части для связки с фотографиями, а так же для хранения оценок товара (если
         /// такая оценка не является самостоятельной сущностью)
         /// </summary>
-        Dictionary<string, TablePartMetadata> _tableParts = new();
+        readonly Dictionary<string, TablePartMetadata> _tableParts = new();
 
         public EntityMetadata(string entityName, int entityId, bool isDocument)
         {

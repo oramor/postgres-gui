@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lib.GuiCommander
+﻿namespace Lib.GuiCommander
 {
     /// <summary>
     /// На стороне базы для каждой сущности, табличной части или отчета
@@ -27,20 +21,11 @@ namespace Lib.GuiCommander
 
     public class ViewMetadata
     {
-        readonly string _name;
-        readonly int _id;
-        readonly ViewTypeEnum _viewType;
-        Dictionary<string, ViewColumnMetadata> _columns = new();
+        readonly Dictionary<string, ViewColumnMetadata> _columns = new();
 
-        public ViewMetadata(string name, int id, ViewTypeEnum viewType) {
-            _name = name;
-            _id = id;
-            _viewType = viewType;
-        }
-
-        public string Name => _name;
-        public int Id => _id;
-        public ViewTypeEnum ViewType => _viewType;
+        public required string Name { get; init; }
+        public required int Id { get; init; }
+        public required ViewTypeEnum ViewType { get; init; }
 
         public void AddColumn(ViewColumnMetadata column)
         {
