@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Xml;
-
-namespace Lib.GuiCommander
+﻿namespace Lib.GuiCommander
 {
     public partial class EntityBaseForm : Form
     {
@@ -65,50 +62,50 @@ namespace Lib.GuiCommander
 
         #endregion
 
-        private string ToJson()
-        {
-            var obj = new ObjectForDbSave();
+        //private string ToJson()
+        //{
+        //    var obj = new ObjectForDbSave();
 
-            foreach (var tablesValue in tables.Values)
-            {
-                if (tablesValue.JsonName == null) continue;
+        //    foreach (var tablesValue in tables.Values)
+        //    {
+        //        if (tablesValue.JsonName == null) continue;
 
-                var gv = tablesValue.Control as GridControl;
-                if (gv?.DataSource is DataTable table)
-                {
-                    var objs = new List<ObjectProperties>();
-                    foreach (DataRow row in table.Rows)
-                    {
-                        if (row.RowState == DataRowState.Deleted) continue;
+        //        var gv = tablesValue.Control as GridControl;
+        //        if (gv?.DataSource is DataTable table)
+        //        {
+        //            var objs = new List<ObjectProperties>();
+        //            foreach (DataRow row in table.Rows)
+        //            {
+        //                if (row.RowState == DataRowState.Deleted) continue;
 
-                        var prps = new ObjectProperties();
-                        foreach (DataColumn column in table.Columns)
-                        {
-                            // Фото и превью не сохраняем, но это можно явно пометить в метадате
-                            if (column.ColumnName == "photo" || column.ColumnName == "preview") continue;
-                            prps.Add(column.ColumnName.ToLower(), row[column.ColumnName]);
-                        }
-                        objs.Add(prps);
-                    }
-                    obj.Properties.Add(tablesValue.JsonName, objs);
-                }
-            }
-            foreach (var e in columns.Values)
-            {
-                if (e.JsonName != null)
-                {
-                    var value = guiObject[e.Name];
-                    if (value != null && value != DBNull.Value) obj.Properties.Add(e.JsonName, value);
-                }
-            }
+        //                var prps = new ObjectProperties();
+        //                foreach (DataColumn column in table.Columns)
+        //                {
+        //                    // Фото и превью не сохраняем, но это можно явно пометить в метадате
+        //                    if (column.ColumnName == "photo" || column.ColumnName == "preview") continue;
+        //                    prps.Add(column.ColumnName.ToLower(), row[column.ColumnName]);
+        //                }
+        //                objs.Add(prps);
+        //            }
+        //            obj.Properties.Add(tablesValue.JsonName, objs);
+        //        }
+        //    }
+        //    foreach (var e in columns.Values)
+        //    {
+        //        if (e.JsonName != null)
+        //        {
+        //            var value = guiObject[e.Name];
+        //            if (value != null && value != DBNull.Value) obj.Properties.Add(e.JsonName, value);
+        //        }
+        //    }
 
-            var json = JsonConvert.SerializeObject(obj, Formatting.Indented,
-                new JsonSerializerSettings {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    DateFormatString = "yyyy-MM-ddThh:mm:ss"
-                });
+        //    var json = JsonConvert.SerializeObject(obj, Formatting.Indented,
+        //        new JsonSerializerSettings {
+        //            NullValueHandling = NullValueHandling.Ignore,
+        //            DateFormatString = "yyyy-MM-ddThh:mm:ss"
+        //        });
 
-            return json;
-        }
+        //    return json;
+        //}
     }
 }

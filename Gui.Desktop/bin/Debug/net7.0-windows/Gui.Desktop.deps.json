@@ -35,6 +35,9 @@
         }
       },
       "Lib.GuiCommander/1.0.0": {
+        "dependencies": {
+          "Lib.Providers": "1.0.0"
+        },
         "runtime": {
           "Lib.GuiCommander.dll": {}
         }
