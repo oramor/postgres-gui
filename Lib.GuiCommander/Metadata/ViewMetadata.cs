@@ -10,28 +10,43 @@
     /// </summary>
     public enum ViewTypeEnum
     {
-        EntityIdNameView = 1,       // обычно id + publicName
-        EntityIdNameDescrView = 2,  // id + publicName + description для списков подстановки
-        EntityTableView = 3,        // вся таблица сущности без джойнов по id
-        EntityJointView = 4,        // самый подробный список
-        TablePartTableView = 5,     // таблица табличной части
-        TablePartJointView = 6,     // таблица сущности с джойнами
-        ReportView = 7,             // любая кастомная вьюха
+        EntitySelectView = 1,       // обычно id + publicName. Для простых комбо-боксов
+        EntityImgSelectView = 2,    // только для сущностей, у которых есть иконка/превью
+        EntitySubGridView = 3,      // для списков подстановки в EntitySubGridControl
+        EntityObjectView = 4,       // служебная вьюха, по которой формируются объекты
+        EntityGridView = 5,         // самый подробный список для EntityGridControl
+        TablePartObjectView = 6,
+        TablePartGridView = 7,      // для EntityGridControl
+        TablePartEditableView = 8,  // для EntityEditableGridControl
+        ReportView = 9,             // любая кастомная вьюха
     }
 
     public class ViewMetadata
     {
         readonly Dictionary<string, ViewColumnMetadata> _columns = new();
+        readonly Dictionary<RoutineTypeEnum, RoutineMetadata> _routines = new();
 
         public required string Name { get; init; }
         public required int Id { get; init; }
         public required ViewTypeEnum ViewType { get; init; }
+
 
         public void AddColumn(ViewColumnMetadata column)
         {
             /// Когда функция возвращает DataTable, именно CamelName
             /// является ключем для определения PublicName
             _columns.Add(column.CamelName, column);
+        }
+
+        public void SetRoutine(RoutineMetadata routine)
+        {
+            _routines.TryAdd(routine.RoutineType, routine);
+        }
+
+        public RoutineMetadata? GetRoutineByType(RoutineTypeEnum routineType)
+        {
+            _routines.TryGetValue(routineType, out var result);
+            return result;
         }
     }
 }
