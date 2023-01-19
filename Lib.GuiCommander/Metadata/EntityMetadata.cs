@@ -7,7 +7,6 @@
     public class EntityMetadata
     {
         readonly string _entityName;
-        readonly int _entityId;
         readonly bool _isDocument;
         /// <summary>
         /// Сущность может содержат несколько табличных частей. У документов обычно одна.
@@ -16,19 +15,19 @@
         /// такая оценка не является самостоятельной сущностью)
         /// </summary>
         readonly Dictionary<string, TablePartMetadata> _tableParts = new();
+        readonly Dictionary<ViewTypeEnum, ViewMetadata> _viewsDic = new();
+        readonly Dictionary<string, ColumnMetadata> _columnsDic = new();
+        readonly List<ColumnMetadata> _columns = new();
 
-        public EntityMetadata(string entityName, int entityId, bool isDocument)
+        public EntityMetadata(string entityName, bool isDocument)
         {
             _entityName = entityName;
-            _entityId = entityId;
             _isDocument = isDocument;
         }
 
         public string EntityName => _entityName;
-
-        public int Id => _entityId;
-
         public bool IsDocument => _isDocument;
+        public IList<ColumnMetadata> Columns => _columns;
 
         public void ShowCreateForm()
         {
@@ -43,6 +42,19 @@
         public void AddTablePart(TablePartMetadata tablePart)
         {
             _tableParts.Add(tablePart.Name, tablePart);
+        }
+
+        public void AddColumn (ColumnMetadata column)
+        {
+            if (_columnsDic.TryAdd(column.CamelName, column))
+            {
+                _columns.Add(column);
+            }
+        }
+
+        public void AddView (ViewMetadata view)
+        {
+            _viewsDic.TryAdd(view.ViewType, view);
         }
     }
 }
