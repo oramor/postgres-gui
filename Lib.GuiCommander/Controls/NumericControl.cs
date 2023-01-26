@@ -3,22 +3,25 @@ using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBaseControl
+    public partial class NumericControl : NumericUpDown, IBaseControl
     {
         bool _isRequired;
-        string _columnName;
-        string _jsonName;
-        bool _readOnly;
-        EntityObject _entityObject;
+        bool _isReadOnly;
+        string _columnName = string.Empty;
+        string _jsonName = string.Empty;
+        EntityObject? _entityObject;
 
-        public StringControl()
+        public NumericControl()
         {
             InitializeComponent();
         }
 
         #region IBaseControl Members
 
-        public bool IsEmpty => string.IsNullOrEmpty(Text);
+        /// <summary>
+        /// В этом варианте контрола нулевое значение считается пустым
+        /// </summary>
+        public bool IsEmpty => Value == 0;
 
         [Bindable(true), Category("Object properties")]
         public bool IsRequired
@@ -26,7 +29,7 @@ namespace Lib.GuiCommander.Controls
             get => _isRequired;
             set {
                 _isRequired = value;
-                if (_readOnly)
+                if (_isReadOnly)
                     BackColor = LibSettings.ControlReadOnlyColor;
                 else
                     BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
@@ -58,26 +61,26 @@ namespace Lib.GuiCommander.Controls
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
         {
-            get => _readOnly;
+            get => _isReadOnly;
             set {
-                _readOnly = value;
+                _isReadOnly = value;
                 base.ReadOnly = value;
-                if (_readOnly)
+                if (_isReadOnly)
                     BackColor = LibSettings.ControlReadOnlyColor;
                 else
                     BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
             }
         }
 
-        public void Bind(EntityObject _entityObject)
+        public void Bind(EntityObject entityObject)
         {
-            this._entityObject = _entityObject;
+            this._entityObject = entityObject;
 
             if (string.IsNullOrEmpty(_columnName))
                 return;
 
             if (_entityObject != null && _entityObject[_columnName] != DBNull.Value)
-                base.Text = _entityObject[_columnName].ToString();
+                Value = Convert.ToDecimal(_entityObject[_columnName]);
         }
 
         public event ControlChangedEventHandler ControlChanged;
@@ -88,50 +91,34 @@ namespace Lib.GuiCommander.Controls
 
         #endregion
 
-        #region Properties
-
-        [Bindable(true), Category("Object properties")]
-        public int Length
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            get => this.MaxLength;
-            set => MaxLength = value;
+            ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
+
+            if (string.IsNullOrEmpty(_columnName) || _entityObject == null)
+                return;
+
+            object prev = _entityObject[_columnName];
+            _entityObject[_columnName] = Value;
+            if (prev != _entityObject[_columnName])
+                OnControlChanged(this, EventArgs.Empty);
         }
 
-        public override string Text
+        public override void UpButton()
         {
-            get => base.Text;
-            set {
-                base.Text = value;
-                if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
-                {
-                    _entityObject[_columnName] = value;
-                    OnControlChanged(this, EventArgs.Empty);
-                }
-            }
+            if (!_isReadOnly)
+                base.UpButton();
         }
 
-        #endregion
-
-        #region Events
-
-        private void StringControl_TextChanged(object sender, EventArgs e)
+        public override void DownButton()
         {
-            if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
-            {
-                if (_entityObject[_columnName].ToString() != Text)
-                {
-                    _entityObject[_columnName] = Text;
-                    OnControlChanged(this, EventArgs.Empty);
-                }
-            }
+            if (!_isReadOnly)
+                base.DownButton();
         }
 
-        private void StringControl_Enter(object sender, EventArgs e)
+        private void NumericControl_Enter(object sender, EventArgs e)
         {
-            this.SelectAll();
+            this.Select(0, 20);
         }
-
-        #endregion
     }
 }
-
