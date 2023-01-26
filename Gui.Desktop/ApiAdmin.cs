@@ -6,20 +6,15 @@ namespace Gui.Desktop
     {
         static readonly string _schemaName = "api_admin";
 
+        #region Entity
+
         public static ApiCommand CreateEntity(EntityDto dao)
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
             cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
             cmd.AddParam(new ApiParameter("p_obj", dao));
-
-            //cmd.AddParam(new ApiParameter("p_public_name", dao.PublicName!));
-            //cmd.AddParam(new ApiParameter("p_pascal_name", dao.PascalName!));
-            //cmd.AddParam(new ApiParameter("p_is_doc", dao.IsDocument));
-
             return cmd;
         }
-
-
 
         public static ApiCommand RemoveEntity(int entityId)
         {
@@ -33,5 +28,21 @@ namespace Gui.Desktop
         {
             return new ApiCommand(_schemaName, "fn_get_entity_list_t");
         }
+
+        public static ApiCommand GetEntityShortList()
+        {
+            return new ApiCommand(_schemaName, "fn_get_entity_sl_t");
+        }
+
+        #endregion
+
+        #region LogicalDataType
+
+        public static ApiCommand GetLogicalDataTypeShortList()
+        {
+            return new ApiCommand(_schemaName, "fn_get_logical_data_type_sl_t");
+        }
+
+        #endregion
     }
 }

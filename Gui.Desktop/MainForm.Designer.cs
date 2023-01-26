@@ -46,6 +46,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLastCommandReport = new System.Windows.Forms.ToolStripStatusLabel();
+            this.newEntityColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +93,7 @@
             // 
             this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newEntityToolStripMenuItem,
+            this.newEntityColumnToolStripMenuItem,
             this.newTablePartToolStripMenuItem,
             this.newDTOToolStripMenuItem});
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
@@ -101,20 +103,20 @@
             // newEntityToolStripMenuItem
             // 
             this.newEntityToolStripMenuItem.Name = "newEntityToolStripMenuItem";
-            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newEntityToolStripMenuItem.Text = "New Entity...";
             this.newEntityToolStripMenuItem.Click += new System.EventHandler(this.newEntityToolStripMenuItem_Click);
             // 
             // newTablePartToolStripMenuItem
             // 
             this.newTablePartToolStripMenuItem.Name = "newTablePartToolStripMenuItem";
-            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newTablePartToolStripMenuItem.Text = "New Table Part....";
             // 
             // newDTOToolStripMenuItem
             // 
             this.newDTOToolStripMenuItem.Name = "newDTOToolStripMenuItem";
-            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newDTOToolStripMenuItem.Text = "New DTO";
             // 
             // listsToolStripMenuItem
@@ -130,7 +132,7 @@
             // entitiesToolStripMenuItem
             // 
             this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
-            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.entitiesToolStripMenuItem.Text = "Entities";
             this.entitiesToolStripMenuItem.Click += new System.EventHandler(this.entitiesToolStripMenuItem_Click);
             // 
@@ -190,6 +192,13 @@
             this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
             this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
+            // newEntityColumnToolStripMenuItem
+            // 
+            this.newEntityColumnToolStripMenuItem.Name = "newEntityColumnToolStripMenuItem";
+            this.newEntityColumnToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newEntityColumnToolStripMenuItem.Text = "New Entity Column...";
+            this.newEntityColumnToolStripMenuItem.Click += new System.EventHandler(this.newEntityColumnToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -231,5 +240,6 @@
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripStatusLabel toolStripStatusLastCommandReport;
+        private ToolStripMenuItem newEntityColumnToolStripMenuItem;
     }
 }

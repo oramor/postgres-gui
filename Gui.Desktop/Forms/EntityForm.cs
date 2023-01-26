@@ -18,8 +18,9 @@ namespace Gui.Desktop.Forms
 
         private void SetFieldValues()
         {
-            _dao.PublicName = this.textBoxEntityName.Text;
-            _dao.PascalName = this.textBoxPascalName.Text;
+            _dao.PublicName = this.stringControlPublicName.Text;
+            _dao.PascalName = this.stringControlPascalName.Text;
+            _dao.PublicCode = this.stringControlPublicCode.Text;
             _dao.IsDocument = this.checkBoxIsDocument.Checked;
         }
 

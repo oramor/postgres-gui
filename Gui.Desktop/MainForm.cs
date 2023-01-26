@@ -71,5 +71,10 @@ namespace Gui.Desktop
         {
             App.ShowModalForm(new EntityListForm());
         }
+
+        private void newEntityColumnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            App.ShowModalForm(new EntityColumnForm(0));
+        }
     }
 }

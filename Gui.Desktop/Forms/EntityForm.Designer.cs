@@ -31,28 +31,30 @@ namespace Gui.Desktop.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelEntityName = new System.Windows.Forms.Label();
+            this.labelPublicName = new System.Windows.Forms.Label();
             this.labelPascalName = new System.Windows.Forms.Label();
             this.btnCreate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.textBoxEntityName = new StringControl();
-            this.textBoxPascalName = new StringControl();
-            this.checkBoxIsDocument = new BoolControl();
+            this.stringControlPublicName = new Lib.GuiCommander.Controls.StringControl();
+            this.stringControlPascalName = new Lib.GuiCommander.Controls.StringControl();
+            this.checkBoxIsDocument = new Lib.GuiCommander.BoolControl();
+            this.labelPublicCode = new System.Windows.Forms.Label();
+            this.stringControlPublicCode = new Lib.GuiCommander.Controls.StringControl();
             this.SuspendLayout();
             // 
-            // labelEntityName
+            // labelPublicName
             // 
-            this.labelEntityName.AutoSize = true;
-            this.labelEntityName.Location = new System.Drawing.Point(12, 19);
-            this.labelEntityName.Name = "labelEntityName";
-            this.labelEntityName.Size = new System.Drawing.Size(77, 15);
-            this.labelEntityName.TabIndex = 2;
-            this.labelEntityName.Text = "Entity Name*";
+            this.labelPublicName.AutoSize = true;
+            this.labelPublicName.Location = new System.Drawing.Point(12, 53);
+            this.labelPublicName.Name = "labelPublicName";
+            this.labelPublicName.Size = new System.Drawing.Size(80, 15);
+            this.labelPublicName.TabIndex = 2;
+            this.labelPublicName.Text = "Public Name*";
             // 
             // labelPascalName
             // 
             this.labelPascalName.AutoSize = true;
-            this.labelPascalName.Location = new System.Drawing.Point(12, 54);
+            this.labelPascalName.Location = new System.Drawing.Point(12, 18);
             this.labelPascalName.Name = "labelPascalName";
             this.labelPascalName.Size = new System.Drawing.Size(80, 15);
             this.labelPascalName.TabIndex = 3;
@@ -60,7 +62,7 @@ namespace Gui.Desktop.Forms
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(247, 120);
+            this.btnCreate.Location = new System.Drawing.Point(247, 156);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 5;
@@ -70,34 +72,36 @@ namespace Gui.Desktop.Forms
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(166, 120);
+            this.btnCancel.Location = new System.Drawing.Point(166, 156);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // textBoxEntityName
+            // stringControlPublicName
             // 
-            this.textBoxEntityName.ColumnName = null;
-            this.textBoxEntityName.IsReadOnly = false;
-            this.textBoxEntityName.IsRequired = false;
-            this.textBoxEntityName.Length = 32767;
-            this.textBoxEntityName.Location = new System.Drawing.Point(109, 16);
-            this.textBoxEntityName.Name = "textBoxEntityName";
-            this.textBoxEntityName.Size = new System.Drawing.Size(213, 23);
-            this.textBoxEntityName.TabIndex = 7;
+            this.stringControlPublicName.BackColor = System.Drawing.Color.White;
+            this.stringControlPublicName.ColumnName = null;
+            this.stringControlPublicName.IsReadOnly = false;
+            this.stringControlPublicName.IsRequired = false;
+            this.stringControlPublicName.Length = 32767;
+            this.stringControlPublicName.Location = new System.Drawing.Point(109, 50);
+            this.stringControlPublicName.Name = "stringControlPublicName";
+            this.stringControlPublicName.Size = new System.Drawing.Size(213, 23);
+            this.stringControlPublicName.TabIndex = 7;
             // 
-            // textBoxPascalName
+            // stringControlPascalName
             // 
-            this.textBoxPascalName.ColumnName = null;
-            this.textBoxPascalName.IsReadOnly = false;
-            this.textBoxPascalName.IsRequired = false;
-            this.textBoxPascalName.Length = 32767;
-            this.textBoxPascalName.Location = new System.Drawing.Point(109, 51);
-            this.textBoxPascalName.Name = "textBoxPascalName";
-            this.textBoxPascalName.Size = new System.Drawing.Size(213, 23);
-            this.textBoxPascalName.TabIndex = 8;
+            this.stringControlPascalName.BackColor = System.Drawing.Color.White;
+            this.stringControlPascalName.ColumnName = null;
+            this.stringControlPascalName.IsReadOnly = false;
+            this.stringControlPascalName.IsRequired = false;
+            this.stringControlPascalName.Length = 32767;
+            this.stringControlPascalName.Location = new System.Drawing.Point(109, 15);
+            this.stringControlPascalName.Name = "stringControlPascalName";
+            this.stringControlPascalName.Size = new System.Drawing.Size(213, 23);
+            this.stringControlPascalName.TabIndex = 8;
             // 
             // checkBoxIsDocument
             // 
@@ -106,25 +110,48 @@ namespace Gui.Desktop.Forms
             this.checkBoxIsDocument.Id = -1;
             this.checkBoxIsDocument.IsReadOnly = false;
             this.checkBoxIsDocument.IsRequired = false;
-            this.checkBoxIsDocument.Location = new System.Drawing.Point(109, 85);
+            this.checkBoxIsDocument.Location = new System.Drawing.Point(109, 121);
             this.checkBoxIsDocument.Name = "checkBoxIsDocument";
             this.checkBoxIsDocument.Size = new System.Drawing.Size(93, 19);
             this.checkBoxIsDocument.TabIndex = 9;
             this.checkBoxIsDocument.Text = "Is Document";
             this.checkBoxIsDocument.UseVisualStyleBackColor = true;
             // 
+            // labelPublicCode
+            // 
+            this.labelPublicCode.AutoSize = true;
+            this.labelPublicCode.Location = new System.Drawing.Point(12, 89);
+            this.labelPublicCode.Name = "labelPublicCode";
+            this.labelPublicCode.Size = new System.Drawing.Size(71, 15);
+            this.labelPublicCode.TabIndex = 10;
+            this.labelPublicCode.Text = "Public Code";
+            // 
+            // stringControlPublicCode
+            // 
+            this.stringControlPublicCode.BackColor = System.Drawing.Color.White;
+            this.stringControlPublicCode.ColumnName = null;
+            this.stringControlPublicCode.IsReadOnly = false;
+            this.stringControlPublicCode.IsRequired = false;
+            this.stringControlPublicCode.Length = 32767;
+            this.stringControlPublicCode.Location = new System.Drawing.Point(109, 86);
+            this.stringControlPublicCode.Name = "stringControlPublicCode";
+            this.stringControlPublicCode.Size = new System.Drawing.Size(92, 23);
+            this.stringControlPublicCode.TabIndex = 11;
+            // 
             // EntityForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 156);
+            this.ClientSize = new System.Drawing.Size(334, 191);
+            this.Controls.Add(this.stringControlPublicCode);
+            this.Controls.Add(this.labelPublicCode);
             this.Controls.Add(this.checkBoxIsDocument);
-            this.Controls.Add(this.textBoxPascalName);
-            this.Controls.Add(this.textBoxEntityName);
+            this.Controls.Add(this.stringControlPascalName);
+            this.Controls.Add(this.stringControlPublicName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.labelPascalName);
-            this.Controls.Add(this.labelEntityName);
+            this.Controls.Add(this.labelPublicName);
             this.Name = "EntityForm";
             this.Text = "Entity";
             this.ResumeLayout(false);
@@ -133,12 +160,14 @@ namespace Gui.Desktop.Forms
         }
 
         #endregion
-        private Label labelEntityName;
+        private Label labelPublicName;
         private Label labelPascalName;
         private Button btnCreate;
         private Button btnCancel;
-        private StringControl textBoxEntityName;
-        private StringControl textBoxPascalName;
+        private StringControl stringControlPublicName;
+        private StringControl stringControlPascalName;
         private BoolControl checkBoxIsDocument;
+        private Label labelPublicCode;
+        private StringControl stringControlPublicCode;
     }
 }
