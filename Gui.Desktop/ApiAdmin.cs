@@ -44,5 +44,18 @@ namespace Gui.Desktop
         }
 
         #endregion
+
+        #region EntityColumn
+
+        public static ApiCommand CreateEntityColumn(EntityColumnDto dao)
+        {
+            var cmd = new ApiCommand(_schemaName, "pr_create_entity_column_n");
+            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
+            cmd.AddParam(new ApiParameter("p_obj", dao));
+            return cmd;
+        }
+
+        #endregion
+
     }
 }

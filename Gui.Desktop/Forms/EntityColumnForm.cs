@@ -25,14 +25,14 @@ namespace Gui.Desktop.Forms
             FillComboBoxEntity();
         }
 
-        private void FillDto()
-        {
-            _dto.SnakeName = snakeNameStringControl.CurrentValue;
-            _dto.EntityId = entityComboBoxControl.CurrentValue;
-            _dto.DefaultPriority = defaultPriorityNumericControl.CurrentValue;
-            _dto.DefaultSize = defaultSizeNumericControl.CurrentValue;
-            _dto.IsRequired = isRequiredBoolControl.CurrentValue;
-        }
+        //private void FillDto()
+        //{
+        //    _dto.SnakeName = snakeNameStringControl.CurrentValue;
+        //    _dto.EntityId = entityComboBoxControl.CurrentValue;
+        //    _dto.DefaultPriority = defaultPriorityNumericControl.CurrentValue;
+        //    _dto.DefaultSize = defaultSizeNumericControl.CurrentValue;
+        //    _dto.IsRequired = isRequiredBoolControl.CurrentValue;
+        //}
 
         private void FillComboBoxTypes()
         {
@@ -50,7 +50,14 @@ namespace Gui.Desktop.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Click!!!!!!");
+            var newDto = Grab(this, _dto) as EntityColumnDto;
+            if (newDto != null)
+            {
+                var cmd = ApiAdmin.CreateEntityColumn(newDto);
+                var result = App.CallApiCommand<int>(cmd);
+                MessageBox.Show("Created " + Convert.ToString(result));
+            }
+
         }
     }
 }

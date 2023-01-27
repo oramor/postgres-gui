@@ -110,7 +110,7 @@ namespace Lib.GuiCommander.Controls
 
         private void StringControl_TextChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null || !string.IsNullOrEmpty(_camelName))
+            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
             {
                 if (_entityObject![_camelName].ToString() != Text)
                 {
