@@ -68,7 +68,7 @@
 
         //    foreach (var tablesValue in tables.Values)
         //    {
-        //        if (tablesValue.JsonName == null) continue;
+        //        if (tablesValue.CamelName == null) continue;
 
         //        var gv = tablesValue.Control as GridControl;
         //        if (gv?.DataSource is DataTable table)
@@ -87,15 +87,15 @@
         //                }
         //                objs.Add(prps);
         //            }
-        //            obj.Properties.Add(tablesValue.JsonName, objs);
+        //            obj.Properties.Add(tablesValue.CamelName, objs);
         //        }
         //    }
         //    foreach (var e in columns.Values)
         //    {
-        //        if (e.JsonName != null)
+        //        if (e.CamelName != null)
         //        {
         //            var value = guiObject[e.Name];
-        //            if (value != null && value != DBNull.Value) obj.Properties.Add(e.JsonName, value);
+        //            if (value != null && value != DBNull.Value) obj.Properties.Add(e.CamelName, value);
         //        }
         //    }
 

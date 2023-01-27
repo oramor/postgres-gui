@@ -3,11 +3,10 @@ using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBaseControl
+    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool>
     {
         bool _isRequired;
-        string _columnName;
-        string _jsonName;
+        string _camelName;
         bool _readOnly;
         EntityObject _entityObject;
 
@@ -27,18 +26,11 @@ namespace Lib.GuiCommander
             set => _isRequired = value;
         }
 
-        [Bindable(true), Category("Object properties")]
-        public string ColumnName
-        {
-            get => _columnName;
-            set => _columnName = value;
-        }
-
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string JsonName
+        public string CamelName
         {
-            get => _jsonName;
-            set => _jsonName = value;
+            get => _camelName;
+            set => _camelName = value;
         }
 
         [Bindable(true), Category("Object properties")]
@@ -54,13 +46,15 @@ namespace Lib.GuiCommander
             set { }
         }
 
+        public bool CurrentValue => Checked;
+
         public void Bind(EntityObject entityObject)
         {
             this._entityObject = entityObject;
 
-            if (_entityObject != null && !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
             {
-                this.Checked = _entityObject[_columnName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[_columnName]);
+                this.Checked = _entityObject[_camelName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[_camelName]);
             }
 
             this.CheckedChanged += new EventHandler(BoolControl_CheckedChanged);
@@ -76,13 +70,13 @@ namespace Lib.GuiCommander
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null && !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
             {
-                bool oldValue = _entityObject[_columnName] == DBNull.Value
+                bool oldValue = _entityObject[_camelName] == DBNull.Value
                     ? false
-                    : Convert.ToBoolean(_entityObject[_columnName]);
+                    : Convert.ToBoolean(_entityObject[_camelName]);
 
-                _entityObject[_columnName] = Checked;
+                _entityObject[_camelName] = Checked;
 
                 if (oldValue != Checked) OnStateChanged(this, EventArgs.Empty);
             }

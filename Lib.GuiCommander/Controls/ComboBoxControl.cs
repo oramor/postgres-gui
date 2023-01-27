@@ -16,12 +16,11 @@ namespace Lib.GuiCommander.Controls
         public string Title { get; init; }
     }
 
-    public partial class ComboBoxControl : ComboBox, IBaseControl //IAsyncControl
+    public partial class ComboBoxControl : ComboBox, IBaseControl, IJsonControl<int?> //IAsyncControl
     {
         bool _isRequired;
         bool _isReadOnly;
-        string _columnName = string.Empty;
-        string _jsonName = string.Empty;
+        string _camelName = string.Empty;
         string _dataSourceRoutine;
         EntityObject? _entityObject;
 
@@ -52,26 +51,11 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        /// <summary>
-        /// Этот параметр заполняется вручную при добавлении контрола на форму
-		/// и содержит название колонки в базе данных (snake_case).
-        /// Соответственно, от лежит в Designer-классе. Именно _columnName является
-        /// ключем, по которому выполняется привязка к значению. Само значение
-        /// берется из <see cref="EntityObject"/> — объекта метадаты, который
-		/// содержит все поля сущности и передается в метод <see cref="Init(EntityObject)"/>.
-        /// </summary>
-        [Bindable(true), Category("Object properties")]
-        public string ColumnName
-        {
-            get => _columnName;
-            set => _columnName = value;
-        }
-
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string JsonName
+        public string CamelName
         {
-            get => _jsonName;
-            set => _jsonName = value;
+            get => _camelName;
+            set => _camelName = value;
         }
 
         [Bindable(true), Category("Object properties")]
@@ -85,6 +69,14 @@ namespace Lib.GuiCommander.Controls
                     BackColor = LibSettings.ControlReadOnlyColor;
                 else
                     BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+            }
+        }
+
+        public int? CurrentValue
+        {
+            get {
+                if (IsEmpty) return null;
+                return SelectedIndex;
             }
         }
 

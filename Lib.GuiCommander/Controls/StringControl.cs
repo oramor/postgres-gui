@@ -3,11 +3,10 @@ using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBaseControl
+    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>
     {
         bool _isRequired;
-        string _columnName;
-        string _jsonName;
+        string _camelName;
         bool _readOnly;
         EntityObject _entityObject;
 
@@ -35,24 +34,17 @@ namespace Lib.GuiCommander.Controls
 
         /// <summary>
         /// Этот параметр заполняется вручную при добавлении контрола на форму
-		/// и содержит название колонки в базе данных (snake_case).
-        /// Соответственно, от лежит в Designer-классе. Именно _columnName является
+		/// и содержит название колонки во вью (camel_case).
+        /// Соответственно, от лежит в Designer-классе. Именно _camelName является
         /// ключем, по которому выполняется привязка к значению. Само значение
         /// берется из <see cref="EntityObject"/> — объекта метадаты, который
 		/// содержит все поля сущности и передается в метод <see cref="Init(EntityObject)"/>.
         /// </summary>
-        [Bindable(true), Category("Object properties")]
-        public string ColumnName
-        {
-            get => _columnName;
-            set => _columnName = value;
-        }
-
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string JsonName
+        public string CamelName
         {
-            get => _jsonName;
-            set => _jsonName = value;
+            get => _camelName;
+            set => _camelName = value;
         }
 
         [Bindable(true), Category("Object properties")]
@@ -73,11 +65,11 @@ namespace Lib.GuiCommander.Controls
         {
             this._entityObject = _entityObject;
 
-            if (string.IsNullOrEmpty(_columnName))
+            if (string.IsNullOrEmpty(_camelName))
                 return;
 
-            if (_entityObject != null && _entityObject[_columnName] != DBNull.Value)
-                base.Text = _entityObject[_columnName].ToString();
+            if (_entityObject != null && _entityObject[_camelName] != DBNull.Value)
+                base.Text = _entityObject[_camelName].ToString();
         }
 
         public event ControlChangedEventHandler ControlChanged;
@@ -102,13 +94,15 @@ namespace Lib.GuiCommander.Controls
             get => base.Text;
             set {
                 base.Text = value;
-                if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
+                if (_entityObject != null || !string.IsNullOrEmpty(_camelName))
                 {
-                    _entityObject[_columnName] = value;
+                    _entityObject![_camelName] = value;
                     OnControlChanged(this, EventArgs.Empty);
                 }
             }
         }
+
+        public string? CurrentValue => Text;
 
         #endregion
 
@@ -116,11 +110,11 @@ namespace Lib.GuiCommander.Controls
 
         private void StringControl_TextChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null || !string.IsNullOrEmpty(_columnName))
+            if (_entityObject != null || !string.IsNullOrEmpty(_camelName))
             {
-                if (_entityObject[_columnName].ToString() != Text)
+                if (_entityObject![_camelName].ToString() != Text)
                 {
-                    _entityObject[_columnName] = Text;
+                    _entityObject[_camelName] = Text;
                     OnControlChanged(this, EventArgs.Empty);
                 }
             }

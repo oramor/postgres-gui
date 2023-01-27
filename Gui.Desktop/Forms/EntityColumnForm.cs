@@ -4,7 +4,7 @@ namespace Gui.Desktop.Forms
 {
     public partial class EntityColumnForm : BaseObjectForm
     {
-        EntityColumnDto _dao = new();
+        EntityColumnDto _dto = new();
 
         protected EntityColumnForm() : base()
         {
@@ -25,18 +25,27 @@ namespace Gui.Desktop.Forms
             FillComboBoxEntity();
         }
 
+        private void FillDto()
+        {
+            _dto.SnakeName = snakeNameStringControl.CurrentValue;
+            _dto.EntityId = entityComboBoxControl.CurrentValue;
+            _dto.DefaultPriority = defaultPriorityNumericControl.CurrentValue;
+            _dto.DefaultSize = defaultSizeNumericControl.CurrentValue;
+            _dto.IsRequired = isRequiredBoolControl.CurrentValue;
+        }
+
         private void FillComboBoxTypes()
         {
             var cmd = ApiAdmin.GetLogicalDataTypeShortList();
             var dt = App.CallApiCommand<DataTable>(cmd);
-            this.comboBoxControlLogicalType.Bind(dt);
+            this.logicalTypeComboBoxControl.Bind(dt);
         }
 
         private void FillComboBoxEntity()
         {
             var cmd = ApiAdmin.GetEntityShortList();
             var dt = App.CallApiCommand<DataTable>(cmd);
-            this.comboBoxControlEntity.Bind(dt);
+            this.entityComboBoxControl.Bind(dt);
         }
 
         private void saveButton_Click(object sender, EventArgs e)

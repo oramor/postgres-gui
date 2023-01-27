@@ -3,14 +3,14 @@ using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class NumericControl : NumericUpDown, IBaseControl, IJsonControl<int?>
+    public partial class IntControl : NumericUpDown, IBaseControl, IJsonControl<int?>
     {
         bool _isRequired;
         bool _isReadOnly;
         string _camelName = string.Empty;
         EntityObject? _entityObject;
 
-        public NumericControl()
+        public IntControl()
         {
             InitializeComponent();
         }
@@ -117,7 +117,7 @@ namespace Lib.GuiCommander.Controls
                 base.DownButton();
         }
 
-        private void NumericControl_Enter(object sender, EventArgs e)
+        private void IntControl_Enter(object sender, EventArgs e)
         {
             this.Select(0, 20);
         }

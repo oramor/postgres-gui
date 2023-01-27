@@ -13,7 +13,6 @@
             bool IsEmpty { get; }
             bool IsRequired { get; set; }
             bool IsReadOnly { get; set; }
-            string ColumnName { get; set; }
             void Bind(EntityObject obj);
             event ControlChangedEventHandler ControlChanged;
         }

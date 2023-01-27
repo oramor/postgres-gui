@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.stringControlSnakeName = new Lib.GuiCommander.Controls.StringControl();
-            this.labelSnakeName = new System.Windows.Forms.Label();
-            this.stringControlGuiName = new Lib.GuiCommander.Controls.StringControl();
-            this.labelGuiName = new System.Windows.Forms.Label();
-            this.stringControlGuiShortName = new Lib.GuiCommander.Controls.StringControl();
-            this.labelGuiShortName = new System.Windows.Forms.Label();
-            this.labelLogicalDataType = new System.Windows.Forms.Label();
-            this.boolControlIsRequired = new Lib.GuiCommander.BoolControl();
-            this.numericControlDefaultPriority = new Lib.GuiCommander.Controls.NumericControl();
-            this.labelDefaultPriority = new System.Windows.Forms.Label();
-            this.labelDefaultSize = new System.Windows.Forms.Label();
-            this.numericControlDefaultSize = new Lib.GuiCommander.Controls.NumericControl();
-            this.comboBoxControlLogicalType = new Lib.GuiCommander.Controls.ComboBoxControl();
-            this.comboBoxControlEntity = new Lib.GuiCommander.Controls.ComboBoxControl();
-            ((System.ComponentModel.ISupportInitialize)(this.numericControlDefaultPriority)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericControlDefaultSize)).BeginInit();
+            this.entityLabel = new System.Windows.Forms.Label();
+            this.snakeNameStringControl = new Lib.GuiCommander.Controls.StringControl();
+            this.snakeNameLabel = new System.Windows.Forms.Label();
+            this.guiNameStringControl = new Lib.GuiCommander.Controls.StringControl();
+            this.guiNameLabel = new System.Windows.Forms.Label();
+            this.guiShortNameStringControl = new Lib.GuiCommander.Controls.StringControl();
+            this.guiShortNameLabel = new System.Windows.Forms.Label();
+            this.logicalDataTypeLabel = new System.Windows.Forms.Label();
+            this.isRequiredBoolControl = new Lib.GuiCommander.BoolControl();
+            this.defaultPriorityLabel = new System.Windows.Forms.Label();
+            this.defaultSizeLabel = new System.Windows.Forms.Label();
+            this.logicalTypeComboBoxControl = new Lib.GuiCommander.Controls.ComboBoxControl();
+            this.entityComboBoxControl = new Lib.GuiCommander.Controls.ComboBoxControl();
+            this.defaultPriorityIntControl = new Lib.GuiCommander.Controls.IntControl();
+            this.defaultSizeIntControl = new Lib.GuiCommander.Controls.IntControl();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultPriorityIntControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultSizeIntControl)).BeginInit();
             this.SuspendLayout();
             // 
             // saveButton
@@ -56,237 +56,234 @@
             // 
             this.closeButton.Location = new System.Drawing.Point(186, 246);
             // 
-            // label1
+            // entityLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 15);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "Entity*";
+            this.entityLabel.AutoSize = true;
+            this.entityLabel.Location = new System.Drawing.Point(12, 15);
+            this.entityLabel.Name = "entityLabel";
+            this.entityLabel.Size = new System.Drawing.Size(42, 15);
+            this.entityLabel.TabIndex = 20;
+            this.entityLabel.Text = "Entity*";
             // 
-            // stringControlSnakeName
+            // snakeNameStringControl
             // 
-            this.stringControlSnakeName.BackColor = System.Drawing.Color.White;
-            this.stringControlSnakeName.ColumnName = null;
-            this.stringControlSnakeName.IsReadOnly = false;
-            this.stringControlSnakeName.IsRequired = false;
-            this.stringControlSnakeName.Length = 32767;
-            this.stringControlSnakeName.Location = new System.Drawing.Point(113, 41);
-            this.stringControlSnakeName.Name = "stringControlSnakeName";
-            this.stringControlSnakeName.Size = new System.Drawing.Size(229, 23);
-            this.stringControlSnakeName.TabIndex = 2;
+            this.snakeNameStringControl.BackColor = System.Drawing.Color.White;
+            this.snakeNameStringControl.CamelName = "snakeName";
+            this.snakeNameStringControl.IsReadOnly = false;
+            this.snakeNameStringControl.IsRequired = false;
+            this.snakeNameStringControl.Length = 32767;
+            this.snakeNameStringControl.Location = new System.Drawing.Point(113, 41);
+            this.snakeNameStringControl.Name = "snakeNameStringControl";
+            this.snakeNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.snakeNameStringControl.TabIndex = 2;
             // 
-            // labelSnakeName
+            // snakeNameLabel
             // 
-            this.labelSnakeName.AutoSize = true;
-            this.labelSnakeName.Location = new System.Drawing.Point(12, 44);
-            this.labelSnakeName.Name = "labelSnakeName";
-            this.labelSnakeName.Size = new System.Drawing.Size(78, 15);
-            this.labelSnakeName.TabIndex = 21;
-            this.labelSnakeName.Text = "Snake Name*";
+            this.snakeNameLabel.AutoSize = true;
+            this.snakeNameLabel.Location = new System.Drawing.Point(12, 44);
+            this.snakeNameLabel.Name = "snakeNameLabel";
+            this.snakeNameLabel.Size = new System.Drawing.Size(78, 15);
+            this.snakeNameLabel.TabIndex = 21;
+            this.snakeNameLabel.Text = "Snake Name*";
             // 
-            // stringControlGuiName
+            // guiNameStringControl
             // 
-            this.stringControlGuiName.BackColor = System.Drawing.Color.White;
-            this.stringControlGuiName.ColumnName = null;
-            this.stringControlGuiName.IsReadOnly = false;
-            this.stringControlGuiName.IsRequired = false;
-            this.stringControlGuiName.Length = 32767;
-            this.stringControlGuiName.Location = new System.Drawing.Point(113, 70);
-            this.stringControlGuiName.Name = "stringControlGuiName";
-            this.stringControlGuiName.Size = new System.Drawing.Size(229, 23);
-            this.stringControlGuiName.TabIndex = 3;
+            this.guiNameStringControl.BackColor = System.Drawing.Color.White;
+            this.guiNameStringControl.CamelName = "defaultGuiName";
+            this.guiNameStringControl.IsReadOnly = false;
+            this.guiNameStringControl.IsRequired = false;
+            this.guiNameStringControl.Length = 32767;
+            this.guiNameStringControl.Location = new System.Drawing.Point(113, 70);
+            this.guiNameStringControl.Name = "guiNameStringControl";
+            this.guiNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.guiNameStringControl.TabIndex = 3;
             // 
-            // labelGuiName
+            // guiNameLabel
             // 
-            this.labelGuiName.AutoSize = true;
-            this.labelGuiName.Location = new System.Drawing.Point(12, 73);
-            this.labelGuiName.Name = "labelGuiName";
-            this.labelGuiName.Size = new System.Drawing.Size(66, 15);
-            this.labelGuiName.TabIndex = 22;
-            this.labelGuiName.Text = "GUI Name*";
+            this.guiNameLabel.AutoSize = true;
+            this.guiNameLabel.Location = new System.Drawing.Point(12, 73);
+            this.guiNameLabel.Name = "guiNameLabel";
+            this.guiNameLabel.Size = new System.Drawing.Size(66, 15);
+            this.guiNameLabel.TabIndex = 22;
+            this.guiNameLabel.Text = "GUI Name*";
             // 
-            // stringControlGuiShortName
+            // guiShortNameStringControl
             // 
-            this.stringControlGuiShortName.BackColor = System.Drawing.Color.White;
-            this.stringControlGuiShortName.ColumnName = null;
-            this.stringControlGuiShortName.IsReadOnly = false;
-            this.stringControlGuiShortName.IsRequired = false;
-            this.stringControlGuiShortName.Length = 32767;
-            this.stringControlGuiShortName.Location = new System.Drawing.Point(113, 99);
-            this.stringControlGuiShortName.Name = "stringControlGuiShortName";
-            this.stringControlGuiShortName.Size = new System.Drawing.Size(229, 23);
-            this.stringControlGuiShortName.TabIndex = 4;
+            this.guiShortNameStringControl.BackColor = System.Drawing.Color.White;
+            this.guiShortNameStringControl.CamelName = "defaultGuiShortName";
+            this.guiShortNameStringControl.IsReadOnly = false;
+            this.guiShortNameStringControl.IsRequired = false;
+            this.guiShortNameStringControl.Length = 32767;
+            this.guiShortNameStringControl.Location = new System.Drawing.Point(113, 99);
+            this.guiShortNameStringControl.Name = "guiShortNameStringControl";
+            this.guiShortNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.guiShortNameStringControl.TabIndex = 4;
             // 
-            // labelGuiShortName
+            // guiShortNameLabel
             // 
-            this.labelGuiShortName.AutoSize = true;
-            this.labelGuiShortName.Location = new System.Drawing.Point(12, 102);
-            this.labelGuiShortName.Name = "labelGuiShortName";
-            this.labelGuiShortName.Size = new System.Drawing.Size(92, 15);
-            this.labelGuiShortName.TabIndex = 23;
-            this.labelGuiShortName.Text = "GUI Short Name";
+            this.guiShortNameLabel.AutoSize = true;
+            this.guiShortNameLabel.Location = new System.Drawing.Point(12, 102);
+            this.guiShortNameLabel.Name = "guiShortNameLabel";
+            this.guiShortNameLabel.Size = new System.Drawing.Size(92, 15);
+            this.guiShortNameLabel.TabIndex = 23;
+            this.guiShortNameLabel.Text = "GUI Short Name";
             // 
-            // labelLogicalDataType
+            // logicalDataTypeLabel
             // 
-            this.labelLogicalDataType.AutoSize = true;
-            this.labelLogicalDataType.Location = new System.Drawing.Point(12, 131);
-            this.labelLogicalDataType.Name = "labelLogicalDataType";
-            this.labelLogicalDataType.Size = new System.Drawing.Size(77, 15);
-            this.labelLogicalDataType.TabIndex = 24;
-            this.labelLogicalDataType.Text = "Logical Type*";
+            this.logicalDataTypeLabel.AutoSize = true;
+            this.logicalDataTypeLabel.Location = new System.Drawing.Point(12, 131);
+            this.logicalDataTypeLabel.Name = "logicalDataTypeLabel";
+            this.logicalDataTypeLabel.Size = new System.Drawing.Size(77, 15);
+            this.logicalDataTypeLabel.TabIndex = 24;
+            this.logicalDataTypeLabel.Text = "Logical Type*";
             // 
-            // boolControlIsRequired
+            // isRequiredBoolControl
             // 
-            this.boolControlIsRequired.AutoSize = true;
-            this.boolControlIsRequired.ColumnName = null;
-            this.boolControlIsRequired.Id = -1;
-            this.boolControlIsRequired.IsReadOnly = false;
-            this.boolControlIsRequired.IsRequired = false;
-            this.boolControlIsRequired.Location = new System.Drawing.Point(113, 216);
-            this.boolControlIsRequired.Name = "boolControlIsRequired";
-            this.boolControlIsRequired.Size = new System.Drawing.Size(84, 19);
-            this.boolControlIsRequired.TabIndex = 6;
-            this.boolControlIsRequired.Text = "Is Required";
-            this.boolControlIsRequired.UseVisualStyleBackColor = true;
+            this.isRequiredBoolControl.AutoSize = true;
+            this.isRequiredBoolControl.CamelName = "isRequired";
+            this.isRequiredBoolControl.Id = -1;
+            this.isRequiredBoolControl.IsReadOnly = false;
+            this.isRequiredBoolControl.IsRequired = false;
+            this.isRequiredBoolControl.Location = new System.Drawing.Point(113, 216);
+            this.isRequiredBoolControl.Name = "isRequiredBoolControl";
+            this.isRequiredBoolControl.Size = new System.Drawing.Size(84, 19);
+            this.isRequiredBoolControl.TabIndex = 6;
+            this.isRequiredBoolControl.Text = "Is Required";
+            this.isRequiredBoolControl.UseVisualStyleBackColor = true;
             // 
-            // numericControlDefaultPriority
+            // defaultPriorityLabel
             // 
-            this.numericControlDefaultPriority.BackColor = System.Drawing.Color.White;
-            this.numericControlDefaultPriority.ColumnName = "";
-            this.numericControlDefaultPriority.IsReadOnly = false;
-            this.numericControlDefaultPriority.IsRequired = false;
-            this.numericControlDefaultPriority.JsonName = "";
-            this.numericControlDefaultPriority.Location = new System.Drawing.Point(113, 157);
-            this.numericControlDefaultPriority.Name = "numericControlDefaultPriority";
-            this.numericControlDefaultPriority.Size = new System.Drawing.Size(84, 23);
-            this.numericControlDefaultPriority.TabIndex = 25;
+            this.defaultPriorityLabel.AutoSize = true;
+            this.defaultPriorityLabel.Location = new System.Drawing.Point(12, 161);
+            this.defaultPriorityLabel.Name = "defaultPriorityLabel";
+            this.defaultPriorityLabel.Size = new System.Drawing.Size(91, 15);
+            this.defaultPriorityLabel.TabIndex = 26;
+            this.defaultPriorityLabel.Text = "Default priority*";
             // 
-            // labelDefaultPriority
+            // defaultSizeLabel
             // 
-            this.labelDefaultPriority.AutoSize = true;
-            this.labelDefaultPriority.Location = new System.Drawing.Point(12, 161);
-            this.labelDefaultPriority.Name = "labelDefaultPriority";
-            this.labelDefaultPriority.Size = new System.Drawing.Size(91, 15);
-            this.labelDefaultPriority.TabIndex = 26;
-            this.labelDefaultPriority.Text = "Default priority*";
+            this.defaultSizeLabel.AutoSize = true;
+            this.defaultSizeLabel.Location = new System.Drawing.Point(12, 191);
+            this.defaultSizeLabel.Name = "defaultSizeLabel";
+            this.defaultSizeLabel.Size = new System.Drawing.Size(73, 15);
+            this.defaultSizeLabel.TabIndex = 27;
+            this.defaultSizeLabel.Text = "Default Size*";
             // 
-            // labelDefaultSize
+            // logicalTypeComboBoxControl
             // 
-            this.labelDefaultSize.AutoSize = true;
-            this.labelDefaultSize.Location = new System.Drawing.Point(12, 191);
-            this.labelDefaultSize.Name = "labelDefaultSize";
-            this.labelDefaultSize.Size = new System.Drawing.Size(73, 15);
-            this.labelDefaultSize.TabIndex = 27;
-            this.labelDefaultSize.Text = "Default Size*";
+            this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.White;
+            this.logicalTypeComboBoxControl.CamelName = "logicalDataType";
+            this.logicalTypeComboBoxControl.DataSourceRoutine = null;
+            this.logicalTypeComboBoxControl.DisplayMember = "DisplayMember";
+            this.logicalTypeComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.logicalTypeComboBoxControl.FormattingEnabled = true;
+            this.logicalTypeComboBoxControl.IsReadOnly = false;
+            this.logicalTypeComboBoxControl.IsRequired = false;
+            this.logicalTypeComboBoxControl.Location = new System.Drawing.Point(113, 128);
+            this.logicalTypeComboBoxControl.Name = "logicalTypeComboBoxControl";
+            this.logicalTypeComboBoxControl.Size = new System.Drawing.Size(229, 23);
+            this.logicalTypeComboBoxControl.TabIndex = 5;
+            this.logicalTypeComboBoxControl.ValueMember = "ValueMember";
             // 
-            // numericControlDefaultSize
+            // entityComboBoxControl
             // 
-            this.numericControlDefaultSize.BackColor = System.Drawing.Color.White;
-            this.numericControlDefaultSize.ColumnName = "";
-            this.numericControlDefaultSize.IsReadOnly = false;
-            this.numericControlDefaultSize.IsRequired = false;
-            this.numericControlDefaultSize.JsonName = "";
-            this.numericControlDefaultSize.Location = new System.Drawing.Point(113, 187);
-            this.numericControlDefaultSize.Name = "numericControlDefaultSize";
-            this.numericControlDefaultSize.Size = new System.Drawing.Size(84, 23);
-            this.numericControlDefaultSize.TabIndex = 7;
+            this.entityComboBoxControl.BackColor = System.Drawing.Color.White;
+            this.entityComboBoxControl.CamelName = "entityId";
+            this.entityComboBoxControl.DataSourceRoutine = null;
+            this.entityComboBoxControl.DisplayMember = "Title";
+            this.entityComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.entityComboBoxControl.FormattingEnabled = true;
+            this.entityComboBoxControl.IsReadOnly = false;
+            this.entityComboBoxControl.IsRequired = false;
+            this.entityComboBoxControl.Location = new System.Drawing.Point(113, 12);
+            this.entityComboBoxControl.Name = "entityComboBoxControl";
+            this.entityComboBoxControl.Size = new System.Drawing.Size(229, 23);
+            this.entityComboBoxControl.TabIndex = 1;
+            this.entityComboBoxControl.ValueMember = "Id";
             // 
-            // comboBoxControlLogicalType
+            // defaultPriorityIntControl
             // 
-            this.comboBoxControlLogicalType.BackColor = System.Drawing.Color.White;
-            this.comboBoxControlLogicalType.ColumnName = "";
-            this.comboBoxControlLogicalType.DataSourceRoutine = null;
-            this.comboBoxControlLogicalType.DisplayMember = "DisplayMember";
-            this.comboBoxControlLogicalType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxControlLogicalType.FormattingEnabled = true;
-            this.comboBoxControlLogicalType.IsReadOnly = false;
-            this.comboBoxControlLogicalType.IsRequired = false;
-            this.comboBoxControlLogicalType.JsonName = "";
-            this.comboBoxControlLogicalType.Location = new System.Drawing.Point(113, 128);
-            this.comboBoxControlLogicalType.Name = "comboBoxControlLogicalType";
-            this.comboBoxControlLogicalType.Size = new System.Drawing.Size(229, 23);
-            this.comboBoxControlLogicalType.TabIndex = 5;
-            this.comboBoxControlLogicalType.ValueMember = "ValueMember";
+            this.defaultPriorityIntControl.CamelName = "defaultPriority";
+            this.defaultPriorityIntControl.IsReadOnly = false;
+            this.defaultPriorityIntControl.IsRequired = false;
+            this.defaultPriorityIntControl.Location = new System.Drawing.Point(113, 158);
+            this.defaultPriorityIntControl.Name = "defaultPriorityIntControl";
+            this.defaultPriorityIntControl.Size = new System.Drawing.Size(84, 23);
+            this.defaultPriorityIntControl.TabIndex = 6;
+            this.defaultPriorityIntControl.ZeroAsNull = false;
             // 
-            // comboBoxControlEntity
+            // defaultSizeIntControl
             // 
-            this.comboBoxControlEntity.ColumnName = "";
-            this.comboBoxControlEntity.DataSourceRoutine = null;
-            this.comboBoxControlEntity.DisplayMember = "Title";
-            this.comboBoxControlEntity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxControlEntity.FormattingEnabled = true;
-            this.comboBoxControlEntity.IsReadOnly = false;
-            this.comboBoxControlEntity.IsRequired = false;
-            this.comboBoxControlEntity.JsonName = "";
-            this.comboBoxControlEntity.Location = new System.Drawing.Point(113, 12);
-            this.comboBoxControlEntity.Name = "comboBoxControlEntity";
-            this.comboBoxControlEntity.Size = new System.Drawing.Size(229, 23);
-            this.comboBoxControlEntity.TabIndex = 1;
-            this.comboBoxControlEntity.ValueMember = "Id";
+            this.defaultSizeIntControl.CamelName = "defaultSize";
+            this.defaultSizeIntControl.IsReadOnly = false;
+            this.defaultSizeIntControl.IsRequired = false;
+            this.defaultSizeIntControl.Location = new System.Drawing.Point(113, 187);
+            this.defaultSizeIntControl.Name = "defaultSizeIntControl";
+            this.defaultSizeIntControl.Size = new System.Drawing.Size(84, 23);
+            this.defaultSizeIntControl.TabIndex = 7;
+            this.defaultSizeIntControl.ZeroAsNull = false;
             // 
             // EntityColumnForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 281);
-            this.Controls.Add(this.comboBoxControlEntity);
-            this.Controls.Add(this.comboBoxControlLogicalType);
-            this.Controls.Add(this.numericControlDefaultSize);
-            this.Controls.Add(this.labelDefaultSize);
-            this.Controls.Add(this.labelDefaultPriority);
-            this.Controls.Add(this.numericControlDefaultPriority);
-            this.Controls.Add(this.boolControlIsRequired);
-            this.Controls.Add(this.labelLogicalDataType);
-            this.Controls.Add(this.labelGuiShortName);
-            this.Controls.Add(this.stringControlGuiShortName);
-            this.Controls.Add(this.labelGuiName);
-            this.Controls.Add(this.stringControlGuiName);
-            this.Controls.Add(this.labelSnakeName);
-            this.Controls.Add(this.stringControlSnakeName);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.defaultSizeIntControl);
+            this.Controls.Add(this.defaultPriorityIntControl);
+            this.Controls.Add(this.entityComboBoxControl);
+            this.Controls.Add(this.logicalTypeComboBoxControl);
+            this.Controls.Add(this.defaultSizeLabel);
+            this.Controls.Add(this.defaultPriorityLabel);
+            this.Controls.Add(this.isRequiredBoolControl);
+            this.Controls.Add(this.logicalDataTypeLabel);
+            this.Controls.Add(this.guiShortNameLabel);
+            this.Controls.Add(this.guiShortNameStringControl);
+            this.Controls.Add(this.guiNameLabel);
+            this.Controls.Add(this.guiNameStringControl);
+            this.Controls.Add(this.snakeNameLabel);
+            this.Controls.Add(this.snakeNameStringControl);
+            this.Controls.Add(this.entityLabel);
             this.Name = "EntityColumnForm";
             this.Text = "EntityColumnForm";
             this.Controls.SetChildIndex(this.saveButton, 0);
             this.Controls.SetChildIndex(this.closeButton, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.stringControlSnakeName, 0);
-            this.Controls.SetChildIndex(this.labelSnakeName, 0);
-            this.Controls.SetChildIndex(this.stringControlGuiName, 0);
-            this.Controls.SetChildIndex(this.labelGuiName, 0);
-            this.Controls.SetChildIndex(this.stringControlGuiShortName, 0);
-            this.Controls.SetChildIndex(this.labelGuiShortName, 0);
-            this.Controls.SetChildIndex(this.labelLogicalDataType, 0);
-            this.Controls.SetChildIndex(this.boolControlIsRequired, 0);
-            this.Controls.SetChildIndex(this.numericControlDefaultPriority, 0);
-            this.Controls.SetChildIndex(this.labelDefaultPriority, 0);
-            this.Controls.SetChildIndex(this.labelDefaultSize, 0);
-            this.Controls.SetChildIndex(this.numericControlDefaultSize, 0);
-            this.Controls.SetChildIndex(this.comboBoxControlLogicalType, 0);
-            this.Controls.SetChildIndex(this.comboBoxControlEntity, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.numericControlDefaultPriority)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericControlDefaultSize)).EndInit();
+            this.Controls.SetChildIndex(this.entityLabel, 0);
+            this.Controls.SetChildIndex(this.snakeNameStringControl, 0);
+            this.Controls.SetChildIndex(this.snakeNameLabel, 0);
+            this.Controls.SetChildIndex(this.guiNameStringControl, 0);
+            this.Controls.SetChildIndex(this.guiNameLabel, 0);
+            this.Controls.SetChildIndex(this.guiShortNameStringControl, 0);
+            this.Controls.SetChildIndex(this.guiShortNameLabel, 0);
+            this.Controls.SetChildIndex(this.logicalDataTypeLabel, 0);
+            this.Controls.SetChildIndex(this.isRequiredBoolControl, 0);
+            this.Controls.SetChildIndex(this.defaultPriorityLabel, 0);
+            this.Controls.SetChildIndex(this.defaultSizeLabel, 0);
+            this.Controls.SetChildIndex(this.logicalTypeComboBoxControl, 0);
+            this.Controls.SetChildIndex(this.entityComboBoxControl, 0);
+            this.Controls.SetChildIndex(this.defaultPriorityIntControl, 0);
+            this.Controls.SetChildIndex(this.defaultSizeIntControl, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.defaultPriorityIntControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defaultSizeIntControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private Label label1;
-        private Lib.GuiCommander.Controls.StringControl stringControlSnakeName;
-        private Label labelSnakeName;
-        private Lib.GuiCommander.Controls.StringControl stringControlGuiName;
-        private Label labelGuiName;
-        private Lib.GuiCommander.Controls.StringControl stringControlGuiShortName;
-        private Label labelGuiShortName;
-        private Label labelLogicalDataType;
-        private Lib.GuiCommander.BoolControl boolControlIsRequired;
-        private Lib.GuiCommander.Controls.NumericControl numericControlDefaultPriority;
-        private Label labelDefaultPriority;
-        private Label labelDefaultSize;
-        private Lib.GuiCommander.Controls.NumericControl numericControlDefaultSize;
-        private Lib.GuiCommander.Controls.ComboBoxControl comboBoxControlLogicalType;
-        private Lib.GuiCommander.Controls.ComboBoxControl comboBoxControlEntity;
+        private Label entityLabel;
+        private Lib.GuiCommander.Controls.StringControl snakeNameStringControl;
+        private Label snakeNameLabel;
+        private Lib.GuiCommander.Controls.StringControl guiNameStringControl;
+        private Label guiNameLabel;
+        private Lib.GuiCommander.Controls.StringControl guiShortNameStringControl;
+        private Label guiShortNameLabel;
+        private Label logicalDataTypeLabel;
+        private Lib.GuiCommander.BoolControl isRequiredBoolControl;
+        private Label defaultPriorityLabel;
+        private Label defaultSizeLabel;
+        private Lib.GuiCommander.Controls.ComboBoxControl logicalTypeComboBoxControl;
+        private Lib.GuiCommander.Controls.ComboBoxControl entityComboBoxControl;
+        private Lib.GuiCommander.Controls.IntControl defaultPriorityIntControl;
+        private Lib.GuiCommander.Controls.IntControl defaultSizeIntControl;
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace Gui.Desktop
 {
-    public class EntityColumnDto : BaseColumnDao
+    public class EntityColumnDto : BaseViewColumnDao
     {
-        public int EntityId { get; set; }
+        public int? EntityId { get; set; }
+        public string? SnakeName { get; set; }
     }
 }
