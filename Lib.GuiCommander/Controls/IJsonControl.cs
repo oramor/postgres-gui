@@ -7,7 +7,7 @@
     /// </summary>
     public interface IJsonControl<T>
     {
-        string CamelName { get; set; }
+        string? CamelName { get; set; }
         T CurrentValue { get; }
     }
 }

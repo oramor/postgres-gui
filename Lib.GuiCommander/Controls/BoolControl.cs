@@ -6,9 +6,8 @@ namespace Lib.GuiCommander
     public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool>
     {
         bool _isRequired;
-        string _camelName;
         bool _readOnly;
-        EntityObject _entityObject;
+        EntityObject? _entityObject;
 
         public BoolControl()
         {
@@ -27,11 +26,7 @@ namespace Lib.GuiCommander
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string CamelName
-        {
-            get => _camelName;
-            set => _camelName = value;
-        }
+        public string? CamelName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -52,9 +47,9 @@ namespace Lib.GuiCommander
         {
             this._entityObject = entityObject;
 
-            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
+            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
             {
-                this.Checked = _entityObject[_camelName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[_camelName]);
+                this.Checked = _entityObject[CamelName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[CamelName]);
             }
 
             this.CheckedChanged += new EventHandler(BoolControl_CheckedChanged);
@@ -70,13 +65,13 @@ namespace Lib.GuiCommander
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
+            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
             {
-                bool oldValue = _entityObject[_camelName] == DBNull.Value
+                bool oldValue = _entityObject[CamelName] == DBNull.Value
                     ? false
-                    : Convert.ToBoolean(_entityObject[_camelName]);
+                    : Convert.ToBoolean(_entityObject[CamelName]);
 
-                _entityObject[_camelName] = Checked;
+                _entityObject[CamelName] = Checked;
 
                 if (oldValue != Checked) OnStateChanged(this, EventArgs.Empty);
             }

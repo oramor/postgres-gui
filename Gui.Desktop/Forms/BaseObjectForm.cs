@@ -5,6 +5,7 @@ namespace Gui.Desktop.Forms
 {
     public partial class BaseObjectForm : Form
     {
+        object _dto;
         string _objName;
         int _objId;
 
@@ -43,40 +44,38 @@ namespace Gui.Desktop.Forms
 
         protected object? Grab(Control parentControl, object dto)
         {
+            _dto = dto;
+
             foreach (var control in parentControl.Controls)
             {
-                var jc = control as IJsonControl<int?>;
-                if (jc != null && dto != null)
+                switch (control)
                 {
-                    var dtoType = dto.GetType();
-                    var propName = UpFirst(jc!.CamelName);
-                    PropertyInfo? dtoProp = dtoType.GetProperty(propName!);
-
-                    var controlPropType = jc.GetType()?.GetProperty("CurrentValue")?.PropertyType;
-                    var dtoPropType = dtoProp?.PropertyType;
-
-                    if (controlPropType == dtoPropType)
-                    {
-                        MessageBox.Show("Ok");
-                    }
-
-                    dtoProp?.SetValue(dto, jc.CurrentValue);
+                    case IJsonControl<int?> jc: SetValueToDto<int?>(jc); break;
+                    case IJsonControl<int> jc: SetValueToDto<int>(jc); break;
+                    case IJsonControl<string> jc: SetValueToDto<string>(jc); break;
+                    case IJsonControl<bool> jc: SetValueToDto<bool>(jc); break;
+                    default: break;
                 }
             }
 
-            return dto;
+            return _dto;
         }
 
-        static string? UpFirst(string str)
+        private void SetValueToDto<T>(IJsonControl<T> jc)
         {
-            if (str == null) return null;
+            var dtoType = _dto.GetType();
+            var jcPascalName = jc.CamelName?.UpFirstChar();
 
-            if (str.Length == 0)
+            if (string.IsNullOrEmpty(jcPascalName)) return;
+
+            PropertyInfo? dtoProp = dtoType.GetProperty(jcPascalName);
+
+            if (dtoProp == null) return;
+
+            if (dtoProp.PropertyType == typeof(T))
             {
-                return string.Empty;
+                dtoProp.SetValue(_dto, jc.CurrentValue);
             }
-
-            return char.ToUpper(str[0]) + str[1..];
         }
     }
 }
