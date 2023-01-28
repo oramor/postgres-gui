@@ -7,7 +7,7 @@
     <Compile Update="Forms\ConnectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\EntityColumnForm.cs">
+    <Compile Update="Forms\DbTableColumnCustom.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\EntityForm.cs">

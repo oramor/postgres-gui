@@ -33,8 +33,9 @@
             // ComboBoxControl
             // 
             this.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            this.SelectedIndexChanged += new System.EventHandler(this.C_SelectedIndexChanged);
             this.ResumeLayout(false);
+
         }
 
         #endregion

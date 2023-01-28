@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop.Forms
 {
-    partial class EntityColumnForm
+    partial class DbTableColumnCustom
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.entityLabel = new System.Windows.Forms.Label();
+            this.dbTableLabel = new System.Windows.Forms.Label();
             this.snakeNameStringControl = new Lib.GuiCommander.Controls.StringControl();
             this.snakeNameLabel = new System.Windows.Forms.Label();
             this.guiNameStringControl = new Lib.GuiCommander.Controls.StringControl();
@@ -40,7 +40,7 @@
             this.defaultPriorityLabel = new System.Windows.Forms.Label();
             this.defaultSizeLabel = new System.Windows.Forms.Label();
             this.logicalTypeComboBoxControl = new Lib.GuiCommander.Controls.ComboBoxControl();
-            this.entityComboBoxControl = new Lib.GuiCommander.Controls.ComboBoxControl();
+            this.dbTableComboBoxControl = new Lib.GuiCommander.Controls.ComboBoxControl();
             this.defaultPriorityIntControl = new Lib.GuiCommander.Controls.IntControl();
             this.defaultSizeIntControl = new Lib.GuiCommander.Controls.IntControl();
             ((System.ComponentModel.ISupportInitialize)(this.defaultPriorityIntControl)).BeginInit();
@@ -50,20 +50,22 @@
             // saveButton
             // 
             this.saveButton.Location = new System.Drawing.Point(267, 246);
+            this.saveButton.TabIndex = 9;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // closeButton
             // 
             this.closeButton.Location = new System.Drawing.Point(186, 246);
+            this.closeButton.TabIndex = 10;
             // 
-            // entityLabel
+            // dbTableLabel
             // 
-            this.entityLabel.AutoSize = true;
-            this.entityLabel.Location = new System.Drawing.Point(12, 15);
-            this.entityLabel.Name = "entityLabel";
-            this.entityLabel.Size = new System.Drawing.Size(42, 15);
-            this.entityLabel.TabIndex = 20;
-            this.entityLabel.Text = "Entity*";
+            this.dbTableLabel.AutoSize = true;
+            this.dbTableLabel.Location = new System.Drawing.Point(12, 15);
+            this.dbTableLabel.Name = "dbTableLabel";
+            this.dbTableLabel.Size = new System.Drawing.Size(57, 15);
+            this.dbTableLabel.TabIndex = 20;
+            this.dbTableLabel.Text = "DB Table*";
             // 
             // snakeNameStringControl
             // 
@@ -147,7 +149,7 @@
             this.isRequiredBoolControl.Location = new System.Drawing.Point(113, 216);
             this.isRequiredBoolControl.Name = "isRequiredBoolControl";
             this.isRequiredBoolControl.Size = new System.Drawing.Size(84, 19);
-            this.isRequiredBoolControl.TabIndex = 6;
+            this.isRequiredBoolControl.TabIndex = 8;
             this.isRequiredBoolControl.Text = "Is Required";
             this.isRequiredBoolControl.UseVisualStyleBackColor = true;
             // 
@@ -172,7 +174,7 @@
             // logicalTypeComboBoxControl
             // 
             this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.White;
-            this.logicalTypeComboBoxControl.CamelName = "logicalDataType";
+            this.logicalTypeComboBoxControl.CamelName = "logicalDataTypeId";
             this.logicalTypeComboBoxControl.DataSourceRoutine = null;
             this.logicalTypeComboBoxControl.DisplayMember = "DisplayMember";
             this.logicalTypeComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -185,24 +187,25 @@
             this.logicalTypeComboBoxControl.TabIndex = 5;
             this.logicalTypeComboBoxControl.ValueMember = "ValueMember";
             // 
-            // entityComboBoxControl
+            // dbTableComboBoxControl
             // 
-            this.entityComboBoxControl.BackColor = System.Drawing.Color.White;
-            this.entityComboBoxControl.CamelName = "entityId";
-            this.entityComboBoxControl.DataSourceRoutine = null;
-            this.entityComboBoxControl.DisplayMember = "Title";
-            this.entityComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.entityComboBoxControl.FormattingEnabled = true;
-            this.entityComboBoxControl.IsReadOnly = false;
-            this.entityComboBoxControl.IsRequired = false;
-            this.entityComboBoxControl.Location = new System.Drawing.Point(113, 12);
-            this.entityComboBoxControl.Name = "entityComboBoxControl";
-            this.entityComboBoxControl.Size = new System.Drawing.Size(229, 23);
-            this.entityComboBoxControl.TabIndex = 1;
-            this.entityComboBoxControl.ValueMember = "Id";
+            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.White;
+            this.dbTableComboBoxControl.CamelName = "dbTableId";
+            this.dbTableComboBoxControl.DataSourceRoutine = null;
+            this.dbTableComboBoxControl.DisplayMember = "Title";
+            this.dbTableComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dbTableComboBoxControl.FormattingEnabled = true;
+            this.dbTableComboBoxControl.IsReadOnly = false;
+            this.dbTableComboBoxControl.IsRequired = false;
+            this.dbTableComboBoxControl.Location = new System.Drawing.Point(113, 12);
+            this.dbTableComboBoxControl.Name = "dbTableComboBoxControl";
+            this.dbTableComboBoxControl.Size = new System.Drawing.Size(229, 23);
+            this.dbTableComboBoxControl.TabIndex = 1;
+            this.dbTableComboBoxControl.ValueMember = "Id";
             // 
             // defaultPriorityIntControl
             // 
+            this.defaultPriorityIntControl.BackColor = System.Drawing.Color.White;
             this.defaultPriorityIntControl.CamelName = "defaultPriority";
             this.defaultPriorityIntControl.IsReadOnly = false;
             this.defaultPriorityIntControl.IsRequired = false;
@@ -214,6 +217,7 @@
             // 
             // defaultSizeIntControl
             // 
+            this.defaultSizeIntControl.BackColor = System.Drawing.Color.White;
             this.defaultSizeIntControl.CamelName = "defaultSize";
             this.defaultSizeIntControl.IsReadOnly = false;
             this.defaultSizeIntControl.IsRequired = false;
@@ -223,14 +227,14 @@
             this.defaultSizeIntControl.TabIndex = 7;
             this.defaultSizeIntControl.ZeroAsNull = false;
             // 
-            // EntityColumnForm
+            // DbTableColumnCustom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 281);
             this.Controls.Add(this.defaultSizeIntControl);
             this.Controls.Add(this.defaultPriorityIntControl);
-            this.Controls.Add(this.entityComboBoxControl);
+            this.Controls.Add(this.dbTableComboBoxControl);
             this.Controls.Add(this.logicalTypeComboBoxControl);
             this.Controls.Add(this.defaultSizeLabel);
             this.Controls.Add(this.defaultPriorityLabel);
@@ -242,12 +246,12 @@
             this.Controls.Add(this.guiNameStringControl);
             this.Controls.Add(this.snakeNameLabel);
             this.Controls.Add(this.snakeNameStringControl);
-            this.Controls.Add(this.entityLabel);
-            this.Name = "EntityColumnForm";
+            this.Controls.Add(this.dbTableLabel);
+            this.Name = "DbTableColumnCustom";
             this.Text = "EntityColumnForm";
             this.Controls.SetChildIndex(this.saveButton, 0);
             this.Controls.SetChildIndex(this.closeButton, 0);
-            this.Controls.SetChildIndex(this.entityLabel, 0);
+            this.Controls.SetChildIndex(this.dbTableLabel, 0);
             this.Controls.SetChildIndex(this.snakeNameStringControl, 0);
             this.Controls.SetChildIndex(this.snakeNameLabel, 0);
             this.Controls.SetChildIndex(this.guiNameStringControl, 0);
@@ -259,7 +263,7 @@
             this.Controls.SetChildIndex(this.defaultPriorityLabel, 0);
             this.Controls.SetChildIndex(this.defaultSizeLabel, 0);
             this.Controls.SetChildIndex(this.logicalTypeComboBoxControl, 0);
-            this.Controls.SetChildIndex(this.entityComboBoxControl, 0);
+            this.Controls.SetChildIndex(this.dbTableComboBoxControl, 0);
             this.Controls.SetChildIndex(this.defaultPriorityIntControl, 0);
             this.Controls.SetChildIndex(this.defaultSizeIntControl, 0);
             ((System.ComponentModel.ISupportInitialize)(this.defaultPriorityIntControl)).EndInit();
@@ -270,7 +274,7 @@
         }
 
         #endregion
-        private Label entityLabel;
+        private Label dbTableLabel;
         private Lib.GuiCommander.Controls.StringControl snakeNameStringControl;
         private Label snakeNameLabel;
         private Lib.GuiCommander.Controls.StringControl guiNameStringControl;
@@ -282,7 +286,7 @@
         private Label defaultPriorityLabel;
         private Label defaultSizeLabel;
         private Lib.GuiCommander.Controls.ComboBoxControl logicalTypeComboBoxControl;
-        private Lib.GuiCommander.Controls.ComboBoxControl entityComboBoxControl;
+        private Lib.GuiCommander.Controls.ComboBoxControl dbTableComboBoxControl;
         private Lib.GuiCommander.Controls.IntControl defaultPriorityIntControl;
         private Lib.GuiCommander.Controls.IntControl defaultSizeIntControl;
     }

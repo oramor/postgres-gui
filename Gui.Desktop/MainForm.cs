@@ -74,7 +74,7 @@ namespace Gui.Desktop
 
         private void newEntityColumnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new EntityColumnForm(0));
+            App.ShowModalForm(new DbTableColumnCustom(0));
         }
     }
 }

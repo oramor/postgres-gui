@@ -1,23 +1,27 @@
 ﻿using Lib.GuiCommander;
+using Lib.Providers;
 using System.Reflection;
 
 namespace Gui.Desktop.Forms
 {
     public partial class BaseObjectForm : Form
     {
-        object _dto;
-        string _objName;
-        int _objId;
+        readonly object _dto;
+        readonly string _guiName;
+        readonly string _token;
+        readonly int? _objId;
 
         protected BaseObjectForm()
         {
             InitializeComponent();
         }
 
-        public BaseObjectForm(string objName, int objId)
+        public BaseObjectForm(object dto, string guiName, string token, int objId)
         {
             InitializeComponent();
-            _objName = objName;
+            _dto = dto;
+            _guiName = guiName;
+            _token = token;
             _objId = objId;
         }
 
@@ -33,8 +37,8 @@ namespace Gui.Desktop.Forms
         void SetTitle()
         {
             this.Text = _objId == 0
-                ? "Create " + _objName
-                : _objName + " # " + _objId.ToString();
+                ? "Create " + _guiName
+                : _guiName + " # " + _objId.ToString();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -42,26 +46,22 @@ namespace Gui.Desktop.Forms
             this.Close();
         }
 
-        protected object? Grab(Control parentControl, object dto)
+        protected void Grab(Control parentControl)
         {
-            _dto = dto;
-
             foreach (var control in parentControl.Controls)
             {
                 switch (control)
                 {
-                    case IJsonControl<int?> jc: SetValueToDto<int?>(jc); break;
-                    case IJsonControl<int> jc: SetValueToDto<int>(jc); break;
-                    case IJsonControl<string> jc: SetValueToDto<string>(jc); break;
-                    case IJsonControl<bool> jc: SetValueToDto<bool>(jc); break;
+                    case IJsonControl<int?> jc: AddValueToDto<int?>(jc); break;
+                    case IJsonControl<int> jc: AddValueToDto<int>(jc); break;
+                    case IJsonControl<string> jc: AddValueToDto<string>(jc); break;
+                    case IJsonControl<bool> jc: AddValueToDto<bool>(jc); break;
                     default: break;
                 }
             }
-
-            return _dto;
         }
 
-        private void SetValueToDto<T>(IJsonControl<T> jc)
+        private void AddValueToDto<T>(IJsonControl<T> jc)
         {
             var dtoType = _dto.GetType();
             var jcPascalName = jc.CamelName?.UpFirstChar();
@@ -76,6 +76,46 @@ namespace Gui.Desktop.Forms
             {
                 dtoProp.SetValue(_dto, jc.CurrentValue);
             }
+        }
+
+        protected void CreateObject()
+        {
+            Grab(this);
+
+            var procName = "pr_" + _token + "_create_n";
+
+            var cmd = new ApiCommand("api_admin", procName);
+            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
+            cmd.AddParam(new ApiParameter("p_obj", _dto));
+            var result = App.CallApiCommand<int>(cmd);
+
+            App.Logger.GuiReport($"Created {_guiName} with id {result}");
+
+            Close();
+        }
+
+        protected void SaveObject()
+        {
+            if (_objId == null || _objId == 0)
+                return;
+
+            var procName = "pr_" + _token + "_update_";
+        }
+
+        protected void RemoveObject()
+        {
+            if (_objId == null || _objId == 0)
+                return;
+
+            var procName = "pr_" + _token + "_remove_";
+
+            var cmd = new ApiCommand("api_admin", procName);
+            cmd.AddParam(new ApiParameter("p_id", _objId));
+            var result = App.CallApiCommand<int>(cmd);
+
+            App.Logger.GuiReport($"{_guiName} with id {result} REMOVED");
+
+            Close();
         }
     }
 }

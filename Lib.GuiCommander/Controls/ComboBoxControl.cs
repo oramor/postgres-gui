@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Data;
-using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander.Controls
 {
@@ -75,8 +74,13 @@ namespace Lib.GuiCommander.Controls
         public int? CurrentValue
         {
             get {
-                if (IsEmpty) return null;
-                return SelectedIndex;
+                if (IsEmpty)
+                    return null;
+
+                if (SelectedValue is int v)
+                    return v;
+
+                return null;
             }
         }
 
@@ -130,6 +134,7 @@ namespace Lib.GuiCommander.Controls
             }
 
             DataSource = dt;
+            Resetvalue();
         }
 
         public event ControlChangedEventHandler ControlChanged;
@@ -159,13 +164,26 @@ namespace Lib.GuiCommander.Controls
         //    }
         //}
 
-        private void GuiObjectComboBoxControl_KeyDown(object sender, KeyEventArgs e)
+        private void Resetvalue()
+        {
+            SelectedIndex = -1;
+        }
+
+        #region Events
+
+        private void C_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void C_KeyDown(object sender, KeyEventArgs e)
         {
             if (_isReadOnly)
                 return;
 
             if (e.KeyData == Keys.Delete)
-                SelectedIndex = -1;
+                Resetvalue();
         }
+
+        #endregion
     }
 }

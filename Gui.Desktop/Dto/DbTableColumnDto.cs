@@ -3,6 +3,7 @@
     public class DbTableColumnDto
     {
         public int? Id { get; set; }
+        public int? DbTableId { get; set; }
         public string? SnakeName { get; set; }
         public string? CamelName { get; set; }
         public string? DefaultGuiName { get; set; }
