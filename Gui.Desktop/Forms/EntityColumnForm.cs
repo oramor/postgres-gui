@@ -4,7 +4,7 @@ namespace Gui.Desktop.Forms
 {
     public partial class EntityColumnForm : BaseObjectForm
     {
-        EntityColumnDto _dto = new();
+        DbTableColumnDto _dto = new();
 
         protected EntityColumnForm() : base()
         {
@@ -50,7 +50,7 @@ namespace Gui.Desktop.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            var newDto = Grab(this, _dto) as EntityColumnDto;
+            var newDto = Grab(this, _dto) as DbTableColumnDto;
             if (newDto != null)
             {
                 var cmd = ApiAdmin.CreateEntityColumn(newDto);

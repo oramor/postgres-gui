@@ -47,9 +47,9 @@ namespace Gui.Desktop
 
         #region EntityColumn
 
-        public static ApiCommand CreateEntityColumn(EntityColumnDto dao)
+        public static ApiCommand CreateEntityColumn(DbTableColumnDto dao)
         {
-            var cmd = new ApiCommand(_schemaName, "pr_create_entity_column_n");
+            var cmd = new ApiCommand(_schemaName, "pr_create_db_column_n");
             cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
             cmd.AddParam(new ApiParameter("p_obj", dao));
             return cmd;
