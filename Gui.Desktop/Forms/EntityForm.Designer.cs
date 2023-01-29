@@ -107,7 +107,6 @@ namespace Gui.Desktop.Forms
             // 
             this.checkBoxIsDocument.AutoSize = true;
             this.checkBoxIsDocument.CamelName = null;
-            this.checkBoxIsDocument.Id = -1;
             this.checkBoxIsDocument.IsReadOnly = false;
             this.checkBoxIsDocument.IsRequired = false;
             this.checkBoxIsDocument.Location = new System.Drawing.Point(109, 121);

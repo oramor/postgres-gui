@@ -49,12 +49,12 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(267, 246);
+            this.saveButton.Location = new System.Drawing.Point(322, 246);
             this.saveButton.TabIndex = 9;
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(186, 246);
+            this.closeButton.Location = new System.Drawing.Point(241, 246);
             this.closeButton.TabIndex = 10;
             // 
             // dbTableLabel
@@ -68,14 +68,15 @@
             // 
             // snakeNameStringControl
             // 
-            this.snakeNameStringControl.BackColor = System.Drawing.Color.White;
+            this.snakeNameStringControl.BackColor = System.Drawing.Color.LightBlue;
             this.snakeNameStringControl.CamelName = "snakeName";
+            this.snakeNameStringControl.CurrentValue = "";
             this.snakeNameStringControl.IsReadOnly = false;
-            this.snakeNameStringControl.IsRequired = false;
+            this.snakeNameStringControl.IsRequired = true;
             this.snakeNameStringControl.Length = 32767;
             this.snakeNameStringControl.Location = new System.Drawing.Point(113, 41);
             this.snakeNameStringControl.Name = "snakeNameStringControl";
-            this.snakeNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.snakeNameStringControl.Size = new System.Drawing.Size(284, 23);
             this.snakeNameStringControl.TabIndex = 2;
             // 
             // snakeNameLabel
@@ -89,14 +90,15 @@
             // 
             // guiNameStringControl
             // 
-            this.guiNameStringControl.BackColor = System.Drawing.Color.White;
+            this.guiNameStringControl.BackColor = System.Drawing.Color.LightBlue;
             this.guiNameStringControl.CamelName = "defaultGuiName";
+            this.guiNameStringControl.CurrentValue = "";
             this.guiNameStringControl.IsReadOnly = false;
-            this.guiNameStringControl.IsRequired = false;
+            this.guiNameStringControl.IsRequired = true;
             this.guiNameStringControl.Length = 32767;
             this.guiNameStringControl.Location = new System.Drawing.Point(113, 70);
             this.guiNameStringControl.Name = "guiNameStringControl";
-            this.guiNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.guiNameStringControl.Size = new System.Drawing.Size(284, 23);
             this.guiNameStringControl.TabIndex = 3;
             // 
             // guiNameLabel
@@ -110,14 +112,15 @@
             // 
             // guiShortNameStringControl
             // 
-            this.guiShortNameStringControl.BackColor = System.Drawing.Color.White;
+            this.guiShortNameStringControl.BackColor = System.Drawing.Color.LightBlue;
             this.guiShortNameStringControl.CamelName = "defaultGuiShortName";
+            this.guiShortNameStringControl.CurrentValue = "";
             this.guiShortNameStringControl.IsReadOnly = false;
-            this.guiShortNameStringControl.IsRequired = false;
+            this.guiShortNameStringControl.IsRequired = true;
             this.guiShortNameStringControl.Length = 32767;
             this.guiShortNameStringControl.Location = new System.Drawing.Point(113, 99);
             this.guiShortNameStringControl.Name = "guiShortNameStringControl";
-            this.guiShortNameStringControl.Size = new System.Drawing.Size(229, 23);
+            this.guiShortNameStringControl.Size = new System.Drawing.Size(284, 23);
             this.guiShortNameStringControl.TabIndex = 4;
             // 
             // guiShortNameLabel
@@ -142,7 +145,7 @@
             // 
             this.isRequiredBoolControl.AutoSize = true;
             this.isRequiredBoolControl.CamelName = "isRequired";
-            this.isRequiredBoolControl.Id = -1;
+            this.isRequiredBoolControl.CurrentValue = false;
             this.isRequiredBoolControl.IsReadOnly = false;
             this.isRequiredBoolControl.IsRequired = false;
             this.isRequiredBoolControl.Location = new System.Drawing.Point(113, 216);
@@ -172,7 +175,7 @@
             // 
             // logicalTypeComboBoxControl
             // 
-            this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.White;
+            this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
             this.logicalTypeComboBoxControl.CamelName = "logicalDataTypeId";
             this.logicalTypeComboBoxControl.CurrentValue = null;
             this.logicalTypeComboBoxControl.DataSourceRoutine = null;
@@ -180,16 +183,16 @@
             this.logicalTypeComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.logicalTypeComboBoxControl.FormattingEnabled = true;
             this.logicalTypeComboBoxControl.IsReadOnly = false;
-            this.logicalTypeComboBoxControl.IsRequired = false;
+            this.logicalTypeComboBoxControl.IsRequired = true;
             this.logicalTypeComboBoxControl.Location = new System.Drawing.Point(113, 128);
             this.logicalTypeComboBoxControl.Name = "logicalTypeComboBoxControl";
-            this.logicalTypeComboBoxControl.Size = new System.Drawing.Size(229, 23);
+            this.logicalTypeComboBoxControl.Size = new System.Drawing.Size(284, 23);
             this.logicalTypeComboBoxControl.TabIndex = 5;
             this.logicalTypeComboBoxControl.ValueMember = "ValueMember";
             // 
             // dbTableComboBoxControl
             // 
-            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.White;
+            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
             this.dbTableComboBoxControl.CamelName = "dbTableId";
             this.dbTableComboBoxControl.CurrentValue = null;
             this.dbTableComboBoxControl.DataSourceRoutine = null;
@@ -197,10 +200,10 @@
             this.dbTableComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.dbTableComboBoxControl.FormattingEnabled = true;
             this.dbTableComboBoxControl.IsReadOnly = false;
-            this.dbTableComboBoxControl.IsRequired = false;
+            this.dbTableComboBoxControl.IsRequired = true;
             this.dbTableComboBoxControl.Location = new System.Drawing.Point(113, 12);
             this.dbTableComboBoxControl.Name = "dbTableComboBoxControl";
-            this.dbTableComboBoxControl.Size = new System.Drawing.Size(229, 23);
+            this.dbTableComboBoxControl.Size = new System.Drawing.Size(284, 23);
             this.dbTableComboBoxControl.TabIndex = 1;
             this.dbTableComboBoxControl.ValueMember = "Id";
             // 
@@ -208,6 +211,7 @@
             // 
             this.defaultPriorityIntControl.BackColor = System.Drawing.Color.White;
             this.defaultPriorityIntControl.CamelName = "defaultPriority";
+            this.defaultPriorityIntControl.CurrentValue = 0;
             this.defaultPriorityIntControl.IsReadOnly = false;
             this.defaultPriorityIntControl.IsRequired = false;
             this.defaultPriorityIntControl.Location = new System.Drawing.Point(113, 158);
@@ -220,6 +224,7 @@
             // 
             this.defaultSizeIntControl.BackColor = System.Drawing.Color.White;
             this.defaultSizeIntControl.CamelName = "defaultSize";
+            this.defaultSizeIntControl.CurrentValue = 0;
             this.defaultSizeIntControl.IsReadOnly = false;
             this.defaultSizeIntControl.IsRequired = false;
             this.defaultSizeIntControl.Location = new System.Drawing.Point(113, 187);
@@ -232,7 +237,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 281);
+            this.ClientSize = new System.Drawing.Size(409, 281);
             this.Controls.Add(this.defaultSizeIntControl);
             this.Controls.Add(this.defaultPriorityIntControl);
             this.Controls.Add(this.dbTableComboBoxControl);

@@ -6,7 +6,6 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        decimal _prevValue;
         EntityObject? _entityObject;
 
         public IntControl()

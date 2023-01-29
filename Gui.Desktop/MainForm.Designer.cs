@@ -34,6 +34,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newDbTableColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTablePartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDTOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLastCommandReport = new System.Windows.Forms.ToolStripStatusLabel();
-            this.newEntityColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newDbTableColumnFkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -93,7 +94,8 @@
             // 
             this.createToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newEntityToolStripMenuItem,
-            this.newEntityColumnToolStripMenuItem,
+            this.newDbTableColumnToolStripMenuItem,
+            this.newDbTableColumnFkToolStripMenuItem,
             this.newTablePartToolStripMenuItem,
             this.newDTOToolStripMenuItem});
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
@@ -103,20 +105,27 @@
             // newEntityToolStripMenuItem
             // 
             this.newEntityToolStripMenuItem.Name = "newEntityToolStripMenuItem";
-            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newEntityToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.newEntityToolStripMenuItem.Text = "New Entity...";
             this.newEntityToolStripMenuItem.Click += new System.EventHandler(this.newEntityToolStripMenuItem_Click);
+            // 
+            // newDbTableColumnToolStripMenuItem
+            // 
+            this.newDbTableColumnToolStripMenuItem.Name = "newDbTableColumnToolStripMenuItem";
+            this.newDbTableColumnToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.newDbTableColumnToolStripMenuItem.Text = "New DB Table Column...";
+            this.newDbTableColumnToolStripMenuItem.Click += new System.EventHandler(this.newEntityColumnToolStripMenuItem_Click);
             // 
             // newTablePartToolStripMenuItem
             // 
             this.newTablePartToolStripMenuItem.Name = "newTablePartToolStripMenuItem";
-            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newTablePartToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.newTablePartToolStripMenuItem.Text = "New Table Part....";
             // 
             // newDTOToolStripMenuItem
             // 
             this.newDTOToolStripMenuItem.Name = "newDTOToolStripMenuItem";
-            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newDTOToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.newDTOToolStripMenuItem.Text = "New DTO";
             // 
             // listsToolStripMenuItem
@@ -192,12 +201,12 @@
             this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
             this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
-            // newEntityColumnToolStripMenuItem
+            // newDbTableColumnFkToolStripMenuItem
             // 
-            this.newEntityColumnToolStripMenuItem.Name = "newEntityColumnToolStripMenuItem";
-            this.newEntityColumnToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.newEntityColumnToolStripMenuItem.Text = "New Entity Column...";
-            this.newEntityColumnToolStripMenuItem.Click += new System.EventHandler(this.newEntityColumnToolStripMenuItem_Click);
+            this.newDbTableColumnFkToolStripMenuItem.Name = "newDbTableColumnFkToolStripMenuItem";
+            this.newDbTableColumnFkToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.newDbTableColumnFkToolStripMenuItem.Text = "New DB Table Column (FK)...";
+            this.newDbTableColumnFkToolStripMenuItem.Click += new System.EventHandler(this.newDbTableColumnFkToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -240,6 +249,7 @@
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripStatusLabel toolStripStatusLastCommandReport;
-        private ToolStripMenuItem newEntityColumnToolStripMenuItem;
+        private ToolStripMenuItem newDbTableColumnToolStripMenuItem;
+        private ToolStripMenuItem newDbTableColumnFkToolStripMenuItem;
     }
 }
