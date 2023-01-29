@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // BoolControl
+            // 
+            this.CheckedChanged += new System.EventHandler(this.BoolControl_CheckedChanged);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

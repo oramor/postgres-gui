@@ -10,7 +10,7 @@ namespace Gui.Desktop.Forms
         }
 
         public DbTableColumnCustom(int objId)
-            : base(new DbTableColumnDto(), "Table column", "db_table_column", objId)
+            : base(new DbTableColumnDto { FormType = DbTableColumnFormType.Custom }, "Table column", "db_table_column", objId)
         {
             InitializeComponent();
             Init();
@@ -35,11 +35,6 @@ namespace Gui.Desktop.Forms
             var cmd = ApiAdmin.GetDbTableList();
             var dt = App.CallApiCommand<DataTable>(cmd);
             dbTableComboBoxControl.Bind(dt);
-        }
-
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            CreateObject();
         }
     }
 }

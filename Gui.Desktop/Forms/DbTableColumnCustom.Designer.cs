@@ -51,7 +51,6 @@
             // 
             this.saveButton.Location = new System.Drawing.Point(267, 246);
             this.saveButton.TabIndex = 9;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // closeButton
             // 
@@ -175,6 +174,7 @@
             // 
             this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.White;
             this.logicalTypeComboBoxControl.CamelName = "logicalDataTypeId";
+            this.logicalTypeComboBoxControl.CurrentValue = null;
             this.logicalTypeComboBoxControl.DataSourceRoutine = null;
             this.logicalTypeComboBoxControl.DisplayMember = "DisplayMember";
             this.logicalTypeComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -191,6 +191,7 @@
             // 
             this.dbTableComboBoxControl.BackColor = System.Drawing.Color.White;
             this.dbTableComboBoxControl.CamelName = "dbTableId";
+            this.dbTableComboBoxControl.CurrentValue = null;
             this.dbTableComboBoxControl.DataSourceRoutine = null;
             this.dbTableComboBoxControl.DisplayMember = "Title";
             this.dbTableComboBoxControl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;

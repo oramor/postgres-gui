@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
-using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool>
+    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>
     {
         bool _isRequired;
         bool _readOnly;
@@ -35,13 +34,17 @@ namespace Lib.GuiCommander
             set { _readOnly = value; base.Enabled = !_readOnly; }
         }
 
-        public int Id
+        public bool? CurrentValue
         {
-            get { return -1; }
-            set { }
-        }
+            get => Checked;
+            set {
+                // Do not change state if null value has been recived
+                if (value == null || Checked == value)
+                    return;
 
-        public bool CurrentValue => Checked;
+                Checked = value ?? Checked;
+            }
+        }
 
         public void Bind(EntityObject entityObject)
         {
@@ -51,14 +54,12 @@ namespace Lib.GuiCommander
             {
                 this.Checked = _entityObject[CamelName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[CamelName]);
             }
-
-            this.CheckedChanged += new EventHandler(BoolControl_CheckedChanged);
         }
 
-        public event ControlChangedEventHandler ControlChanged;
-        protected void OnStateChanged(object sender, EventArgs e)
+        public event ControlValueChangedEventHandler? ControlValueChanged;
+        protected void OnControlValueChanged(object sender, EventArgs e)
         {
-            ControlChanged?.Invoke(sender, e);
+            ControlValueChanged?.Invoke(sender, e);
         }
 
         #endregion
@@ -73,7 +74,7 @@ namespace Lib.GuiCommander
 
                 _entityObject[CamelName] = Checked;
 
-                if (oldValue != Checked) OnStateChanged(this, EventArgs.Empty);
+                if (oldValue != Checked) OnControlValueChanged(this, EventArgs.Empty);
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using static Lib.GuiCommander.IBaseControl;
 
 namespace Lib.GuiCommander.Controls
 {
@@ -7,7 +6,7 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        string _camelName = string.Empty;
+        decimal _prevValue;
         EntityObject? _entityObject;
 
         public IntControl()
@@ -36,11 +35,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string CamelName
-        {
-            get => _camelName;
-            set => _camelName = value;
-        }
+        public string? CamelName { get; set; }
 
         /// <summary>
         /// Если true, то CurrentValue вернет Null при значение 0
@@ -71,39 +66,34 @@ namespace Lib.GuiCommander.Controls
                 }
                 return Convert.ToInt32(Value);
             }
+            set {
+                var intValue = Convert.ToInt32(Value);
+
+                if (intValue == value)
+                    return;
+
+                Value = value ?? 0;
+            }
         }
 
         public void Bind(EntityObject entityObject)
         {
             this._entityObject = entityObject;
 
-            if (string.IsNullOrEmpty(_camelName))
+            if (string.IsNullOrEmpty(CamelName))
                 return;
 
-            if (_entityObject != null && _entityObject[_camelName] != DBNull.Value)
-                Value = Convert.ToDecimal(_entityObject[_camelName]);
+            if (_entityObject != null && _entityObject[CamelName] != DBNull.Value)
+                Value = Convert.ToDecimal(_entityObject[CamelName]);
         }
 
-        public event ControlChangedEventHandler ControlChanged;
-        protected void OnControlChanged(object sender, EventArgs e)
+        public event ControlValueChangedEventHandler? ControlValueChanged;
+        protected void OnControlValueChanged(object sender, EventArgs e)
         {
-            ControlChanged?.Invoke(sender, e);
+            ControlValueChanged?.Invoke(sender, e);
         }
 
         #endregion
-
-        private void numericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
-
-            if (string.IsNullOrEmpty(_camelName) || _entityObject == null)
-                return;
-
-            object prev = _entityObject[_camelName];
-            _entityObject[_camelName] = Value;
-            if (prev != _entityObject[_camelName])
-                OnControlChanged(this, EventArgs.Empty);
-        }
 
         public override void UpButton()
         {
@@ -117,9 +107,20 @@ namespace Lib.GuiCommander.Controls
                 base.DownButton();
         }
 
+        #region Events
+
         private void IntControl_Enter(object sender, EventArgs e)
         {
             this.Select(0, 20);
         }
+
+        private void IntControl_ValueChanged(object sender, EventArgs e)
+        {
+            ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
+
+            OnControlValueChanged(sender, EventArgs.Empty);
+        }
+
+        #endregion
     }
 }

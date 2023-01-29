@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
-using static Lib.GuiCommander.IBaseControl;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lib.GuiCommander.Controls
 {
     public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>
     {
         bool _isRequired;
-        string _camelName;
         bool _readOnly;
-        EntityObject _entityObject;
+        EntityObject? _entityObject;
 
         public StringControl()
         {
@@ -35,17 +34,13 @@ namespace Lib.GuiCommander.Controls
         /// <summary>
         /// Этот параметр заполняется вручную при добавлении контрола на форму
 		/// и содержит название колонки во вью (camel_case).
-        /// Соответственно, от лежит в Designer-классе. Именно _camelName является
+        /// Соответственно, от лежит в Designer-классе. Именно CamelName является
         /// ключем, по которому выполняется привязка к значению. Само значение
         /// берется из <see cref="EntityObject"/> — объекта метадаты, который
 		/// содержит все поля сущности и передается в метод <see cref="Init(EntityObject)"/>.
         /// </summary>
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string CamelName
-        {
-            get => _camelName;
-            set => _camelName = value;
-        }
+        public string? CamelName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -65,17 +60,17 @@ namespace Lib.GuiCommander.Controls
         {
             this._entityObject = _entityObject;
 
-            if (string.IsNullOrEmpty(_camelName))
+            if (string.IsNullOrEmpty(CamelName))
                 return;
 
-            if (_entityObject != null && _entityObject[_camelName] != DBNull.Value)
-                base.Text = _entityObject[_camelName].ToString();
+            if (_entityObject != null && _entityObject[CamelName] != DBNull.Value)
+                base.Text = _entityObject[CamelName].ToString();
         }
 
-        public event ControlChangedEventHandler ControlChanged;
-        protected void OnControlChanged(object sender, EventArgs e)
+        public event ControlValueChangedEventHandler? ControlValueChanged;
+        protected void OnControlValueChanged(object sender, EventArgs e)
         {
-            ControlChanged?.Invoke(sender, e);
+            ControlValueChanged?.Invoke(sender, e);
         }
 
         #endregion
@@ -89,20 +84,23 @@ namespace Lib.GuiCommander.Controls
             set => MaxLength = value;
         }
 
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
-            set {
-                base.Text = value;
-                if (_entityObject != null || !string.IsNullOrEmpty(_camelName))
-                {
-                    _entityObject![_camelName] = value;
-                    OnControlChanged(this, EventArgs.Empty);
-                }
-            }
+            set => CurrentValue = value;
         }
 
-        public string? CurrentValue => Text;
+        public string? CurrentValue
+        {
+            get => base.Text;
+            set {
+                if (base.Text == value)
+                    return;
+
+                base.Text = value ?? string.Empty;
+            }
+        }
 
         #endregion
 
@@ -110,12 +108,14 @@ namespace Lib.GuiCommander.Controls
 
         private void StringControl_TextChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null && !string.IsNullOrEmpty(_camelName))
+            /// Если этих проверок не будет, форма станет считать себя
+            /// измененной после каждой инициализации значениями из БД
+            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
             {
-                if (_entityObject![_camelName].ToString() != Text)
+                if (_entityObject[CamelName]?.ToString() != Text)
                 {
-                    _entityObject[_camelName] = Text;
-                    OnControlChanged(this, EventArgs.Empty);
+                    _entityObject[CamelName] = Text;
+                    OnControlValueChanged(this, EventArgs.Empty);
                 }
             }
         }

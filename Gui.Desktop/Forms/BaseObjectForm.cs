@@ -41,12 +41,7 @@ namespace Gui.Desktop.Forms
                 : _guiName + " # " + _objId.ToString();
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        protected void Grab(Control parentControl)
+        void Grab(Control parentControl)
         {
             foreach (var control in parentControl.Controls)
             {
@@ -61,7 +56,7 @@ namespace Gui.Desktop.Forms
             }
         }
 
-        private void AddValueToDto<T>(IJsonControl<T> jc)
+        void AddValueToDto<T>(IJsonControl<T> jc)
         {
             var dtoType = _dto.GetType();
             var jcPascalName = jc.CamelName?.UpFirstChar();
@@ -78,7 +73,9 @@ namespace Gui.Desktop.Forms
             }
         }
 
-        protected void CreateObject()
+        #region Actions
+
+        void CreateObject()
         {
             Grab(this);
 
@@ -94,7 +91,7 @@ namespace Gui.Desktop.Forms
             Close();
         }
 
-        protected void SaveObject()
+        void SaveObject()
         {
             if (_objId == null || _objId == 0)
                 return;
@@ -102,7 +99,7 @@ namespace Gui.Desktop.Forms
             var procName = "pr_" + _token + "_update_";
         }
 
-        protected void RemoveObject()
+        void RemoveObject()
         {
             if (_objId == null || _objId == 0)
                 return;
@@ -117,5 +114,28 @@ namespace Gui.Desktop.Forms
 
             Close();
         }
+
+        #endregion
+
+        #region Events
+
+        void closeButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        void saveButton_Click(object sender, EventArgs e)
+        {
+            if (_objId.HasValue)
+            {
+                SaveObject();
+            }
+            else
+            {
+                CreateObject();
+            }
+        }
+
+        #endregion
     }
 }

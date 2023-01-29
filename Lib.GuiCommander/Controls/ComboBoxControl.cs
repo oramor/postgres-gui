@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Data;
 
+
 namespace Lib.GuiCommander.Controls
 {
     public interface IComboBoxListItem
@@ -20,7 +21,7 @@ namespace Lib.GuiCommander.Controls
         bool _isRequired;
         bool _isReadOnly;
         string _camelName = string.Empty;
-        string _dataSourceRoutine;
+        string? _dataSourceRoutine;
         EntityObject? _entityObject;
 
         public ComboBoxControl()
@@ -36,6 +37,8 @@ namespace Lib.GuiCommander.Controls
         #region IBaseControl Members
 
         public bool IsEmpty => SelectedIndex == -1;
+
+        #region Bindable Properties
 
         [Bindable(true), Category("Object properties")]
         public bool IsRequired
@@ -71,6 +74,8 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
+        #endregion
+
         public int? CurrentValue
         {
             get {
@@ -81,6 +86,35 @@ namespace Lib.GuiCommander.Controls
                     return v;
 
                 return null;
+            }
+
+            set {
+                if (value == null)
+                {
+                    SelectedIndex = -1;
+                    return;
+                }
+
+                /// Источником данных для данного контрола является объект DataTable.
+                /// Соответственно, все Bind должны приводиться к его установлению.
+                if (DataSource is not DataTable dt)
+                    return;
+
+                /// Значением комбо-бокса является идентификатор сущности/объекта.
+                /// Проверяем, есть ли данный идентификатор в источнике данных.
+                /// Когда контрол будет асинхронным, будем ожидать завершения
+                /// его инициализации.
+                var isExists = dt?.AsEnumerable().Select(row =>
+                    row.Field<int>("id") == value).Count() > 0;
+
+                if (isExists)
+                {
+                    SelectedValue = value;
+                    // TODO OnControlValueChanged();
+                    return;
+                }
+
+                SelectedIndex = -1;
             }
         }
 
@@ -104,7 +138,12 @@ namespace Lib.GuiCommander.Controls
         /// </summary>
         public void Bind(DataTable dt)
         {
+            // Tables without id does not sense
+            if (!dt.Columns.Contains("id"))
+                return;
+
             ValueMember = "id";
+
             DisplayMember = string.Empty;
 
             var arr = new[] { "title", "public_name", "doc_name" };
@@ -134,13 +173,13 @@ namespace Lib.GuiCommander.Controls
             }
 
             DataSource = dt;
-            Resetvalue();
+            CurrentValue = null;
         }
 
-        public event ControlChangedEventHandler ControlChanged;
-        protected void OnControlChanged(object sender, EventArgs e)
+        public event ControlValueChangedEventHandler? ControlValueChanged;
+        protected void OnControlValueChanged(object sender, EventArgs e)
         {
-            ControlChanged?.Invoke(sender, e);
+            ControlValueChanged?.Invoke(sender, e);
         }
 
         #endregion
@@ -164,11 +203,6 @@ namespace Lib.GuiCommander.Controls
         //    }
         //}
 
-        private void Resetvalue()
-        {
-            SelectedIndex = -1;
-        }
-
         #region Events
 
         private void C_SelectedIndexChanged(object sender, EventArgs e)
@@ -181,7 +215,7 @@ namespace Lib.GuiCommander.Controls
                 return;
 
             if (e.KeyData == Keys.Delete)
-                Resetvalue();
+                CurrentValue = null;
         }
 
         #endregion
