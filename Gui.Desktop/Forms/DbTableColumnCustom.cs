@@ -10,7 +10,7 @@ namespace Gui.Desktop.Forms
         }
 
         public DbTableColumnCustom(int objId)
-            : base(new DbTableColumnDto { FormType = DbTableColumnFormType.Custom }, "Table column", "db_table_column", objId)
+            : base(new DbTableColumnDto { FormType = GuiFormTypeEnum.Custom }, "Table column", "db_table_column", objId)
         {
             InitializeComponent();
             Init();

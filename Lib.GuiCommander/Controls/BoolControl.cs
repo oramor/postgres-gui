@@ -2,7 +2,7 @@
 
 namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>
+    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>, IPropertyChangeSubscriber
     {
         bool _isRequired;
         bool _readOnly;
@@ -59,6 +59,22 @@ namespace Lib.GuiCommander
             }
         }
 
+        public void Bind(object dto)
+        {
+            if (PascalName == null)
+                return;
+
+            var dtoType = dto.GetType();
+
+            foreach (var property in dtoType.GetProperties())
+            {
+                if (property.Name == PascalName)
+                {
+                    CurrentValue = (bool?)property.GetValue(dto);
+                }
+            }
+        }
+
         public event ControlValueChangedEventHandler? ControlValueChanged;
         protected void OnControlValueChanged(object sender, EventArgs e)
         {
@@ -66,6 +82,16 @@ namespace Lib.GuiCommander
         }
 
         #endregion
+
+        #region Event Handlers
+
+        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CamelName && sender is bool v)
+            {
+                CurrentValue = v;
+            }
+        }
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
@@ -80,5 +106,7 @@ namespace Lib.GuiCommander
                 if (oldValue != Checked) OnControlValueChanged(this, EventArgs.Empty);
             }
         }
+
+        #endregion
     }
 }

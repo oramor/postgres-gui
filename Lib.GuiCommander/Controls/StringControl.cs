@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>
+    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>, IPropertyChangeSubscriber
     {
         bool _isRequired;
         bool _readOnly;
@@ -68,6 +68,22 @@ namespace Lib.GuiCommander.Controls
 
             if (_entityObject != null && _entityObject[CamelName] != DBNull.Value)
                 base.Text = _entityObject[CamelName].ToString();
+        }
+
+        public void Bind(object dto)
+        {
+            if (PascalName == null)
+                return;
+
+            var dtoType = dto.GetType();
+
+            foreach (var property in dtoType.GetProperties())
+            {
+                if (property.Name == PascalName)
+                {
+                    CurrentValue = (string?)property.GetValue(dto);
+                }
+            }
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;

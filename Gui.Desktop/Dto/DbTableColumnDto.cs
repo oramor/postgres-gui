@@ -1,15 +1,10 @@
 ﻿namespace Gui.Desktop
 {
-    public enum DbTableColumnFormType
-    {
-        Custom = 1,
-        Fk = 2,
-        Abstract = 3,
-    }
 
-    public class DbTableColumnDto
+
+    public class DbTableColumnDto : BaseFormContext
     {
-        public DbTableColumnFormType? FormType { get; set; }
+
         public int? Id { get; set; }
         public int? DbTableId { get; set; }
         public string? SnakeName { get; set; }

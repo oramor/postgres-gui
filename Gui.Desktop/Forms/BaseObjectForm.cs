@@ -1,5 +1,6 @@
 ﻿using Lib.GuiCommander;
 using Lib.Providers;
+using System.Data;
 using System.Reflection;
 
 namespace Gui.Desktop.Forms
@@ -10,6 +11,7 @@ namespace Gui.Desktop.Forms
         readonly string _guiName;
         readonly string _token;
         readonly int? _objId;
+        IObjectFormContext? _ctx;
 
         protected BaseObjectForm()
         {
@@ -32,52 +34,100 @@ namespace Gui.Desktop.Forms
         protected virtual void Init()
         {
             SetTitle();
+
+            if (_ctx != null)
+            {
+
+            }
+
+            //BindControls(this);
         }
 
-        void BindControls(Control parentControl)
+        /// <summary>
+        /// Если форма вызвана с идентификатором (objId передается в конструктор),
+        /// то будет обращение к базе, по результатам которого заполнено Dto.
+        /// Иначе ограничимся только созданием объекта с контекстом формы.
+        /// </summary>
+        protected void InitDto<T>() where T : IObjectFormContext, new()
         {
-            if (_dto == null)
+            _ctx = new T();
+            SubscribeControls(this);
+            LoadIntoDto();
+
+            /// Заполняем GuiFormType, который так же является ключем для обращения
+            /// к метадате
+        }
+
+        /// <summary>
+        /// Подписывает контролы на контекст формы. Соответственно, если
+        /// контекст не создан, то и подписки не будет
+        /// </summary>
+        void SubscribeControls(Control parentControl)
+        {
+            if (_ctx == null)
                 return;
 
             foreach (Control c in parentControl.Controls)
             {
-                if (parentControl is IBaseControl bc)
+                if (c is IPropertyChangeSubscriber bc)
                 {
-                    /// Если контрол был определен как соответствующий интерфейсу
-                    /// <see cref="IBaseControl"/> он может получить все базовые настройки
-                    /// из объекта метадаты
-                    bc.Bind(_dto);
-
-                    if (!string.IsNullOrWhiteSpace(bc.BindingName) && columns.ContainsKey(bc.ColumnName))
+                    if (bc != null)
                     {
-                        MetadataElement columnElement = columns[bc.ColumnName];
-                        columnElement.JsonName = bc.JsonName;
-                        bc.IsMandatory = columnElement.NotNull;
-                        c.Visible = columnElement.Actions.HasFlag(MetadataPermissions.Select);
-
-                        if (ObjectId == 0)
-                            bc.IsReadOnly = !columnElement.Actions.HasFlag(MetadataPermissions.Insert);
-                        else
-                            bc.IsReadOnly = !(canUpdate && columnElement.Actions.HasFlag(MetadataPermissions.Update));
+                        // Подписываем на контекст
+                        _ctx.PropertyChanged += bc.C_PropertyChanged;
                     }
-
-                    bc.StateChanged += new ControlStateChangedEventHandler(ControlStateChanged);
-                }
-                else if (jc != null)
+                    /// Здесь предполагаем, что наши контролы
+                    /// не могут иметь вложенных
+                } else if (c.Controls.Count > 0)
                 {
-                    if (!string.IsNullOrWhiteSpace(jc.JsonName) && tables.ContainsKey(jc.JsonName))
-                    {
-                        MetadataElement tableElement = tables[jc.JsonName];
-                        tableElement.JsonName = jc.JsonName;
-                        tableElement.Control = jc;
-                    }
-                }
-                else if (c.Controls.Count > 0)
-                {
-                    BindControls(c);
+                    SubscribeControls(c);
                 }
             }
         }
+
+        void LoadIntoDto()
+        {
+            if (_objId == null || _ctx == null)
+                return;
+
+            var funcName = "fn_get_" + _token + "_item_r";
+
+            var cmd = new ApiCommand("api_admin", funcName);
+            cmd.AddParam(new ApiParameter("p_id", _objId));
+            var dr = App.CallApiCommand<DataRow>(cmd);
+
+            foreach (var prop in _ctx.GetType().GetProperties())
+            {
+                // Convert PascalCase to camel
+                var colName = prop.Name.LowFirstChar();
+
+                if (colName != null && dr[colName] != null)
+                {
+                    /// Каждый контрол, который подписан на контекст,
+                    /// получит оповещение
+                    _ctx.OnPropertyChanged(colName, dr[colName]);
+                }
+            }
+        }
+
+        //void BindControls(Control parentControl)
+        //{
+        //    foreach (Control c in parentControl.Controls)
+        //    {
+        //        if (_dto != null && parentControl is IPropertyChangeSubscriber bc)
+        //        {
+        //            /// При таком сценарии биндинга (когда связываем с объектом DTO),
+        //            /// невозможно задать значения по умолчанию (вроде обязательности
+        //            /// заполнения), т.к. этих данных нет в DTO. Предполагается,
+        //            /// что они задаются вручную в дизайнере формы.
+        //            bc.Bind(_dto);
+        //        }
+        //        else if (c.Controls.Count > 0)
+        //        {
+        //            BindControls(c);
+        //        }
+        //    }
+        //}
 
         void SetTitle()
         {

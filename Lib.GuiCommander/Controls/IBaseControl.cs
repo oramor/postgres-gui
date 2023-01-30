@@ -1,4 +1,6 @@
-﻿namespace Lib.GuiCommander
+﻿using System.ComponentModel;
+
+namespace Lib.GuiCommander
 {
     /// <summary>
     /// В методе BindControls базовая форма подписывается на событие обновления контрола
@@ -19,5 +21,12 @@
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
         void Bind(EntityObject obj);
+    }
+
+    public interface IPropertyChangeSubscriber
+    {
+        // For DTO bindings
+        void Bind(object obj);
+        void C_PropertyChanged(object? sender, PropertyChangedEventArgs e);
     }
 }

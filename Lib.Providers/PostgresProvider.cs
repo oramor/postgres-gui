@@ -144,6 +144,12 @@ namespace Lib.Providers
                         reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
                         result = reader.GetValue(0);
                         break;
+                    // For record _r return DataRow
+                    case ApiCommandResultType.Row:
+                        reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+                        var dt = ReadTable(reader);
+                        result = dt.AsEnumerable().FirstOrDefault();
+                        break;
                     // Для таблиц _t
                     case ApiCommandResultType.Table:
                         reader = cmd.ExecuteReader(CommandBehavior.Default);
@@ -166,12 +172,12 @@ namespace Lib.Providers
             try
             {
                 var t = (T)result;
-                if (t == null) throw new Exception("Got null");
+                if (t == null) throw new Exception("PostgresProvider: got null during type casting");
 
                 return t;
             } catch
             {
-                throw;
+                throw new Exception("PostgresProvider: invalid type converting");
             }
         }
 
