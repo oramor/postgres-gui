@@ -12,6 +12,9 @@
     public interface IBaseControl
     {
         event ControlValueChangedEventHandler ControlValueChanged;
+        string? BindingName { get; set; }
+        string? PascalName { get; }
+        string? CamelName { get; }
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }

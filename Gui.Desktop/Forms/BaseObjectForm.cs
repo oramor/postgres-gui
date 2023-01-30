@@ -34,6 +34,51 @@ namespace Gui.Desktop.Forms
             SetTitle();
         }
 
+        void BindControls(Control parentControl)
+        {
+            if (_dto == null)
+                return;
+
+            foreach (Control c in parentControl.Controls)
+            {
+                if (parentControl is IBaseControl bc)
+                {
+                    /// Если контрол был определен как соответствующий интерфейсу
+                    /// <see cref="IBaseControl"/> он может получить все базовые настройки
+                    /// из объекта метадаты
+                    bc.Bind(_dto);
+
+                    if (!string.IsNullOrWhiteSpace(bc.BindingName) && columns.ContainsKey(bc.ColumnName))
+                    {
+                        MetadataElement columnElement = columns[bc.ColumnName];
+                        columnElement.JsonName = bc.JsonName;
+                        bc.IsMandatory = columnElement.NotNull;
+                        c.Visible = columnElement.Actions.HasFlag(MetadataPermissions.Select);
+
+                        if (ObjectId == 0)
+                            bc.IsReadOnly = !columnElement.Actions.HasFlag(MetadataPermissions.Insert);
+                        else
+                            bc.IsReadOnly = !(canUpdate && columnElement.Actions.HasFlag(MetadataPermissions.Update));
+                    }
+
+                    bc.StateChanged += new ControlStateChangedEventHandler(ControlStateChanged);
+                }
+                else if (jc != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(jc.JsonName) && tables.ContainsKey(jc.JsonName))
+                    {
+                        MetadataElement tableElement = tables[jc.JsonName];
+                        tableElement.JsonName = jc.JsonName;
+                        tableElement.Control = jc;
+                    }
+                }
+                else if (c.Controls.Count > 0)
+                {
+                    BindControls(c);
+                }
+            }
+        }
+
         void SetTitle()
         {
             this.Text = _objId == 0

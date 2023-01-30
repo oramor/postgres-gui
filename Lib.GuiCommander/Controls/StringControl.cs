@@ -40,7 +40,7 @@ namespace Lib.GuiCommander.Controls
 		/// содержит все поля сущности и передается в метод <see cref="Init(EntityObject)"/>.
         /// </summary>
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string? CamelName { get; set; }
+        public string? BindingName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -55,6 +55,9 @@ namespace Lib.GuiCommander.Controls
                     BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
             }
         }
+
+        public string? CamelName => BindingName?.LowFirstChar();
+        public string? PascalName => BindingName?.UpFirstChar();
 
         public void Bind(EntityObject _entityObject)
         {

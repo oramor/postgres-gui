@@ -82,7 +82,7 @@ namespace Gui.Desktop.Forms
             // stringControlPublicName
             // 
             this.stringControlPublicName.BackColor = System.Drawing.Color.White;
-            this.stringControlPublicName.CamelName = null;
+            this.stringControlPublicName.BindingName = null;
             this.stringControlPublicName.IsReadOnly = false;
             this.stringControlPublicName.IsRequired = false;
             this.stringControlPublicName.Length = 32767;
@@ -94,7 +94,7 @@ namespace Gui.Desktop.Forms
             // stringControlPascalName
             // 
             this.stringControlPascalName.BackColor = System.Drawing.Color.White;
-            this.stringControlPascalName.CamelName = null;
+            this.stringControlPascalName.BindingName = null;
             this.stringControlPascalName.IsReadOnly = false;
             this.stringControlPascalName.IsRequired = false;
             this.stringControlPascalName.Length = 32767;
@@ -106,7 +106,7 @@ namespace Gui.Desktop.Forms
             // checkBoxIsDocument
             // 
             this.checkBoxIsDocument.AutoSize = true;
-            this.checkBoxIsDocument.CamelName = null;
+            this.checkBoxIsDocument.BindingName = null;
             this.checkBoxIsDocument.IsReadOnly = false;
             this.checkBoxIsDocument.IsRequired = false;
             this.checkBoxIsDocument.Location = new System.Drawing.Point(109, 121);
@@ -128,7 +128,7 @@ namespace Gui.Desktop.Forms
             // stringControlPublicCode
             // 
             this.stringControlPublicCode.BackColor = System.Drawing.Color.White;
-            this.stringControlPublicCode.CamelName = null;
+            this.stringControlPublicCode.BindingName = null;
             this.stringControlPublicCode.IsReadOnly = false;
             this.stringControlPublicCode.IsRequired = false;
             this.stringControlPublicCode.Length = 32767;

@@ -20,7 +20,6 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        string _camelName = string.Empty;
         string? _dataSourceRoutine;
         EntityObject? _entityObject;
 
@@ -54,11 +53,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string CamelName
-        {
-            get => _camelName;
-            set => _camelName = value;
-        }
+        public string BindingName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -75,6 +70,9 @@ namespace Lib.GuiCommander.Controls
         }
 
         #endregion
+
+        public string? CamelName => BindingName?.LowFirstChar();
+        public string? PascalName => BindingName?.UpFirstChar();
 
         public int? CurrentValue
         {

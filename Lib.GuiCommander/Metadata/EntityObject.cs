@@ -13,7 +13,7 @@ namespace Lib.GuiCommander
 
     /// <summary>
     /// Этот объект представляет экземпляр бизнес-сущности, полученный из БД.
-    /// Он не содержит табличных частей сущности (по этой причине используется
+    /// Он не содержит табличных частей (по этой причине используется
     /// DataRow, а не DataTable и тем более не DataSet, как в предыдущей версии
     /// системы).
     /// 
@@ -79,10 +79,5 @@ namespace Lib.GuiCommander
             get => _dataRow[columnName];
             set => _dataRow[columnName] = value;
         }
-
-        //public T GetType<T>()
-        //{
-        //    var entityType = _dataRow.DataBoundItem as EntityDao;
-        //}
     }
 }

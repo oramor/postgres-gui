@@ -69,7 +69,7 @@
             // snakeNameStringControl
             // 
             this.snakeNameStringControl.BackColor = System.Drawing.Color.LightBlue;
-            this.snakeNameStringControl.CamelName = "snakeName";
+            this.snakeNameStringControl.BindingName = "snakeName";
             this.snakeNameStringControl.CurrentValue = "";
             this.snakeNameStringControl.IsReadOnly = false;
             this.snakeNameStringControl.IsRequired = true;
@@ -91,7 +91,7 @@
             // guiNameStringControl
             // 
             this.guiNameStringControl.BackColor = System.Drawing.Color.LightBlue;
-            this.guiNameStringControl.CamelName = "defaultGuiName";
+            this.guiNameStringControl.BindingName = "defaultGuiName";
             this.guiNameStringControl.CurrentValue = "";
             this.guiNameStringControl.IsReadOnly = false;
             this.guiNameStringControl.IsRequired = true;
@@ -113,7 +113,7 @@
             // guiShortNameStringControl
             // 
             this.guiShortNameStringControl.BackColor = System.Drawing.Color.LightBlue;
-            this.guiShortNameStringControl.CamelName = "defaultGuiShortName";
+            this.guiShortNameStringControl.BindingName = "defaultGuiShortName";
             this.guiShortNameStringControl.CurrentValue = "";
             this.guiShortNameStringControl.IsReadOnly = false;
             this.guiShortNameStringControl.IsRequired = true;
@@ -144,7 +144,7 @@
             // isRequiredBoolControl
             // 
             this.isRequiredBoolControl.AutoSize = true;
-            this.isRequiredBoolControl.CamelName = "isRequired";
+            this.isRequiredBoolControl.BindingName = "isRequired";
             this.isRequiredBoolControl.CurrentValue = false;
             this.isRequiredBoolControl.IsReadOnly = false;
             this.isRequiredBoolControl.IsRequired = false;
@@ -176,7 +176,7 @@
             // logicalTypeComboBoxControl
             // 
             this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
-            this.logicalTypeComboBoxControl.CamelName = "logicalDataTypeId";
+            this.logicalTypeComboBoxControl.BindingName = "logicalDataTypeId";
             this.logicalTypeComboBoxControl.CurrentValue = null;
             this.logicalTypeComboBoxControl.DataSourceRoutine = null;
             this.logicalTypeComboBoxControl.DisplayMember = "DisplayMember";
@@ -193,7 +193,7 @@
             // dbTableComboBoxControl
             // 
             this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
-            this.dbTableComboBoxControl.CamelName = "dbTableId";
+            this.dbTableComboBoxControl.BindingName = "dbTableId";
             this.dbTableComboBoxControl.CurrentValue = null;
             this.dbTableComboBoxControl.DataSourceRoutine = null;
             this.dbTableComboBoxControl.DisplayMember = "Title";
@@ -210,7 +210,7 @@
             // defaultPriorityIntControl
             // 
             this.defaultPriorityIntControl.BackColor = System.Drawing.Color.White;
-            this.defaultPriorityIntControl.CamelName = "defaultPriority";
+            this.defaultPriorityIntControl.BindingName = "defaultPriority";
             this.defaultPriorityIntControl.CurrentValue = 0;
             this.defaultPriorityIntControl.IsReadOnly = false;
             this.defaultPriorityIntControl.IsRequired = false;
@@ -223,7 +223,7 @@
             // defaultSizeIntControl
             // 
             this.defaultSizeIntControl.BackColor = System.Drawing.Color.White;
-            this.defaultSizeIntControl.CamelName = "defaultSize";
+            this.defaultSizeIntControl.BindingName = "defaultSize";
             this.defaultSizeIntControl.CurrentValue = 0;
             this.defaultSizeIntControl.IsReadOnly = false;
             this.defaultSizeIntControl.IsRequired = false;

@@ -25,7 +25,7 @@ namespace Lib.GuiCommander
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string? CamelName { get; set; }
+        public string? BindingName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -33,6 +33,9 @@ namespace Lib.GuiCommander
             get => _readOnly;
             set { _readOnly = value; base.Enabled = !_readOnly; }
         }
+
+        public string? CamelName => BindingName?.LowFirstChar();
+        public string? PascalName => BindingName?.UpFirstChar();
 
         public bool? CurrentValue
         {

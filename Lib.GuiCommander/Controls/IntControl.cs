@@ -34,7 +34,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string? CamelName { get; set; }
+        public string? BindingName { get; set; }
 
         /// <summary>
         /// Если true, то CurrentValue вернет Null при значение 0
@@ -55,6 +55,9 @@ namespace Lib.GuiCommander.Controls
                     BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
             }
         }
+
+        public string? CamelName => BindingName?.LowFirstChar();
+        public string? PascalName => BindingName?.UpFirstChar();
 
         public int? CurrentValue
         {

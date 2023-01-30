@@ -7,7 +7,6 @@
     /// </summary>
     public interface IJsonControl<T>
     {
-        string? CamelName { get; set; }
         /// <summary>
         /// Это свойство не должно вызывать OnControlValueChanged, оно только
         /// отвечает за инициализацию значений. Событие, что контрол изменен,

@@ -8,7 +8,7 @@
         }
 
         public DbTableColumnFk(int objId)
-    : base(new DbTableColumnDto { FormType = DbTableColumnFormType.Custom }, "Table column", "db_table_column", objId)
+    : base(new DbTableColumnDto { FormType = DbTableColumnFormType.Fk }, "Table column (FK)", "db_table_column", objId)
         {
             InitializeComponent();
             Init();
