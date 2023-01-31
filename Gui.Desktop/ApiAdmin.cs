@@ -11,7 +11,7 @@ namespace Gui.Desktop
         public static ApiCommand CreateEntity(EntityDto dao)
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
-            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
+            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Integer));
             cmd.AddParam(new ApiParameter("p_obj", dao));
             return cmd;
         }
@@ -50,7 +50,7 @@ namespace Gui.Desktop
         public static ApiCommand CreateEntityColumn(DbTableColumnDto dao)
         {
             var cmd = new ApiCommand(_schemaName, "pr_create_db_table_col_custom_n");
-            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Number));
+            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Integer));
             cmd.AddParam(new ApiParameter("p_obj", dao));
             return cmd;
         }

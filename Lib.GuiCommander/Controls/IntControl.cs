@@ -6,19 +6,14 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        EntityObject? _entityObject;
+        IIndexedContext _ctx;
 
         public IntControl()
         {
             InitializeComponent();
         }
 
-        #region IBaseControl Members
-
-        /// <summary>
-        /// В этом варианте контрола нулевое значение считается пустым
-        /// </summary>
-        public bool IsEmpty => Value == 0;
+        #region Bindable properties
 
         [Bindable(true), Category("Object properties")]
         public bool IsRequired
@@ -56,8 +51,22 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public string? CamelName => BindingName?.LowFirstChar();
-        public string? PascalName => BindingName?.UpFirstChar();
+        #endregion
+
+        public bool IsEmpty
+        {
+            get {
+                if (ZeroAsNull)
+                {
+                    return Value == 0;
+                }
+
+                return false;
+            }
+        }
+
+        public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
+        public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
         public int? CurrentValue
         {
@@ -78,15 +87,19 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(EntityObject entityObject)
+        public void Bind(IIndexedContext ctx)
         {
-            this._entityObject = entityObject;
-
-            if (string.IsNullOrEmpty(CamelName))
+            if (CamelName == null)
                 return;
 
-            if (_entityObject != null && _entityObject[CamelName] != DBNull.Value)
-                Value = Convert.ToDecimal(_entityObject[CamelName]);
+            _ctx = ctx;
+
+            if (ctx[CamelName] is int v)
+            {
+                CurrentValue = v;
+            }
+
+            ctx.PropertyChanged += C_PropertyChanged;
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
@@ -94,8 +107,6 @@ namespace Lib.GuiCommander.Controls
         {
             ControlValueChanged?.Invoke(sender, e);
         }
-
-        #endregion
 
         public override void UpButton()
         {
@@ -109,7 +120,15 @@ namespace Lib.GuiCommander.Controls
                 base.DownButton();
         }
 
-        #region Events
+        #region Event Handlers
+
+        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CamelName && sender is int v)
+            {
+                CurrentValue = v;
+            }
+        }
 
         private void IntControl_Enter(object sender, EventArgs e)
         {
@@ -120,7 +139,16 @@ namespace Lib.GuiCommander.Controls
         {
             ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
 
-            OnControlValueChanged(sender, EventArgs.Empty);
+            if (_ctx == null || string.IsNullOrEmpty(CamelName))
+                return;
+
+            /// Если этих проверок не будет, форма станет считать себя
+            /// измененной после каждой инициализации значениями из БД
+            if (_ctx[CamelName] is int oldValue && oldValue != Value)
+            {
+                _ctx[CamelName] = Value;
+                OnControlValueChanged(this, EventArgs.Empty);
+            }
         }
 
         #endregion

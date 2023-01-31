@@ -13,6 +13,7 @@ namespace Lib.Providers
     public enum ApiParameterDataType
     {
         String,
+        Integer,
         Number,
         Bool,
         Json
@@ -94,7 +95,7 @@ namespace Lib.Providers
                 if (_paramValue == null) return _paramDataType;
 
                 if (_paramValue is string) return ApiParameterDataType.String;
-                if (_paramValue is int) return ApiParameterDataType.Number;
+                if (_paramValue is int) return ApiParameterDataType.Integer;
                 if (_paramValue is bool) return ApiParameterDataType.Bool;
 
                 return ApiParameterDataType.Json;

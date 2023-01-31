@@ -2,9 +2,9 @@
 {
 
 
-    public class DbTableColumnDto : BaseFormContext
+    public class DbTableColumnDto
     {
-
+        public GuiFormTypeEnum? FormType { get; set; }
         public int? Id { get; set; }
         public int? DbTableId { get; set; }
         public string? SnakeName { get; set; }

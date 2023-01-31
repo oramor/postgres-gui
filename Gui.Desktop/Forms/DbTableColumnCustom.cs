@@ -10,7 +10,7 @@ namespace Gui.Desktop.Forms
         }
 
         public DbTableColumnCustom(int objId)
-            : base(new DbTableColumnDto { FormType = GuiFormTypeEnum.Custom }, "Table column", "db_table_column", objId)
+            : base(new DbTableColumnDto { FormType = GuiFormTypeEnum.Custom }, "Table column", "db_table_column", 265)
         {
             InitializeComponent();
             Init();
@@ -18,23 +18,23 @@ namespace Gui.Desktop.Forms
 
         protected override void Init()
         {
-            base.Init();
             FillComboBoxTypes();
             FillComboBoxDbTable();
+            base.Init();
         }
 
         private void FillComboBoxTypes()
         {
             var cmd = ApiAdmin.GetLogicalDataTypeShortList();
             var dt = App.CallApiCommand<DataTable>(cmd);
-            logicalTypeComboBoxControl.Bind(dt);
+            logicalTypeComboBoxControl.SetDataSource(dt);
         }
 
         private void FillComboBoxDbTable()
         {
             var cmd = ApiAdmin.GetDbTableList();
             var dt = App.CallApiCommand<DataTable>(cmd);
-            dbTableComboBoxControl.Bind(dt);
+            dbTableComboBoxControl.SetDataSource(dt);
         }
     }
 }

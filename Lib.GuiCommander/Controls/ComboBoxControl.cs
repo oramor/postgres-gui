@@ -21,7 +21,7 @@ namespace Lib.GuiCommander.Controls
         bool _isRequired;
         bool _isReadOnly;
         string? _dataSourceRoutine;
-        EntityObject? _entityObject;
+        IIndexedContext? _ctx;
 
         public ComboBoxControl()
         {
@@ -32,10 +32,6 @@ namespace Lib.GuiCommander.Controls
             ValueMember = "Id";
             DisplayMember = "Title";
         }
-
-        #region IBaseControl Members
-
-        public bool IsEmpty => SelectedIndex == -1;
 
         #region Bindable Properties
 
@@ -53,7 +49,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         [Browsable(true), Category("Object properties"), DefaultValue(null)]
-        public string BindingName { get; set; }
+        public string? BindingName { get; set; }
 
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
@@ -69,10 +65,18 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
+        [Bindable(true), Category("Object properties")]
+        public string? DataSourceRoutine
+        {
+            get => _dataSourceRoutine;
+            set => _dataSourceRoutine = value;
+        }
+
         #endregion
 
-        public string? CamelName => BindingName?.LowFirstChar();
-        public string? PascalName => BindingName?.UpFirstChar();
+        public bool IsEmpty => SelectedIndex == -1;
+        public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
+        public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
         public int? CurrentValue
         {
@@ -116,14 +120,22 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(EntityObject entityObject)
+        public void Bind(IIndexedContext ctx)
         {
-            this._entityObject = entityObject;
+            if (CamelName == null)
+                return;
 
-            // Пока что этот метод не выполняет действий
+            _ctx = ctx;
+
+            if (ctx[CamelName] is int v)
+            {
+                CurrentValue = v;
+            }
+
+            ctx.PropertyChanged += C_PropertyChanged;
         }
 
-        public void Bind(IDictionary<int, string> dic)
+        public void SetDataSource(IDictionary<int, string> dic)
         {
             var list = dic.Select(v => new ComboBoxListItem { Id = v.Key, Title = v.Value }).ToList();
 
@@ -134,7 +146,7 @@ namespace Lib.GuiCommander.Controls
         /// Для случаев, когда запрос к базе выполняется за пределами контрола
         /// (например, если приложение не работает с метадатой)
         /// </summary>
-        public void Bind(DataTable dt)
+        public void SetDataSource(DataTable dt)
         {
             // Tables without id does not sense
             if (!dt.Columns.Contains("id"))
@@ -180,31 +192,29 @@ namespace Lib.GuiCommander.Controls
             ControlValueChanged?.Invoke(sender, e);
         }
 
-        #endregion
-
-        [Bindable(true), Category("Object properties")]
-        public string DataSourceRoutine
-        {
-            get => _dataSourceRoutine;
-            set => _dataSourceRoutine = value;
-        }
-
-        /// <summary>
-        /// Этот метод инициализирует контрол в зависимости от того, какая
-        /// перегрузка метода Bind() была вызвана. Кроме того, возможен BindAsync()
-        /// и, соответственно, InitAsync()
-        /// </summary>
-        //private void Init()
-        //{
-        //    if (!string.IsNullOrEmpty(DataSourceRoutine)) { 
-
-        //    }
-        //}
-
         #region Events
+
+        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CamelName && sender is int v)
+            {
+                CurrentValue = v;
+            }
+        }
 
         private void C_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_ctx == null || string.IsNullOrEmpty(CamelName))
+                return;
+
+            if (_ctx[CamelName] is int oldValue && SelectedValue is int v)
+            {
+                if (oldValue != v)
+                {
+                    _ctx[CamelName] = SelectedValue;
+                    OnControlValueChanged(this, EventArgs.Empty);
+                }
+            }
         }
 
         private void C_KeyDown(object sender, KeyEventArgs e)

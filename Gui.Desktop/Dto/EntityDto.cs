@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop
 {
-    public class EntityDto : BaseFormContext
+    public class EntityDto
     {
         public int Id { get; set; }
         public string? PascalName { get; set; }

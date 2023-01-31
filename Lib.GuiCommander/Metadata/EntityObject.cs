@@ -52,9 +52,9 @@ namespace Lib.GuiCommander
 
         #endregion
 
-        public int Id
+        public int? Id
         {
-            get => _dataRow["id"] == DBNull.Value ? 0 : Convert.ToInt32(_dataRow["id"]);
+            get => _dataRow["id"] == DBNull.Value ? null : Convert.ToInt32(_dataRow["id"]);
             set => _dataRow["id"] = value;
         }
 
@@ -74,10 +74,22 @@ namespace Lib.GuiCommander
             set => _dataRow["ver"] = value;
         }
 
-        public object this[string columnName]
+        public object? this[string columnName]
         {
-            get => _dataRow[columnName];
-            set => _dataRow[columnName] = value;
+            get {
+                if (_dataRow.Table.Columns.Contains(columnName))
+                {
+                    return _dataRow[columnName];
+                }
+
+                return null;
+            }
+            set {
+                if (_dataRow.Table.Columns.Contains(columnName))
+                {
+                    _dataRow[columnName] = value;
+                }
+            }
         }
     }
 }

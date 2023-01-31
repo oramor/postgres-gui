@@ -3,20 +3,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>, IPropertyChangeSubscriber
+    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>
     {
         bool _isRequired;
         bool _readOnly;
-        EntityObject? _entityObject;
+        IIndexedContext? _ctx;
 
         public StringControl()
         {
             InitializeComponent();
         }
 
-        #region IBaseControl Members
-
-        public bool IsEmpty => string.IsNullOrEmpty(Text);
+        #region Bindable properties
 
         [Bindable(true), Category("Object properties")]
         public bool IsRequired
@@ -56,46 +54,6 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public string? CamelName => BindingName?.LowFirstChar();
-        public string? PascalName => BindingName?.UpFirstChar();
-
-        public void Bind(EntityObject _entityObject)
-        {
-            this._entityObject = _entityObject;
-
-            if (string.IsNullOrEmpty(CamelName))
-                return;
-
-            if (_entityObject != null && _entityObject[CamelName] != DBNull.Value)
-                base.Text = _entityObject[CamelName].ToString();
-        }
-
-        public void Bind(object dto)
-        {
-            if (PascalName == null)
-                return;
-
-            var dtoType = dto.GetType();
-
-            foreach (var property in dtoType.GetProperties())
-            {
-                if (property.Name == PascalName)
-                {
-                    CurrentValue = (string?)property.GetValue(dto);
-                }
-            }
-        }
-
-        public event ControlValueChangedEventHandler? ControlValueChanged;
-        protected void OnControlValueChanged(object sender, EventArgs e)
-        {
-            ControlValueChanged?.Invoke(sender, e);
-        }
-
-        #endregion
-
-        #region Properties
-
         [Bindable(true), Category("Object properties")]
         public int Length
         {
@@ -110,6 +68,33 @@ namespace Lib.GuiCommander.Controls
             set => CurrentValue = value;
         }
 
+        #endregion
+
+        public bool IsEmpty => string.IsNullOrEmpty(Text);
+        public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
+        public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
+
+        public void Bind(IIndexedContext ctx)
+        {
+            if (CamelName == null)
+                return;
+
+            _ctx = ctx;
+
+            if (ctx[CamelName] is string v)
+            {
+                CurrentValue = v;
+            }
+
+            ctx.PropertyChanged += C_PropertyChanged;
+        }
+
+        public event ControlValueChangedEventHandler? ControlValueChanged;
+        protected void OnControlValueChanged(object sender, EventArgs e)
+        {
+            ControlValueChanged?.Invoke(sender, e);
+        }
+
         public string? CurrentValue
         {
             get => base.Text;
@@ -121,21 +106,27 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        #endregion
+        #region Event Handlers
 
-        #region Events
+        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CamelName && sender is string v)
+            {
+                CurrentValue = v;
+            }
+        }
 
         private void StringControl_TextChanged(object sender, EventArgs e)
         {
+            if (_ctx == null || string.IsNullOrEmpty(CamelName))
+                return;
+
             /// Если этих проверок не будет, форма станет считать себя
             /// измененной после каждой инициализации значениями из БД
-            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
+            if (_ctx[CamelName] is string oldValue && oldValue != Text)
             {
-                if (_entityObject[CamelName]?.ToString() != Text)
-                {
-                    _entityObject[CamelName] = Text;
-                    OnControlValueChanged(this, EventArgs.Empty);
-                }
+                _ctx[CamelName] = Text;
+                OnControlValueChanged(this, EventArgs.Empty);
             }
         }
 

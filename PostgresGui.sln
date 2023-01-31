@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gui.Desktop", "Gui.Desktop\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib.Providers", "Lib.Providers\Lib.Providers.csproj", "{1E91EED2-EECE-4070-8F00-5E00ACEC5516}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.GuiCommander", "Lib.GuiCommander\Lib.GuiCommander.csproj", "{12DB3CA7-9DA5-4274-BDF9-63D084A535D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lib.GuiCommander", "Lib.GuiCommander\Lib.GuiCommander.csproj", "{12DB3CA7-9DA5-4274-BDF9-63D084A535D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{4FF4077A-AD1D-4A6A-9E55-D1B94748C635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{12DB3CA7-9DA5-4274-BDF9-63D084A535D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12DB3CA7-9DA5-4274-BDF9-63D084A535D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12DB3CA7-9DA5-4274-BDF9-63D084A535D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FF4077A-AD1D-4A6A-9E55-D1B94748C635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FF4077A-AD1D-4A6A-9E55-D1B94748C635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FF4077A-AD1D-4A6A-9E55-D1B94748C635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FF4077A-AD1D-4A6A-9E55-D1B94748C635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

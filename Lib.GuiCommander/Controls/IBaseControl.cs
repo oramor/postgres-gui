@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
@@ -20,13 +21,10 @@ namespace Lib.GuiCommander
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(EntityObject obj);
-    }
-
-    public interface IPropertyChangeSubscriber
-    {
-        // For DTO bindings
-        void Bind(object obj);
+        void Bind(IIndexedContext obj);
+        /// <summary>
+        /// Обрабатывает события изменеий контекста
+        /// </summary>
         void C_PropertyChanged(object? sender, PropertyChangedEventArgs e);
     }
 }

@@ -1,12 +1,13 @@
-﻿using System.ComponentModel;
+﻿using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>, IPropertyChangeSubscriber
+    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>
     {
         bool _isRequired;
         bool _readOnly;
-        EntityObject? _entityObject;
+        IIndexedContext? _ctx;
 
         public BoolControl()
         {
@@ -34,8 +35,8 @@ namespace Lib.GuiCommander
             set { _readOnly = value; base.Enabled = !_readOnly; }
         }
 
-        public string? CamelName => BindingName?.LowFirstChar();
-        public string? PascalName => BindingName?.UpFirstChar();
+        public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
+        public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
         public bool? CurrentValue
         {
@@ -49,30 +50,19 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(EntityObject entityObject)
+        public void Bind(IIndexedContext ctx)
         {
-            this._entityObject = entityObject;
-
-            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
-            {
-                this.Checked = _entityObject[CamelName] == DBNull.Value ? false : Convert.ToBoolean(_entityObject[CamelName]);
-            }
-        }
-
-        public void Bind(object dto)
-        {
-            if (PascalName == null)
+            if (CamelName == null)
                 return;
 
-            var dtoType = dto.GetType();
+            _ctx = ctx;
 
-            foreach (var property in dtoType.GetProperties())
+            if (ctx[CamelName] is bool v)
             {
-                if (property.Name == PascalName)
-                {
-                    CurrentValue = (bool?)property.GetValue(dto);
-                }
+                CurrentValue = v;
             }
+
+            ctx.PropertyChanged += C_PropertyChanged;
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
@@ -95,15 +85,13 @@ namespace Lib.GuiCommander
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
-            if (_entityObject != null && !string.IsNullOrEmpty(CamelName))
+            if (_ctx == null || string.IsNullOrEmpty(CamelName))
+                return;
+
+            if (_ctx[CamelName] is bool oldValue && oldValue != Checked)
             {
-                bool oldValue = _entityObject[CamelName] == DBNull.Value
-                    ? false
-                    : Convert.ToBoolean(_entityObject[CamelName]);
-
-                _entityObject[CamelName] = Checked;
-
-                if (oldValue != Checked) OnControlValueChanged(this, EventArgs.Empty);
+                _ctx[CamelName] = Checked;
+                OnControlValueChanged(this, EventArgs.Empty);
             }
         }
 

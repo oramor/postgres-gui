@@ -85,6 +85,7 @@ namespace Lib.Providers
         {
             return value switch {
                 ApiParameterDataType.String => NpgsqlDbType.Text,
+                ApiParameterDataType.Integer => NpgsqlDbType.Integer,
                 ApiParameterDataType.Number => NpgsqlDbType.Numeric,
                 ApiParameterDataType.Bool => NpgsqlDbType.Boolean,
                 ApiParameterDataType.Json => NpgsqlDbType.Jsonb,
