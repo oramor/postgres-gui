@@ -1,10 +1,11 @@
-﻿namespace Gui.Desktop
+﻿using Gui.Desktop.Dto;
+
+namespace Gui.Desktop
 {
 
 
-    public class DbTableColumnDto
+    public class DbTableColumnDto : BaseDto
     {
-        public GuiFormTypeEnum? FormType { get; set; }
         public int? Id { get; set; }
         public int? DbTableId { get; set; }
         public string? SnakeName { get; set; }

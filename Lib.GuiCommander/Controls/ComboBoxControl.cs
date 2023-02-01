@@ -21,7 +21,7 @@ namespace Lib.GuiCommander.Controls
         bool _isRequired;
         bool _isReadOnly;
         string? _dataSourceRoutine;
-        IIndexedContext? _ctx;
+        IRecordContext? _ctx;
 
         public ComboBoxControl()
         {
@@ -120,7 +120,7 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(IIndexedContext ctx)
+        public void Bind(IRecordContext ctx)
         {
             if (CamelName == null)
                 return;

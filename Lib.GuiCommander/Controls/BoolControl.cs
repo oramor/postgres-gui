@@ -7,7 +7,7 @@ namespace Lib.GuiCommander
     {
         bool _isRequired;
         bool _readOnly;
-        IIndexedContext? _ctx;
+        IRecordContext? _ctx;
 
         public BoolControl()
         {
@@ -50,7 +50,7 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(IIndexedContext ctx)
+        public void Bind(IRecordContext ctx)
         {
             if (CamelName == null)
                 return;

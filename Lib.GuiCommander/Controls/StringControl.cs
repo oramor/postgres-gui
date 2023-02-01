@@ -7,7 +7,7 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _readOnly;
-        IIndexedContext? _ctx;
+        IRecordContext? _ctx;
 
         public StringControl()
         {
@@ -74,7 +74,7 @@ namespace Lib.GuiCommander.Controls
         public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
         public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
-        public void Bind(IIndexedContext ctx)
+        public void Bind(IRecordContext ctx)
         {
             if (CamelName == null)
                 return;

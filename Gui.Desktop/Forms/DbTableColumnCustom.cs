@@ -10,17 +10,12 @@ namespace Gui.Desktop.Forms
         }
 
         public DbTableColumnCustom(int objId)
-            : base(new DbTableColumnDto { FormType = GuiFormTypeEnum.Custom }, "Table column", "db_table_column", 265)
+            : base("Table column", "db_table_column", 265)
         {
             InitializeComponent();
-            Init();
-        }
-
-        protected override void Init()
-        {
             FillComboBoxTypes();
             FillComboBoxDbTable();
-            base.Init();
+            Init<DbTableColumnDto>();
         }
 
         private void FillComboBoxTypes()

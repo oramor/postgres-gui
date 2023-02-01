@@ -8,10 +8,10 @@
         }
 
         public DbTableColumnFk(int objId)
-    : base(new DbTableColumnDto { FormType = GuiFormTypeEnum.Fk }, "Table column (FK)", "db_table_column", objId)
+    : base("Table column (FK)", "db_table_column", objId)
         {
             InitializeComponent();
-            Init();
+            Init<DbTableColumnDto>();
         }
     }
 }

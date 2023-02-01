@@ -1,4 +1,5 @@
-﻿using Lib.GuiCommander;
+﻿using Gui.Desktop.Dto;
+using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
 using Lib.Providers;
 using System.Data;
@@ -8,22 +9,20 @@ namespace Gui.Desktop.Forms
 {
     public partial class BaseObjectForm : Form
     {
-        readonly object _dto;
         readonly string _guiName;
         readonly string _token;
         readonly int? _objId;
-        IIndexedContext? _ctx;
-        IndexedContext? _entityObj;
+        IRecordContext? _ctx;
+        BaseDto? _dto;
 
         protected BaseObjectForm()
         {
             InitializeComponent();
         }
 
-        public BaseObjectForm(object dto, string guiName, string token, int objId)
+        public BaseObjectForm(string guiName, string token, int objId)
         {
             InitializeComponent();
-            _dto = dto;
             _guiName = guiName;
             _token = token;
             _objId = objId;
@@ -50,11 +49,11 @@ namespace Gui.Desktop.Forms
         /// то будет обращение к базе, по результатам которого заполнено Dto.
         /// Иначе ограничимся только созданием объекта с контекстом формы.
         /// </summary>
-        protected virtual void Init()
+        protected virtual void Init<T>() where T : BaseDto, new()
         {
             SetTitle();
 
-            //_ctx = new T();
+            _dto = new T();
             //SubscribeControls(this);
             //LoadIntoDto();
 
@@ -90,18 +89,22 @@ namespace Gui.Desktop.Forms
         //    }
         //}
 
-        void LoadObject()
+        void LoadContext()
         {
-            if (_objId == null)
-                return;
+            if (_objId.HasValue)
+            {
+                var funcName = "fn_get_" + _token + "_item_r";
 
-            var funcName = "fn_get_" + _token + "_item_r";
+                var cmd = new ApiCommand("api_admin", funcName);
+                cmd.AddParam(new ApiParameter("p_id", _objId));
+                var row = App.CallApiCommand<DataRow>(cmd);
 
-            var cmd = new ApiCommand("api_admin", funcName);
-            cmd.AddParam(new ApiParameter("p_id", _objId));
-            var row = App.CallApiCommand<DataRow>(cmd);
+                _ctx = new IndexedContext(row);
+            }
+            else if (_ctx != null) { }
+            {
 
-            var obj = new IndexedContext(row);
+            }
         }
 
         //void LoadIntoDto()
@@ -131,17 +134,19 @@ namespace Gui.Desktop.Forms
         //    }
         //}
 
+        /// <summary>
+        /// Will bind all controls with current form context
+        /// </summary>
         void BindControls(Control parentControl)
         {
+            if (_ctx == null)
+                return;
+
             foreach (Control c in parentControl.Controls)
             {
-                if (_entityObj != null && parentControl is IBaseControl bc)
+                if (parentControl is IBaseControl bc)
                 {
-                    /// При таком сценарии биндинга (когда связываем с объектом DTO),
-                    /// невозможно задать значения по умолчанию (вроде обязательности
-                    /// заполнения), т.к. этих данных нет в DTO. Предполагается,
-                    /// что они задаются вручную в дизайнере формы.
-                    bc.Bind(_entityObj);
+                    bc.Bind(_ctx);
                 }
                 else if (c.Controls.Count > 0)
                 {
@@ -152,9 +157,9 @@ namespace Gui.Desktop.Forms
 
         void SetTitle()
         {
-            this.Text = _objId == 0
+            Text = _objId.HasValue
                 ? "Create " + _guiName
-                : _guiName + " # " + _objId.ToString();
+                : _guiName + " #" + _objId.ToString();
         }
 
         void Grab(Control parentControl)

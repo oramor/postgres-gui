@@ -1,6 +1,8 @@
-﻿namespace Gui.Desktop
+﻿using Gui.Desktop.Dto;
+
+namespace Gui.Desktop
 {
-    public class EntityDto
+    public class EntityDto : BaseDto
     {
         public int Id { get; set; }
         public string? PascalName { get; set; }

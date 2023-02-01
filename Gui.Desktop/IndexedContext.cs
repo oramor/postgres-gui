@@ -10,7 +10,7 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class IndexedContext : IIndexedContext
+    public class IndexedContext : IRecordContext
     {
         readonly DataRow _row;
 

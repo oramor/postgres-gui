@@ -21,7 +21,7 @@ namespace Lib.GuiCommander
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(IIndexedContext obj);
+        void Bind(IRecordContext obj);
         /// <summary>
         /// Обрабатывает события изменеий контекста
         /// </summary>
