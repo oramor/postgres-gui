@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using Lib.Providers.JsonProvider;
 
 namespace Lib.Providers
 
@@ -21,10 +21,11 @@ namespace Lib.Providers
 
     public class ApiParameter
     {
-        string _paramName = string.Empty;
-        object? _paramValue = null;
-        ApiParameterType _paramType;
-        ApiParameterDataType _paramDataType;
+        readonly string _paramName = string.Empty;
+        readonly object? _paramValue;
+        readonly JsonParameter? _json;
+        readonly ApiParameterType _paramType;
+        readonly ApiParameterDataType _paramDataType;
 
         #region Constructors
 
@@ -42,7 +43,13 @@ namespace Lib.Providers
         /// <summary>
         /// For in-parameters which will be converted to json/jsonb
         /// </summary>
-        // public ApiParameter(string paramName, ) { }
+        public ApiParameter(JsonParameter json)
+        {
+            _paramName = "p_obj";
+            _paramType = ApiParameterType.In;
+            _json = json;
+        }
+
 
         /// <summary>
         /// For out-parameters (it is usless to pass value into)
@@ -58,47 +65,46 @@ namespace Lib.Providers
 
         public string ParamName => _paramName;
 
-        /// <summary>
-        /// Для параметров, которые заявлены как Json, производится
-        /// сериализация в строку
-        /// </summary>
         public object? ParamValue
         {
             get {
-                if (ParamDataType == ApiParameterDataType.Json)
+                if (_json != null)
                 {
-                    JsonSerializerOptions opts = new JsonSerializerOptions() {
-#if DEBUG
-                        // For human readability 
-                        WriteIndented = true,
-#endif
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    };
-
-                    return JsonSerializer.Serialize(_paramValue, opts);
+                    // This is extenshion method
+                    return _json.ToJson();
                 }
 
                 return _paramValue;
             }
         }
 
-        public ApiParameterType ParamType { get => _paramType; }
+        public ApiParameterType ParamType => _paramType;
 
-        /// <summary>
-        /// Пока поддерживаются только 3 вида входящих параметров.
-        /// Для поддержки DTO, скорее всего, нужно будет применить
-        /// дженерики: new ApiParameter<DTO.Subject>("p_subject")
-        /// </summary>
         public ApiParameterDataType ParamDataType
         {
             get {
-                if (_paramValue == null) return _paramDataType;
+                /// Для out-параметров тип данных обязательно указывается
+                /// в конструкторе. Для in-параметров вычисляется на основании
+                /// значения, которое было передано в конструктор
+                if (_paramType == ApiParameterType.Out)
+                    return _paramDataType;
 
-                if (_paramValue is string) return ApiParameterDataType.String;
-                if (_paramValue is int) return ApiParameterDataType.Integer;
-                if (_paramValue is bool) return ApiParameterDataType.Bool;
+                if (_json != null)
+                    return ApiParameterDataType.Json;
 
-                return ApiParameterDataType.Json;
+                if (_paramValue is string)
+                    return ApiParameterDataType.String;
+
+                if (_paramValue is int)
+                    return ApiParameterDataType.Integer;
+
+                if (_paramValue is bool)
+                    return ApiParameterDataType.Bool;
+
+                if (_paramValue == null)
+                    throw new Exception("NULL is currently not supported");
+
+                throw new Exception("Unknown parameter type for APIParameter");
             }
         }
     }

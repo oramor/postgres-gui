@@ -77,7 +77,7 @@ namespace Gui.Desktop
 
         private void newDbTableColumnFkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new DbTableColumnFk(0));
+            App.ShowModalForm(new DbTableColumnFk(null));
         }
 
         #endregion

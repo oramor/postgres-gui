@@ -1,6 +1,7 @@
 ﻿using Gui.Desktop.Dto;
 using Lib.GuiCommander;
 using Lib.Providers;
+using Lib.Providers.JsonProvider;
 using System.ComponentModel;
 using System.Data;
 
@@ -40,17 +41,11 @@ namespace Gui.Desktop.Forms
         /// </summary>
         protected virtual void Init<T>() where T : BaseFormDto, new()
         {
-            SetTitle();
-
             _dto = new T();
             _ctx = MakeContext();
             BindControls(this);
-
-            /// Заполняем GuiFormType, который так же является ключем для обращения
-            /// к метадате
-            /// 
-
             _ctx.PropertyChanged += C_PropertyChanged;
+            SetTitle();
         }
 
         IDataContext MakeContext()
@@ -103,33 +98,41 @@ namespace Gui.Desktop.Forms
                 : _dataDomainName + " #" + _dataRecordId.ToString();
         }
 
-        /// <summary>
-        /// Переносит в DTO данные из текущего состояния контекста.
-        /// </summary>
-        void FillDto()
+        JsonParameter MakeJsonParameter()
         {
-            if (_dto == null || _ctx == null)
-                return;
+            if (_ctx == null)
+                throw new Exception("Form context should be defined before JSON parameter cooking");
 
+
+            if (_dto == null)
+                throw new Exception("Metadata should be defined before JSON parameter cooking");
+
+            var jp = new JsonParameter();
+
+            /// Объект метаданных указывает, какие проперти нужно получить.
+            /// Мы не можем пройтись по индексным проперям.
             foreach (var prop in _dto.GetType().GetProperties())
             {
                 var camelName = prop.Name.LowFirstChar();
-                var ctxValue = _ctx[camelName] == DBNull.Value ? null : _ctx[camelName];
-                prop.SetValue(_dto, ctxValue);
+                jp.Add(camelName, _ctx[camelName]);
             }
+
+            /// TODO Copy from _ctx.DataTables the values from grid controls
+
+            return jp;
         }
 
         #region Actions
 
         void CreateObject()
         {
-            FillDto();
+            var jp = MakeJsonParameter();
 
             var procName = "pr_" + _token + "_create_n";
 
             var cmd = new ApiCommand("api_admin", procName);
-            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Integer));
-            cmd.AddParam(new ApiParameter("p_obj", _dto));
+            cmd.AddParam(new ApiParameter("p_id", ApiParameterDataType.Integer));
+            cmd.AddParam(new ApiParameter(jp));
             var result = App.CallApiCommand<int>(cmd);
 
             App.Logger.GuiReport($"Created {_dataDomainName} with id {result}");
@@ -139,24 +142,26 @@ namespace Gui.Desktop.Forms
 
         void SaveObject()
         {
-            if (_dataRecordId == null || _dataRecordId == 0)
-                return;
+            if (_dataRecordId > 0)
+            {
+                var procName = "pr_" + _token + "_update_";
+            }
 
-            var procName = "pr_" + _token + "_update_";
+            Close();
         }
 
         void RemoveObject()
         {
-            if (_dataRecordId == null || _dataRecordId == 0)
-                return;
+            if (_dataRecordId > 0)
+            {
+                var procName = "pr_" + _token + "_remove_";
 
-            var procName = "pr_" + _token + "_remove_";
+                var cmd = new ApiCommand("api_admin", procName);
+                cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
+                var result = App.CallApiCommand<int>(cmd);
 
-            var cmd = new ApiCommand("api_admin", procName);
-            cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
-            var result = App.CallApiCommand<int>(cmd);
-
-            App.Logger.GuiReport($"{_dataDomainName} with id {result} REMOVED");
+                App.Logger.GuiReport($"{_dataDomainName} with id {result} REMOVED");
+            }
 
             Close();
         }
