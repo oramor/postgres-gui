@@ -6,7 +6,7 @@ namespace Lib.GuiCommander
     {
         bool _isRequired;
         bool _readOnly;
-        IRecordContext? _ctx;
+        IDataContext? _ctx;
 
         public BoolControl()
         {
@@ -49,16 +49,22 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(IRecordContext ctx)
+        public void Bind(IDataContext ctx)
         {
             if (CamelName == null)
                 return;
 
             _ctx = ctx;
 
+            /// Устанавливаем дефолтное значение из контекста, или передаем
+            /// в контекст начальное значение контрола
             if (ctx[CamelName] is bool v)
             {
                 CurrentValue = v;
+            }
+            else
+            {
+                ctx[CamelName] = CurrentValue;
             }
 
             ctx.PropertyChanged += C_PropertyChanged;

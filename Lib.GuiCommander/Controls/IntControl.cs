@@ -6,7 +6,7 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        IRecordContext _ctx;
+        IDataContext _ctx;
 
         public IntControl()
         {
@@ -87,7 +87,7 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(IRecordContext ctx)
+        public void Bind(IDataContext ctx)
         {
             if (CamelName == null)
                 return;

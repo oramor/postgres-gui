@@ -4,7 +4,7 @@ namespace Gui.Desktop
 {
 
 
-    public class DbTableColumnDto : BaseDto
+    public class DbTableColumnDto : BaseFormDto
     {
         public int? Id { get; set; }
         public int? DbTableId { get; set; }
@@ -16,6 +16,8 @@ namespace Gui.Desktop
         public int? DefaultPriority { get; set; }
         public int? LogicalDataTypeId { get; set; }
         public int? FkTableColumnId { get; set; }
+
+        // Because default for nullable types is null
         public bool? IsRequired { get; set; }
         public string? Description { get; set; }
     }

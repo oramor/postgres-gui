@@ -9,7 +9,7 @@ namespace Lib.GuiCommander
     /// <summary>
     /// Любая DTO для сущности обязана иметь идентификатор
     /// </summary>
-    public interface IRecordDto
+    public interface IDataRecordDto
     {
         int? Id { get; set; }
     }

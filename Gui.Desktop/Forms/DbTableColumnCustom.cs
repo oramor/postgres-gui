@@ -9,7 +9,7 @@ namespace Gui.Desktop.Forms
             InitializeComponent();
         }
 
-        public DbTableColumnCustom(int objId)
+        public DbTableColumnCustom(int? objId)
             : base("Table column", "db_table_column", 265)
         {
             InitializeComponent();

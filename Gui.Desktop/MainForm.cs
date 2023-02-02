@@ -57,7 +57,7 @@ namespace Gui.Desktop
 
         private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new EntityForm());
+            App.ShowModalForm(new EntityForm(null));
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace Gui.Desktop
 
         private void newEntityColumnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new DbTableColumnCustom(0));
+            App.ShowModalForm(new DbTableColumnCustom(null));
         }
 
         private void newDbTableColumnFkToolStripMenuItem_Click(object sender, EventArgs e)

@@ -6,7 +6,7 @@ namespace Lib.GuiCommander
     /// Используется для работы с экземплярами сущностей. Содержит
     /// индексатор, который используется для формирования свойств.
     /// </summary>
-    public interface IRecordContext : INotifyPropertyChanged
+    public interface IDataContext : INotifyPropertyChanged
     {
         /// <summary>
         /// Публичный метод отправки событий позволяет обращаться к контексту

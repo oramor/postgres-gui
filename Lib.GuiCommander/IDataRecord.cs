@@ -8,7 +8,7 @@
     /// над которыми можно выполнять базовые DML-операции. Если говорить
     /// в терминах реляционной модели, Record — это запись в таблице.
     /// </summary>
-    public interface IRecord
+    public interface IDataRecord
     {
         int Id { get; init; }
         /// <summary>

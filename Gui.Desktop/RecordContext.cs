@@ -9,7 +9,7 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class RecordContext : IRecordContext
+    public class RecordContext : IDataContext
     {
         readonly DataRow _row;
 
@@ -38,7 +38,9 @@ namespace Gui.Desktop
                 dt.Columns.Add(camelName);
 
                 var propValue = prop.GetValue(dto);
-                _row[camelName] = propValue;
+
+                _row[camelName] = propValue == null ? DBNull.Value : propValue;
+                //_row.SetField(camelName, propValue);
             }
         }
 
@@ -63,6 +65,12 @@ namespace Gui.Desktop
             PropertyChanged?.Invoke(propertyValue, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Если свойство не будет найдено по ключу, вернется null.
+        /// Не следует путать с кейсом, когда отсутствовало дефолтное значение
+        /// при загрузке Dto и свойство есть в справочнике, но получило
+        /// значение DBNull.Value
+        /// </summary>
         public object? this[string propName]
         {
             get {

@@ -8,38 +8,42 @@ namespace Gui.Desktop.Forms
 {
     public partial class BaseObjectForm : Form
     {
-        readonly string _guiName;
-        readonly string _token;
-        readonly int? _objId;
-        IRecordContext? _ctx;
-        BaseDto? _dto;
+        readonly string? _dataDomainName;
+        readonly string? _token;
+        readonly int? _dataRecordId;
+        IDataContext? _ctx;
+        BaseFormDto? _dto;
 
         protected BaseObjectForm()
         {
             InitializeComponent();
         }
 
-        public BaseObjectForm(string guiName, string token, int objId)
+        public BaseObjectForm(string dataDomainName, string token, int? dataRecordId)
         {
             InitializeComponent();
-            _guiName = guiName;
+            _dataDomainName = dataDomainName;
+            _dataRecordId = dataRecordId;
             _token = token;
-            _objId = objId;
         }
 
+        /// <summary>
+        /// При любом изменении контекста формы (кроме его инициализации),
+        /// форма будет считаться модифицированной
+        /// </summary>
         protected bool IsModified { get; set; }
 
         /// <summary>
-        /// Если форма вызвана с идентификатором (objId передается в конструктор),
+        /// Если форма вызвана с идентификатором (dataRecordId передается в конструктор),
         /// то будет обращение к базе, по результатам которого заполнено Dto.
         /// Иначе ограничимся только созданием объекта с контекстом формы.
         /// </summary>
-        protected virtual void Init<T>() where T : BaseDto, new()
+        protected virtual void Init<T>() where T : BaseFormDto, new()
         {
             SetTitle();
 
             _dto = new T();
-            LoadContext();
+            _ctx = MakeContext();
             BindControls(this);
 
             /// Заполняем GuiFormType, который так же является ключем для обращения
@@ -49,21 +53,21 @@ namespace Gui.Desktop.Forms
             _ctx.PropertyChanged += C_PropertyChanged;
         }
 
-        void LoadContext()
+        IDataContext MakeContext()
         {
-            if (_objId.HasValue)
+            if (_dataRecordId.HasValue)
             {
                 var funcName = "fn_get_" + _token + "_item_r";
 
                 var cmd = new ApiCommand("api_admin", funcName);
-                cmd.AddParam(new ApiParameter("p_id", _objId));
+                cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
                 var row = App.CallApiCommand<DataRow>(cmd);
 
-                _ctx = new RecordContext(row);
+                return new RecordContext(row);
             }
             else if (_dto != null)
             {
-                _ctx = new RecordContext(_dto);
+                return new RecordContext(_dto);
             }
             else
             {
@@ -81,7 +85,7 @@ namespace Gui.Desktop.Forms
 
             foreach (Control c in parentControl.Controls)
             {
-                if (parentControl is IBaseControl bc)
+                if (c is IBaseControl bc)
                 {
                     bc.Bind(_ctx);
                 }
@@ -94,20 +98,24 @@ namespace Gui.Desktop.Forms
 
         void SetTitle()
         {
-            Text = _objId.HasValue
-                ? "Create " + _guiName
-                : _guiName + " #" + _objId.ToString();
+            Text = _dataRecordId.HasValue
+                ? "Create " + _dataDomainName
+                : _dataDomainName + " #" + _dataRecordId.ToString();
         }
 
-        private void FillDto()
+        /// <summary>
+        /// Переносит в DTO данные из текущего состояния контекста.
+        /// </summary>
+        void FillDto()
         {
-            if (_dto == null)
+            if (_dto == null || _ctx == null)
                 return;
 
             foreach (var prop in _dto.GetType().GetProperties())
             {
                 var camelName = prop.Name.LowFirstChar();
-                prop.SetValue(_dto, _ctx?[camelName]);
+                var ctxValue = _ctx[camelName] == DBNull.Value ? null : _ctx[camelName];
+                prop.SetValue(_dto, ctxValue);
             }
         }
 
@@ -124,14 +132,14 @@ namespace Gui.Desktop.Forms
             cmd.AddParam(new ApiParameter("p_obj", _dto));
             var result = App.CallApiCommand<int>(cmd);
 
-            App.Logger.GuiReport($"Created {_guiName} with id {result}");
+            App.Logger.GuiReport($"Created {_dataDomainName} with id {result}");
 
             Close();
         }
 
         void SaveObject()
         {
-            if (_objId == null || _objId == 0)
+            if (_dataRecordId == null || _dataRecordId == 0)
                 return;
 
             var procName = "pr_" + _token + "_update_";
@@ -139,16 +147,16 @@ namespace Gui.Desktop.Forms
 
         void RemoveObject()
         {
-            if (_objId == null || _objId == 0)
+            if (_dataRecordId == null || _dataRecordId == 0)
                 return;
 
             var procName = "pr_" + _token + "_remove_";
 
             var cmd = new ApiCommand("api_admin", procName);
-            cmd.AddParam(new ApiParameter("p_id", _objId));
+            cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
             var result = App.CallApiCommand<int>(cmd);
 
-            App.Logger.GuiReport($"{_guiName} with id {result} REMOVED");
+            App.Logger.GuiReport($"{_dataDomainName} with id {result} REMOVED");
 
             Close();
         }
@@ -169,7 +177,7 @@ namespace Gui.Desktop.Forms
 
         void saveButton_Click(object sender, EventArgs e)
         {
-            if (_objId.HasValue)
+            if (_dataRecordId.HasValue)
             {
                 SaveObject();
             }

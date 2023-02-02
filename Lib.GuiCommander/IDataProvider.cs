@@ -5,10 +5,10 @@
     /// по его имени. Так же можно реализовать IRecordDomainFabric,
     /// как класс с indexed properties
     /// </summary>
-    public interface IRecordProvider
+    public interface IDataProvider
     {
         // GetRecordOwner
-        IRecord GetRecord(string recordDomainName, int recordId);
-        IRecordDomain GetRecordDomain(string recordDomainName);
+        IDataRecord GetRecord(string dataDomainName, int dataRecordId);
+        IDataDomain GetRecordDomain(string recordDomainName);
     }
 }

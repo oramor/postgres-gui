@@ -11,7 +11,7 @@
     /// в контексте WPF-приложения. Если говорить в терминах реляционной модели,
     /// то RecordDomain — это таблица.
     /// </summary>
-    public interface IRecordDomain
+    public interface IDataDomain
     {
         /// <summary>
         /// Любая сущность обязана иметь имя, которое одновременно является
@@ -25,7 +25,7 @@
         /// <summary>
         /// Возвращает коллекцию объектов
         /// </summary>
-        ICollection<IRecord> GetList(object? filter);
+        ICollection<IDataRecord> GetList(object? filter);
         /// <summary>
         /// Возвращает идентификатор созданного экземпляря сущности
         /// </summary>

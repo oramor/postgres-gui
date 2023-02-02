@@ -46,14 +46,6 @@ namespace Gui.Desktop.Forms
             _passwordField = this.textBoxPassword.Text;
         }
 
-        private void CheckFields()
-        {
-            if (String.IsNullOrEmpty(_hostField))
-            {
-                App.ShowInputRequiredDialog("Host", this);
-            }
-        }
-
         private void ReloadButtons()
         {
             this.btnDisconnect.Visible = _db.IsConnected;
@@ -63,11 +55,11 @@ namespace Gui.Desktop.Forms
         private void btnConnect_Click(object sender, EventArgs e)
         {
             SetFieldValues();
-            CheckFields();
 
             try
             {
-                _db.TryConnect(new DbConnectionParams(_hostField, _portField, _databaseField, _usernameField, _passwordField));
+                _db.TryConnect(new DbConnectionParams("localhost", "5435", "demo", "demo", "demo"));
+                //_db.TryConnect(new DbConnectionParams(_hostField, _portField, _databaseField, _usernameField, _passwordField));
             } catch
             {
                 App.ShowErrorDialog("Connection attempt failed: database error occured");

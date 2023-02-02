@@ -46,7 +46,7 @@ namespace Gui.Desktop.Forms
             var id = entityDataGridView.GetColumnIdValue();
             if (canOpen && id > 0)
             {
-                MessageBox.Show(id.ToString());
+                App.ShowModalForm(new EntityForm(id));
             }
         }
     }
