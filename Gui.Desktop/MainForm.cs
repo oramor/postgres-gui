@@ -32,7 +32,7 @@ namespace Gui.Desktop
             this.toolStripStatusLastCommandReport.Text = message;
         }
 
-        #region Events
+        #region Event Handlers
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -54,8 +54,6 @@ namespace Gui.Desktop
             _pg.TryDisconnect();
             Application.Exit();
         }
-
-        #endregion
 
         private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -81,5 +79,7 @@ namespace Gui.Desktop
         {
             App.ShowModalForm(new DbTableColumnFk(0));
         }
+
+        #endregion
     }
 }

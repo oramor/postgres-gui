@@ -1,5 +1,4 @@
-﻿using Lib.GuiCommander.Controls;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {

@@ -4,6 +4,9 @@
     {
         var c = new Test();
 
+        //var report = c.GetType().GetProperty()
+        //Console.WriteLine(report);
+
         for (int i = 0; i < 5; i++)
         {
             var str = Console.ReadLine();
@@ -29,6 +32,8 @@ public class Test
             {"Perm", new City { Name = "Perm", Population = 1500000 }}
         };
     }
+
+    public int Samara => 5000000;
 
     public int this[string index]
     {

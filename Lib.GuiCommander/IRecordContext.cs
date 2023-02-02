@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Lib.GuiCommander.Controls
+namespace Lib.GuiCommander
 {
     /// <summary>
     /// Используется для работы с экземплярами сущностей. Содержит

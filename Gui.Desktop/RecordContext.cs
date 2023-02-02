@@ -1,5 +1,4 @@
 ﻿using Lib.GuiCommander;
-using Lib.GuiCommander.Controls;
 using System.ComponentModel;
 using System.Data;
 
@@ -10,13 +9,13 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class IndexedContext : IRecordContext
+    public class RecordContext : IRecordContext
     {
         readonly DataRow _row;
 
         #region Constructors
 
-        public IndexedContext(DataRow row)
+        public RecordContext(DataRow row)
         {
             _row = row;
         }
@@ -28,7 +27,7 @@ namespace Gui.Desktop
         /// быть предусмотрены значения по умолчанию, которые попадут
         /// в DataRow.
         /// </summary>
-        public IndexedContext(object dto)
+        public RecordContext(object dto)
         {
             var dt = new DataTable("dto");
             _row = dt.NewRow();

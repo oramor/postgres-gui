@@ -1,9 +1,8 @@
 ﻿using Gui.Desktop.Dto;
 using Lib.GuiCommander;
-using Lib.GuiCommander.Controls;
 using Lib.Providers;
+using System.ComponentModel;
 using System.Data;
-using System.Reflection;
 
 namespace Gui.Desktop.Forms
 {
@@ -28,21 +27,7 @@ namespace Gui.Desktop.Forms
             _objId = objId;
         }
 
-        /// <summary>
-        /// Возможно переопределение для более сложной логики инициализации
-        /// В этом случае все равно должен быть вызван base.Init()
-        /// </summary>
-        //protected virtual void Init()
-        //{
-        //    SetTitle();
-
-        //    if (_ctx != null)
-        //    {
-
-        //    }
-
-        //    //BindControls(this);
-        //}
+        protected bool IsModified { get; set; }
 
         /// <summary>
         /// Если форма вызвана с идентификатором (objId передается в конструктор),
@@ -54,40 +39,15 @@ namespace Gui.Desktop.Forms
             SetTitle();
 
             _dto = new T();
-            //SubscribeControls(this);
-            //LoadIntoDto();
+            LoadContext();
+            BindControls(this);
 
             /// Заполняем GuiFormType, который так же является ключем для обращения
             /// к метадате
+            /// 
+
+            _ctx.PropertyChanged += C_PropertyChanged;
         }
-
-        /// <summary>
-        /// Подписывает контролы на контекст формы. Соответственно, если
-        /// контекст не создан, то и подписки не будет
-        /// </summary>
-        //void SubscribeControls(Control parentControl)
-        //{
-        //    if (_ctx == null)
-        //        return;
-
-        //    foreach (Control c in parentControl.Controls)
-        //    {
-        //        if (c is IPropertyChangeSubscriber bc)
-        //        {
-        //            if (bc != null)
-        //            {
-        //                // Подписываем на контекст
-        //                _ctx.PropertyChanged += bc.C_PropertyChanged;
-        //            }
-        //            /// Здесь предполагаем, что кастомные контролы
-        //            /// не могут иметь вложенных
-        //        }
-        //        else if (c.Controls.Count > 0)
-        //        {
-        //            SubscribeControls(c);
-        //        }
-        //    }
-        //}
 
         void LoadContext()
         {
@@ -99,40 +59,17 @@ namespace Gui.Desktop.Forms
                 cmd.AddParam(new ApiParameter("p_id", _objId));
                 var row = App.CallApiCommand<DataRow>(cmd);
 
-                _ctx = new IndexedContext(row);
+                _ctx = new RecordContext(row);
             }
-            else if (_ctx != null) { }
+            else if (_dto != null)
             {
-
+                _ctx = new RecordContext(_dto);
+            }
+            else
+            {
+                throw new Exception("Cannot load form context");
             }
         }
-
-        //void LoadIntoDto()
-        //{
-        //    if (_objId == null || _ctx == null)
-        //        return;
-
-        //    var funcName = "fn_get_" + _token + "_item_r";
-
-        //    var cmd = new ApiCommand("api_admin", funcName);
-        //    cmd.AddParam(new ApiParameter("p_id", _objId));
-        //    var row = App.CallApiCommand<DataRow>(cmd);
-
-        //    foreach (var prop in _ctx.GetType().GetProperties())
-        //    {
-        //        // Convert PascalCase to camel
-        //        var colName = prop.Name.LowFirstChar();
-
-        //        var isExists = row.Table.Columns.Contains(colName);
-
-        //        if (isExists)
-        //        {
-        //            /// Каждый контрол, который подписан на контекст,
-        //            /// получит оповещение
-        //            _ctx.OnPropertyChanged(colName, row[colName]);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Will bind all controls with current form context
@@ -162,35 +99,15 @@ namespace Gui.Desktop.Forms
                 : _guiName + " #" + _objId.ToString();
         }
 
-        void Grab(Control parentControl)
+        private void FillDto()
         {
-            foreach (var control in parentControl.Controls)
+            if (_dto == null)
+                return;
+
+            foreach (var prop in _dto.GetType().GetProperties())
             {
-                switch (control)
-                {
-                    case IJsonControl<int?> jc: AddValueToDto<int?>(jc); break;
-                    case IJsonControl<int> jc: AddValueToDto<int>(jc); break;
-                    case IJsonControl<string> jc: AddValueToDto<string>(jc); break;
-                    case IJsonControl<bool> jc: AddValueToDto<bool>(jc); break;
-                    default: break;
-                }
-            }
-        }
-
-        void AddValueToDto<T>(IJsonControl<T> jc)
-        {
-            var dtoType = _dto.GetType();
-            var jcPascalName = jc.CamelName?.UpFirstChar();
-
-            if (string.IsNullOrEmpty(jcPascalName)) return;
-
-            PropertyInfo? dtoProp = dtoType.GetProperty(jcPascalName);
-
-            if (dtoProp == null) return;
-
-            if (dtoProp.PropertyType == typeof(T))
-            {
-                dtoProp.SetValue(_dto, jc.CurrentValue);
+                var camelName = prop.Name.LowFirstChar();
+                prop.SetValue(_dto, _ctx?[camelName]);
             }
         }
 
@@ -198,7 +115,7 @@ namespace Gui.Desktop.Forms
 
         void CreateObject()
         {
-            Grab(this);
+            FillDto();
 
             var procName = "pr_" + _token + "_create_n";
 
@@ -238,7 +155,12 @@ namespace Gui.Desktop.Forms
 
         #endregion
 
-        #region Events
+        #region Handlers
+
+        void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            IsModified = true;
+        }
 
         void closeButton_Click(object sender, EventArgs e)
         {

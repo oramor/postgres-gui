@@ -1,13 +1,6 @@
 ﻿namespace Lib.Providers
 {
-    public interface IDbConnectionParams
-    {
-        public string Host { get; init; }
-        public string Port { get; init; }
-        public string Database { get; init; }
-        public string Username { get; init; }
-        public string Password { get; init; }
-    }
+    public readonly record struct DbConnectionParams(string Host, string Port, string Database, string Username, string Password);
 
     public interface IDbProvider
     {
@@ -17,7 +10,7 @@
         string Username { get; }
         string ServerVersion { get; }
         bool IsConnected { get; }
-        void TryConnect(IDbConnectionParams connParams);
+        void TryConnect(DbConnectionParams connParams);
         void TryDisconnect();
         T Execute<T>(ApiCommand cmd);
         void ExecuteVoid(ApiCommand cmd);

@@ -1,6 +1,6 @@
 ﻿namespace Lib.GuiCommander.Controls
 {
-    partial class ObjectFormControl
+    partial class ContextFormControl
     {
         /// <summary> 
         /// Required designer variable.

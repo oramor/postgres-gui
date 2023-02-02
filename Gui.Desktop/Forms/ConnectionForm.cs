@@ -2,15 +2,6 @@
 
 namespace Gui.Desktop.Forms
 {
-    public readonly struct DbConnectionParams : IDbConnectionParams
-    {
-        public string Host { get; init; }
-        public string Port { get; init; }
-        public string Database { get; init; }
-        public string Username { get; init; }
-        public string Password { get; init; }
-    }
-
     public partial class ConnectionForm : Form
     {
         private readonly IDbProvider _db;
@@ -76,13 +67,7 @@ namespace Gui.Desktop.Forms
 
             try
             {
-                _db.TryConnect(new DbConnectionParams {
-                    Host = _hostField,
-                    Port = _portField,
-                    Database = _databaseField,
-                    Username = _usernameField,
-                    Password = _passwordField
-                });
+                _db.TryConnect(new DbConnectionParams(_hostField, _portField, _databaseField, _usernameField, _passwordField));
             } catch
             {
                 App.ShowErrorDialog("Connection attempt failed: database error occured");

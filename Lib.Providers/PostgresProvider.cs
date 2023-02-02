@@ -47,12 +47,12 @@ namespace Lib.Providers
             }
         }
 
-        private static string MakeConnectionString(IDbConnectionParams connParams)
+        private static string MakeConnectionString(DbConnectionParams connParams)
         {
             return $"Host={connParams.Host};Port={connParams.Port};Username={connParams.Username};Password={connParams.Password};Database={connParams.Database}";
         }
 
-        public void TryConnect(IDbConnectionParams connParams)
+        public void TryConnect(DbConnectionParams connParams)
         {
             if (dataSource != null) return;
 
