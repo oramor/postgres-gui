@@ -397,3 +397,11 @@ InteropTests/NativeTests/out
 /Gui.Desktop/obj/project.nuget.cache
 /Gui.Desktop/obj/Gui.Desktop.csproj.nuget.dgspec.json
 /Gui.Desktop/obj/project.assets.json
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.assets.cache
+/Gui.Desktop/obj/Debug/net7.0-windows/Gui.Desktop.GeneratedMSBuildEditorConfig.editorconfig
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/postgres-gui/v17/.wsuo
+/.gitignore
+/Gui.Desktop/obj/Debug/net7.0-windows/apphost.exe
+/.gitignore

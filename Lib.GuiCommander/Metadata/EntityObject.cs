@@ -24,7 +24,7 @@ namespace Lib.GuiCommander
     /// При получении Name нужна будет проверки, есть ли связь с DataTable через DataRowState.Detached
     /// https://learn.microsoft.com/en-us/dotnet/api/system.data.datarow.table?view=net-7.0#system-data-datarow-table
     /// </summary>
-    public class EntityObject : IJsonParameter
+    public class EntityObject
     {
         readonly DataRow _dataRow;
         readonly Dictionary<string, TablePartObject> _tableParts = new();
