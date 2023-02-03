@@ -9,7 +9,7 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class RecordContext : IDataContext
+    public class RecordContext : IObservableContext
     {
         readonly DataRow _row;
 
@@ -57,12 +57,39 @@ namespace Gui.Desktop
         /// Это событие публично и служит для передачи контролам
         /// конкретного значения
         /// </summary>
-        public void OnPropertyChanged(string propertyName, object? propertyValue)
+        public void OnPropertyChanged(string propertyName, object? newPropertyValue)
         {
-            if (propertyValue == null)
+            if (newPropertyValue == null)
                 return;
 
-            PropertyChanged?.Invoke(propertyValue, new PropertyChangedEventArgs(propertyName));
+            if (this[propertyName] == newPropertyValue)
+                return;
+
+            this[propertyName] = newPropertyValue;
+
+            PropertyChanged?.Invoke(newPropertyValue, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public int Id
+        {
+            get => _row["id"] == DBNull.Value ? 0 : Convert.ToInt32(_row["id"]);
+            set => _row["id"] = value;
+        }
+
+        public DataRecordState State
+        {
+            get {
+                return _row["state"] == DBNull.Value
+                    ? DataRecordState.None
+                    : (DataRecordState)Convert.ToInt32(_row["state"]);
+            }
+            set => _row["state"] = (int)value;
+        }
+
+        public int Version
+        {
+            get => _row["ver"] == DBNull.Value ? 0 : Convert.ToInt32(_row["ver"]);
+            set => _row["ver"] = value;
         }
 
         /// <summary>

@@ -21,7 +21,6 @@ namespace Lib.GuiCommander.Controls
         bool _isRequired;
         bool _isReadOnly;
         string? _dataSourceRoutine;
-        IDataContext? _ctx;
 
         public ComboBoxControl()
         {
@@ -120,19 +119,18 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(IDataContext ctx)
+        public void Bind(IObservableContext ctx)
         {
             if (CamelName == null)
                 return;
-
-            _ctx = ctx;
 
             if (ctx[CamelName] is int v)
             {
                 CurrentValue = v;
             }
 
-            ctx.PropertyChanged += C_PropertyChanged;
+            ControlValueChanged += ctx.ControlValueChangedEventHandler;
+            ctx.ContextPropertyChanged += C_ContextPropertyChanged;
         }
 
         public void SetDataSource(IDictionary<int, string> dic)
@@ -187,16 +185,16 @@ namespace Lib.GuiCommander.Controls
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
-        protected void OnControlValueChanged(object sender, EventArgs e)
+        protected void OnControlValueChanged(IBaseControl sender, ControlValueChangedEventArgs e)
         {
             ControlValueChanged?.Invoke(sender, e);
         }
 
         #region Events
 
-        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CamelName && sender is int v)
+            if (e.PropertyName != null && sender[CamelName] is int v)
             {
                 CurrentValue = v;
             }
@@ -204,17 +202,7 @@ namespace Lib.GuiCommander.Controls
 
         private void C_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_ctx == null || string.IsNullOrEmpty(CamelName))
-                return;
-
-            if (_ctx[CamelName] is int oldValue && SelectedValue is int v)
-            {
-                if (oldValue != v)
-                {
-                    _ctx[CamelName] = SelectedValue;
-                    OnControlValueChanged(this, EventArgs.Empty);
-                }
-            }
+            OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
         }
 
         private void C_KeyDown(object sender, KeyEventArgs e)

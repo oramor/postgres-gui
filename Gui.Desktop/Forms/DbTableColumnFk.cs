@@ -7,7 +7,7 @@
             InitializeComponent();
         }
 
-        public DbTableColumnFk(int objId)
+        public DbTableColumnFk(int? objId)
     : base("Table column (FK)", "db_table_column", objId)
         {
             InitializeComponent();

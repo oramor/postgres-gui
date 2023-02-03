@@ -1,29 +1,31 @@
-﻿using System.ComponentModel;
+﻿using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
     /// <summary>
     /// В методе BindControls базовая форма подписывается на событие обновления контрола
     /// (т.е. добавляет в объект делегата контрола ссылку на метод OnControlValueChanged).
-    /// Вызов этого метода в любом из контролов приведет к обновлению статуса самой
-    /// формы (IsModified = true), что приведет к появлению запроса на подтверждение
-    /// действия перед закрытием.
+    /// Типизация сендера как IBaseControl позволяет извлекать актуальные данные
+    /// непосредственно в инстансе контекста формы. Кастомные элемент события <see cref="ControlValueChangedEventArgs"/> позволяет упаковать любое значение в объект,
+    /// что является заменой обращения к слабо типизированному CurrentValue, которое
+    /// предлагается из контролов удалить.
     /// </summary>
-    public delegate void ControlValueChangedEventHandler(object sender, EventArgs e);
+    public delegate void ControlValueChangedEventHandler(IBaseControl sender, ControlValueChangedEventArgs e);
 
     public interface IBaseControl
     {
-        event ControlValueChangedEventHandler ControlValueChanged;
         string? BindingName { get; set; }
         string? PascalName { get; }
         string? CamelName { get; }
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(IDataContext obj);
+        void Bind(IObservableContext obj);
         /// <summary>
-        /// Обрабатывает события изменеий контекста
+        /// На это событие подписываются как заинтересованные контролы,
+        /// так и стейт формы.
         /// </summary>
-        void C_PropertyChanged(object? sender, PropertyChangedEventArgs e);
+        event ControlValueChangedEventHandler ControlValueChanged;
     }
 }

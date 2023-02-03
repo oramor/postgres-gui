@@ -30,11 +30,12 @@
         {
             this.saveButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(247, 176);
+            this.saveButton.Location = new System.Drawing.Point(216, 176);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 0;
@@ -44,7 +45,7 @@
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(166, 176);
+            this.closeButton.Location = new System.Drawing.Point(297, 176);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 1;
@@ -52,16 +53,28 @@
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(135, 176);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteButton.TabIndex = 2;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // BaseObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 211);
+            this.ClientSize = new System.Drawing.Size(384, 211);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.saveButton);
             this.MaximizeBox = false;
             this.Name = "BaseObjectForm";
             this.Text = "BaseObjectForm";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_KeyDown);
             this.ResumeLayout(false);
 
         }
@@ -70,5 +83,6 @@
 
         protected Button saveButton;
         protected Button closeButton;
+        private Button deleteButton;
     }
 }

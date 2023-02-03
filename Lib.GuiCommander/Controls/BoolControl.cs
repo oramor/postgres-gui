@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
@@ -6,7 +7,6 @@ namespace Lib.GuiCommander
     {
         bool _isRequired;
         bool _readOnly;
-        IDataContext? _ctx;
 
         public BoolControl()
         {
@@ -49,12 +49,10 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(IDataContext ctx)
+        public void Bind(IObservableContext ctx)
         {
             if (CamelName == null)
                 return;
-
-            _ctx = ctx;
 
             /// Устанавливаем дефолтное значение из контекста, или передаем
             /// в контекст начальное значение контрола
@@ -67,11 +65,12 @@ namespace Lib.GuiCommander
                 ctx[CamelName] = CurrentValue;
             }
 
-            ctx.PropertyChanged += C_PropertyChanged;
+            ControlValueChanged += ctx.ControlValueChangedEventHandler;
+            ctx.ContextPropertyChanged += C_ContextPropertyChanged;
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
-        protected void OnControlValueChanged(object sender, EventArgs e)
+        protected void OnControlValueChanged(IBaseControl sender, ControlValueChangedEventArgs e)
         {
             ControlValueChanged?.Invoke(sender, e);
         }
@@ -80,9 +79,9 @@ namespace Lib.GuiCommander
 
         #region Event Handlers
 
-        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CamelName && sender is bool v)
+            if (e.PropertyName != null && sender[CamelName] is bool v)
             {
                 CurrentValue = v;
             }
@@ -90,14 +89,7 @@ namespace Lib.GuiCommander
 
         private void BoolControl_CheckedChanged(object sender, EventArgs e)
         {
-            if (_ctx == null || string.IsNullOrEmpty(CamelName))
-                return;
-
-            if (_ctx[CamelName] is bool oldValue && oldValue != Checked)
-            {
-                _ctx[CamelName] = Checked;
-                OnControlValueChanged(this, EventArgs.Empty);
-            }
+            OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
         }
 
         #endregion

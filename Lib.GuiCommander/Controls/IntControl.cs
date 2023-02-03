@@ -6,7 +6,6 @@ namespace Lib.GuiCommander.Controls
     {
         bool _isRequired;
         bool _isReadOnly;
-        IDataContext _ctx;
 
         public IntControl()
         {
@@ -87,23 +86,22 @@ namespace Lib.GuiCommander.Controls
             }
         }
 
-        public void Bind(IDataContext ctx)
+        public void Bind(IObservableContext ctx)
         {
             if (CamelName == null)
                 return;
-
-            _ctx = ctx;
 
             if (ctx[CamelName] is int v)
             {
                 CurrentValue = v;
             }
 
-            ctx.PropertyChanged += C_PropertyChanged;
+            ControlValueChanged += ctx.ControlValueChangedEventHandler;
+            ctx.ContextPropertyChanged += C_ContextPropertyChanged;
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
-        protected void OnControlValueChanged(object sender, EventArgs e)
+        protected void OnControlValueChanged(IBaseControl sender, ControlValueChangedEventArgs e)
         {
             ControlValueChanged?.Invoke(sender, e);
         }
@@ -122,9 +120,9 @@ namespace Lib.GuiCommander.Controls
 
         #region Event Handlers
 
-        public void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CamelName && sender is int v)
+            if (e.PropertyName != null && sender[e.PropertyName] is int v)
             {
                 CurrentValue = v;
             }
@@ -139,16 +137,7 @@ namespace Lib.GuiCommander.Controls
         {
             ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
 
-            if (_ctx == null || string.IsNullOrEmpty(CamelName))
-                return;
-
-            /// Если этих проверок не будет, форма станет считать себя
-            /// измененной после каждой инициализации значениями из БД
-            if (_ctx[CamelName] is int oldValue && oldValue != Value)
-            {
-                _ctx[CamelName] = Value;
-                OnControlValueChanged(this, EventArgs.Empty);
-            }
+            OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
         }
 
         #endregion

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="JsonProvider\Converters\" />
+    <Folder Include="MetadataProvider\" />
   </ItemGroup>
 
 </Project>

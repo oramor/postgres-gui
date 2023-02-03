@@ -9,11 +9,15 @@ namespace Gui.Desktop.Forms
 {
     public partial class BaseObjectForm : Form
     {
+        bool _isModified;
+        protected bool _keyDownHandled;
         readonly string? _dataDomainName;
         readonly string? _token;
         readonly int? _dataRecordId;
-        IDataContext? _ctx;
+        IObservableContext? _ctx;
         BaseFormDto? _dto;
+
+        #region Constructrs
 
         protected BaseObjectForm()
         {
@@ -28,11 +32,37 @@ namespace Gui.Desktop.Forms
             _token = token;
         }
 
+        #endregion
+
         /// <summary>
         /// При любом изменении контекста формы (кроме его инициализации),
         /// форма будет считаться модифицированной
         /// </summary>
-        protected bool IsModified { get; set; }
+        protected bool IsModified
+        {
+            get => _isModified;
+            set {
+                if (_isModified == value) return;
+
+                _isModified = value;
+
+                if (Text.Length > 0)
+                {
+                    char lastChar = Text[^1];
+                    var modifiedSymbol = "*";
+
+                    if (_isModified && !lastChar.Equals(modifiedSymbol))
+                    {
+                        Text += modifiedSymbol;
+                    }
+
+                    if (!_isModified && lastChar.Equals(modifiedSymbol))
+                    {
+                        Text += Text.Remove(Text.Length - 1);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Если форма вызвана с идентификатором (dataRecordId передается в конструктор),
@@ -44,11 +74,14 @@ namespace Gui.Desktop.Forms
             _dto = new T();
             _ctx = MakeContext();
             BindControls(this);
-            _ctx.PropertyChanged += C_PropertyChanged;
+            /// Форма подписывается на обновление контекста, который, в свою очередь,
+            /// обновляют контролы, либо внутренние события самой формы (например,
+            /// загрузка данных из базы)
+            _ctx.ContextPropertyChanged += C_ContextPropertyChanged;
             SetTitle();
         }
 
-        IDataContext MakeContext()
+        IObservableContext MakeContext()
         {
             if (_dataRecordId.HasValue)
             {
@@ -122,9 +155,38 @@ namespace Gui.Desktop.Forms
             return jp;
         }
 
+        public DataRecordState State
+        {
+            get {
+                if (_ctx == null)
+                    return DataRecordState.None;
+
+                return _ctx.State;
+            }
+            set {
+                if (_ctx == null)
+                    return;
+
+                _ctx.State = value;
+            }
+        }
+
+        #region Checks
+
+        /// <summary>
+        /// Обязательно сохранить, если форма была модифицирована, либо
+        /// ее текущий статус отличается от целевого
+        /// </summary>
+        protected virtual bool SaveRequired(DataRecordState targetState)
+        {
+            return State != targetState || IsModified;
+        }
+
+        #endregion
+
         #region Actions
 
-        void CreateObject()
+        void CreateAction()
         {
             var jp = MakeJsonParameter();
 
@@ -137,22 +199,21 @@ namespace Gui.Desktop.Forms
 
             App.Logger.GuiReport($"Created {_dataDomainName} with id {result}");
 
-            Close();
+            IsModified = false;
         }
 
-        void SaveObject()
+        void SaveAction()
         {
             if (_dataRecordId > 0)
             {
                 var procName = "pr_" + _token + "_update_";
             }
-
-            Close();
+            IsModified = false;
         }
 
-        void RemoveObject()
+        void DeleteAction()
         {
-            if (_dataRecordId > 0)
+            if (_dataRecordId > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
             {
                 var procName = "pr_" + _token + "_remove_";
 
@@ -161,34 +222,105 @@ namespace Gui.Desktop.Forms
                 var result = App.CallApiCommand<int>(cmd);
 
                 App.Logger.GuiReport($"{_dataDomainName} with id {result} REMOVED");
-            }
 
-            Close();
+                IsModified = false;
+            }
+        }
+
+        #endregion
+
+        #region Overrides
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // So that registered delegates receive the event
+            base.OnFormClosing(e);
+
+            // Do not hinder shutdown
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            // Confirm user wants to close
+            if (MessageBox.Show("Not saved! Continue close?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+            {
+                e.Cancel = true;
+            }
         }
 
         #endregion
 
         #region Handlers
 
-        void C_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        void C_ContextPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             IsModified = true;
         }
 
         void closeButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         void saveButton_Click(object sender, EventArgs e)
         {
             if (_dataRecordId.HasValue)
             {
-                SaveObject();
+                SaveAction();
             }
             else
             {
-                CreateObject();
+                CreateAction();
+            }
+            Close();
+        }
+
+        void deleteButton_Click(object sender, EventArgs e)
+        {
+            DeleteAction();
+            Close();
+        }
+
+        void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (_keyDownHandled)
+            {
+                _keyDownHandled = false;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                ActiveControl = closeButton;
+                closeButton_Click(closeButton, EventArgs.Empty);
+            }
+            else if (e.Control && e.Alt)
+            {
+                //ActiveControl = toolStrip;
+                //toolStrip.Items[0].Select();
+            }
+            else if (e.Control)
+            {
+                if (e.KeyCode == Keys.Left)
+                {
+                    //TabControl tabControl1 = FindControlByName(this, "tabControl1") as TabControl;
+                    //if (tabControl1 != null && tabControl1.SelectedIndex > 0)
+                    //    tabControl1.SelectedIndex--;
+                }
+                else if (e.KeyCode == Keys.Right)
+                {
+                    //TabControl tabControl1 = FindControlByName(this, "tabControl1") as TabControl;
+                    //if (tabControl1 != null && tabControl1.SelectedIndex < tabControl1.TabPages.Count - 1)
+                    //    tabControl1.SelectedIndex++;
+                }
+                else if (e.KeyCode == Keys.Enter && saveButton.Enabled)
+                {
+                    ActiveControl = saveButton;
+                    saveButton_Click(saveButton, EventArgs.Empty);
+                }
+                //else if (e.KeyCode == Keys.S && saveToolStripButton.Enabled)
+                //{
+                //    ActiveControl = FindControlByName(this, "tabControl1");
+                //    saveToolStripButton_Click(saveToolStripButton, EventArgs.Empty);
+                //}
             }
         }
 
