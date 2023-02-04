@@ -1,5 +1,6 @@
 ﻿using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 using System.Data;
 
 namespace Gui.Desktop
@@ -47,43 +48,31 @@ namespace Gui.Desktop
         #endregion
 
         public event ContextPropertyChangedEventHandler? ContextPropertyChanged;
+        private void OnContextPropertyChanged(string propName)
+        {
+            ContextPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
         public event ContextChangedByUserEventHandler? ContextChangedByUser;
-
-        //protected void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
-
-        /// <summary>
-        /// Это событие публично и служит для передачи контролам
-        /// конкретного значения
-        /// </summary>
-        //public void OnPropertyChanged(string propertyName, object? newPropertyValue)
-        //{
-        //    if (newPropertyValue == null)
-        //        return;
-
-        //    if (this[propertyName] == newPropertyValue)
-        //        return;
-
-        //    this[propertyName] = newPropertyValue;
-
-        //    PropertyChanged?.Invoke(newPropertyValue, new PropertyChangedEventArgs(propertyName));
-        //}
-
         private void OnContextChangedByUser()
         {
             ContextChangedByUser?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
-        /// Здесь полученное от пользовательского ввода значение распаковывается
-        /// и связывается с текущим значением в индексном свойстве. Если значения
-        /// не эквивалентны, отправляется извещение, что контекст изменен
-        /// со стороны пользовательского ввода
+        /// Конечно, можно переопределить Equals() в ControlValueChangedEventArgs
+        /// и сравнивать его со значением в DataRow, но это потребует рефлексии,
+        /// а возможно и приведения типов. Какой смысл, если на практике
+        /// пользовательский ввод — это почти всегда новое значение.
         /// </summary>
         public void ControlValueChangedEventHandler(IBaseControl sender, ControlValueChangedEventArgs e)
         {
+            var colName = sender.CamelName;
+
+            if (colName == null)
+                return;
+
+            _row[colName] = e.NewValue;
             OnContextChangedByUser();
         }
 
@@ -129,6 +118,7 @@ namespace Gui.Desktop
                 if (_row.Table.Columns.Contains(propName))
                 {
                     _row[propName] = value;
+                    OnContextPropertyChanged(propName);
                 }
             }
         }

@@ -120,7 +120,7 @@ namespace Lib.GuiCommander.Controls
 
         #region Event Handlers
 
-        public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
+        void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != null && sender[e.PropertyName] is int v)
             {

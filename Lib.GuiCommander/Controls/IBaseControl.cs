@@ -21,7 +21,7 @@ namespace Lib.GuiCommander
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(IObservableContext obj);
+        void Bind(IObservableContext ctx);
         /// <summary>
         /// На это событие подписываются как заинтересованные контролы,
         /// так и стейт формы.
