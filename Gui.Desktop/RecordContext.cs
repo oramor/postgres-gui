@@ -1,5 +1,5 @@
 ﻿using Lib.GuiCommander;
-using System.ComponentModel;
+using Lib.GuiCommander.Controls;
 using System.Data;
 
 namespace Gui.Desktop
@@ -46,28 +46,45 @@ namespace Gui.Desktop
 
         #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event ContextPropertyChangedEventHandler? ContextPropertyChanged;
+        public event ContextChangedByUserEventHandler? ContextChangedByUser;
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
 
         /// <summary>
         /// Это событие публично и служит для передачи контролам
         /// конкретного значения
         /// </summary>
-        public void OnPropertyChanged(string propertyName, object? newPropertyValue)
+        //public void OnPropertyChanged(string propertyName, object? newPropertyValue)
+        //{
+        //    if (newPropertyValue == null)
+        //        return;
+
+        //    if (this[propertyName] == newPropertyValue)
+        //        return;
+
+        //    this[propertyName] = newPropertyValue;
+
+        //    PropertyChanged?.Invoke(newPropertyValue, new PropertyChangedEventArgs(propertyName));
+        //}
+
+        private void OnContextChangedByUser()
         {
-            if (newPropertyValue == null)
-                return;
+            ContextChangedByUser?.Invoke(this, EventArgs.Empty);
+        }
 
-            if (this[propertyName] == newPropertyValue)
-                return;
-
-            this[propertyName] = newPropertyValue;
-
-            PropertyChanged?.Invoke(newPropertyValue, new PropertyChangedEventArgs(propertyName));
+        /// <summary>
+        /// Здесь полученное от пользовательского ввода значение распаковывается
+        /// и связывается с текущим значением в индексном свойстве. Если значения
+        /// не эквивалентны, отправляется извещение, что контекст изменен
+        /// со стороны пользовательского ввода
+        /// </summary>
+        public void ControlValueChangedEventHandler(IBaseControl sender, ControlValueChangedEventArgs e)
+        {
+            OnContextChangedByUser();
         }
 
         public int Id

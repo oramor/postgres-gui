@@ -18,7 +18,7 @@ namespace Lib.GuiCommander
     /// системы).
     /// 
     /// Объект можно типизировать:
-    /// var row = Execute<DataRow>(cmd);
+    /// var row = Query<DataRow>(cmd);
     /// var product = new EntityObject(row).GetType<Product>();
     /// 
     /// При получении Name нужна будет проверки, есть ли связь с DataTable через DataRowState.Detached

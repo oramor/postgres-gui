@@ -65,7 +65,7 @@ namespace Gui.Desktop
 
         public static T CallApiCommand<T>(ApiCommand cmd)
         {
-            return DbProvider.Execute<T>(cmd);
+            return DbProvider.Query<T>(cmd);
         }
     }
 }

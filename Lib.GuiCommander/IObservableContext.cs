@@ -21,6 +21,8 @@ namespace Lib.GuiCommander
     /// </summary>
     public delegate void ContextPropertyChangedEventHandler(IObservableContext sender, PropertyChangedEventArgs e);
 
+    public delegate void ContextChangedByUserEventHandler(IObservableContext sender, EventArgs e);
+
     /// <summary>
     /// Раньше наследовался от <see cref="INotifyPropertyChanged"/>, но удобнее
     /// отправлять подписчикам типизированный инстанс контекста
@@ -28,17 +30,26 @@ namespace Lib.GuiCommander
     public interface IObservableContext
     {
         /// <summary>
-        /// Каждый контрол, реализующий <see cref="IBaseControl"/>, подписывается
-        /// в своей реализации метода Bind() на обновления контекста. При обработке
-        /// события значение контрола будет обновляться, т.к. единственный true source
-        /// это контекст
+        /// Потребителями этого события являются контролы, реализовавшие интерфейс <see cref="IBaseControl"/>, что позволяет им отслеживать изменение контекста
+        /// и приводить свой состояние в актуальное. Важно иметь в виду, что форма,
+        /// которая хранит контекст, не должна подписываться на это событие для
+        /// обновления IsModified, который зависит от ручного ввода пользователя.
         /// </summary>
         event ContextPropertyChangedEventHandler? ContextPropertyChanged;
 
         /// <summary>
+        /// Это событие позволяет форме получить оповещеним об изменении контекста,
+        /// которое было инициализировано со стороны пользователя. В свою очередь,
+        /// форма меняет флаг IsModified, который соотносится только с пользовательским
+        /// вводом
+        /// </summary>
+        event ContextChangedByUserEventHandler? ContextChangedByUser;
+
+        /// <summary>
         /// Этот обработчик позволяет реализовать двухстороннее связывание:
-        /// когда котекст биндится к контролам на форме, он подписывается
-        /// на каждый контрол, в котором реализован интерфейс <see cref="IBaseControl"/>
+        /// когда котекст биндится к контролам на форме, контрол не только подписывается
+        /// на обновление контекста, но и подписывает форму на свои обновления
+        /// (иначе обработчик не имело бы смысла делать публичным)
         /// </summary>
         void ControlValueChangedEventHandler(IBaseControl sender, ControlValueChangedEventArgs e);
 

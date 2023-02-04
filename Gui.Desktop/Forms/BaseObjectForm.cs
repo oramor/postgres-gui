@@ -2,7 +2,6 @@
 using Lib.GuiCommander;
 using Lib.Providers;
 using Lib.Providers.JsonProvider;
-using System.ComponentModel;
 using System.Data;
 
 namespace Gui.Desktop.Forms
@@ -69,15 +68,16 @@ namespace Gui.Desktop.Forms
         /// то будет обращение к базе, по результатам которого заполнено Dto.
         /// Иначе ограничимся только созданием объекта с контекстом формы.
         /// </summary>
+        /// 
         protected virtual void Init<T>() where T : BaseFormDto, new()
         {
             _dto = new T();
             _ctx = MakeContext();
             BindControls(this);
-            /// Форма подписывается на обновление контекста, который, в свою очередь,
-            /// обновляют контролы, либо внутренние события самой формы (например,
-            /// загрузка данных из базы)
-            _ctx.ContextPropertyChanged += C_ContextPropertyChanged;
+
+            /// Форма подписывается на изменение контекста, которое
+            /// инициировано со стороны пользователя
+            _ctx.ContextChangedByUser += C_ContextChangedByUser;
             SetTitle();
         }
 
@@ -103,9 +103,6 @@ namespace Gui.Desktop.Forms
             }
         }
 
-        /// <summary>
-        /// Will bind all controls with current form context
-        /// </summary>
         void BindControls(Control parentControl)
         {
             if (_ctx == null)
@@ -142,8 +139,10 @@ namespace Gui.Desktop.Forms
 
             var jp = new JsonParameter();
 
+            /// 
             /// Объект метаданных указывает, какие проперти нужно получить.
             /// Мы не можем пройтись по индексным проперям.
+            /// 
             foreach (var prop in _dto.GetType().GetProperties())
             {
                 var camelName = prop.Name.LowFirstChar();
@@ -250,7 +249,7 @@ namespace Gui.Desktop.Forms
 
         #region Handlers
 
-        void C_ContextPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        void C_ContextChangedByUser(IObservableContext sender, EventArgs e)
         {
             IsModified = true;
         }

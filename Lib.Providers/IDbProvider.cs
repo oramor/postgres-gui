@@ -12,7 +12,12 @@
         bool IsConnected { get; }
         void TryConnect(DbConnectionParams connParams);
         void TryDisconnect();
-        T Execute<T>(ApiCommand cmd);
-        void ExecuteVoid(ApiCommand cmd);
+        /// <summary>
+        /// Здесь API, который схож с Dapper: Query<T> для запросов,
+        /// которые должны возвращать данные и Execute для запросов,
+        /// где результат не ожидается (процедуры вроде pr_do_something_)
+        /// </summary>
+        T Query<T>(ApiCommand cmd);
+        void Execute(ApiCommand cmd);
     }
 }

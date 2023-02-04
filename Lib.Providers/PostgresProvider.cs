@@ -106,7 +106,7 @@ namespace Lib.Providers
             return dt;
         }
 
-        T IDbProvider.Execute<T>(ApiCommand apiCommand)
+        T IDbProvider.Query<T>(ApiCommand apiCommand)
         {
             using var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
             var apiParams = apiCommand.Params;
@@ -182,11 +182,7 @@ namespace Lib.Providers
             }
         }
 
-        /// <summary>
-        /// Для функцй, вызываемых с этой оберткой, возвращаемое значение
-        /// будет игнорироваться
-        /// </summary>
-        public void ExecuteVoid(ApiCommand cmd)
+        public void Execute(ApiCommand cmd)
         {
             throw new NotImplementedException();
         }
