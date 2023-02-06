@@ -19,6 +19,7 @@ namespace Gui.Desktop.Forms
         readonly string? _dataDomainName;
         readonly string? _token;
         readonly Dictionary<string, IBaseControl> _baseControls = new();
+        ParentTabControl? _parentTabControl;
 
         /// <summary>
         /// Идентификатор объекта, с которым форма могла быть загружена. Если
@@ -127,6 +128,10 @@ namespace Gui.Desktop.Forms
                 if (c is IBaseControl bc && bc.PascalName != null)
                 {
                     _baseControls.Add(bc.PascalName, bc);
+                }
+                else if (c is ParentTabControl tc)
+                {
+                    _parentTabControl = tc;
                 }
                 else if (c.Controls.Count > 0)
                 {
@@ -423,28 +428,25 @@ namespace Gui.Desktop.Forms
             }
             else if (e.Control)
             {
-                if (e.KeyCode == Keys.Left)
+                /// Управление главным контролом, если он создан на форме
+                if (_parentTabControl != null)
                 {
-                    //TabControl tabControl1 = FindControlByName(this, "tabControl1") as TabControl;
-                    //if (tabControl1 != null && tabControl1.SelectedIndex > 0)
-                    //    tabControl1.SelectedIndex--;
+                    if (e.KeyCode == Keys.Left && _parentTabControl.SelectedIndex > 0)
+                    {
+                        _parentTabControl.SelectedIndex--;
+                    }
+                    else if (e.KeyCode == Keys.Right && _parentTabControl.SelectedIndex < _parentTabControl.TabPages.Count - 1)
+                    {
+                        _parentTabControl.SelectedIndex++;
+                    }
                 }
-                else if (e.KeyCode == Keys.Right)
-                {
-                    //TabControl tabControl1 = FindControlByName(this, "tabControl1") as TabControl;
-                    //if (tabControl1 != null && tabControl1.SelectedIndex < tabControl1.TabPages.Count - 1)
-                    //    tabControl1.SelectedIndex++;
-                }
-                else if (e.KeyCode == Keys.Enter && saveButton.Enabled)
+
+                /// Сохранение по Ctrl+Enter
+                if (e.KeyCode == Keys.Enter && saveButton.Enabled)
                 {
                     ActiveControl = saveButton;
                     saveButton_Click(saveButton, EventArgs.Empty);
                 }
-                //else if (e.KeyCode == Keys.S && saveToolStripButton.Enabled)
-                //{
-                //    ActiveControl = FindControlByName(this, "tabControl1");
-                //    saveToolStripButton_Click(saveToolStripButton, EventArgs.Empty);
-                //}
             }
         }
 

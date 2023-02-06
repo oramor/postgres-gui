@@ -71,6 +71,8 @@
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.saveButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "BaseObjectForm";
             this.Text = "BaseObjectForm";
