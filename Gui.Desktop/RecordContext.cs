@@ -10,7 +10,7 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class RecordContext : IObservableContext
+    public class RecordContext : IRecordFormContext
     {
         readonly DataRow _row;
 
@@ -47,6 +47,8 @@ namespace Gui.Desktop
 
         #endregion
 
+        #region Events
+
         public event ContextPropertyChangedEventHandler? ContextPropertyChanged;
         private void OnContextPropertyChanged(string propName)
         {
@@ -58,6 +60,19 @@ namespace Gui.Desktop
         {
             ContextChangedByUser?.Invoke(this, EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Метод OnPropertyInvalidated сделан публичным, чтобы внешний код имел
+        /// возможность матчить ответ ответ сервера на инвалидные поля,
+        /// оповещая таким образом контролы на форме
+        /// </summary>
+        public event EventHandler<PropertyInvalidatedEventArgs>? PropertyInvalidated;
+        public void OnPropertyInvalidated(PropertyInvalidatedEventArgs e)
+        {
+            PropertyInvalidated?.Invoke(this, e);
+        }
+
+        #endregion
 
         /// <summary>
         /// Конечно, можно переопределить Equals() в ControlValueChangedEventArgs

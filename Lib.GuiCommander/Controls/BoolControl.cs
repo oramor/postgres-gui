@@ -49,7 +49,7 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(IObservableContext ctx)
+        public void Bind(IRecordFormContext ctx)
         {
             if (CamelName == null)
                 return;
@@ -67,6 +67,7 @@ namespace Lib.GuiCommander
 
             ControlValueChanged += ctx.ControlValueChangedEventHandler;
             ctx.ContextPropertyChanged += C_ContextPropertyChanged;
+            ctx.PropertyInvalidated += C_PropertyInvalidated;
         }
 
         public event ControlValueChangedEventHandler? ControlValueChanged;
@@ -78,6 +79,10 @@ namespace Lib.GuiCommander
         #endregion
 
         #region Event Handlers
+
+        void C_PropertyInvalidated(object? sender, PropertyInvalidatedEventArgs e)
+        {
+        }
 
         public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
         {

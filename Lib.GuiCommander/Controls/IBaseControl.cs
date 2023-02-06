@@ -1,5 +1,4 @@
 ﻿using Lib.GuiCommander.Controls;
-using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
@@ -21,7 +20,7 @@ namespace Lib.GuiCommander
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(IObservableContext ctx);
+        void Bind(IRecordFormContext ctx);
         /// <summary>
         /// На это событие подписываются как заинтересованные контролы,
         /// так и стейт формы.

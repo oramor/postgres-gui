@@ -73,7 +73,7 @@ namespace Lib.GuiCommander.Controls
         public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
         public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
-        public void Bind(IObservableContext ctx)
+        public void Bind(IRecordFormContext ctx)
         {
             if (CamelName == null)
                 return;
@@ -94,6 +94,10 @@ namespace Lib.GuiCommander.Controls
             /// Контрол сможет реагировать на изменение свойства,
             /// с которым он связан через BindingName
             ctx.ContextPropertyChanged += C_ContextPropertyChanged;
+
+            /// Подписка на оповещения об инвалидном статусе
+            ctx.PropertyInvalidated += C_PropertyInvalidated;
+
         }
 
         /// <summary>
@@ -119,6 +123,10 @@ namespace Lib.GuiCommander.Controls
         }
 
         #region Event Handlers
+
+        void C_PropertyInvalidated(object? sender, PropertyInvalidatedEventArgs e)
+        {
+        }
 
         /// <summary>
         /// Если состояние контекста формы изменяется (например, при изменении текущего

@@ -1,19 +1,20 @@
 ﻿using Gui.Desktop.Dto;
 using Lib.GuiCommander;
+using Lib.GuiCommander.Controls;
 using Lib.Providers;
 using Lib.Providers.JsonProvider;
 using System.Data;
 
 namespace Gui.Desktop.Forms
 {
-    public partial class BaseObjectForm : Form
+    public partial class BaseObjectForm : Form // BaseRecordForm
     {
         bool _isModified;
         protected bool _keyDownHandled;
         readonly string? _dataDomainName;
         readonly string? _token;
         readonly int? _dataRecordId;
-        IObservableContext? _ctx;
+        IRecordFormContext? _ctx;
         BaseFormDto? _dto;
 
         #region Constructrs
@@ -81,7 +82,7 @@ namespace Gui.Desktop.Forms
             SetTitle();
         }
 
-        IObservableContext MakeContext()
+        IRecordFormContext MakeContext()
         {
             if (_dataRecordId.HasValue)
             {
@@ -185,7 +186,7 @@ namespace Gui.Desktop.Forms
 
         #region Actions
 
-        void CreateAction()
+        protected virtual void CreateAction()
         {
             var jp = MakeJsonParameter();
 
@@ -201,7 +202,7 @@ namespace Gui.Desktop.Forms
             IsModified = false;
         }
 
-        void SaveAction()
+        protected virtual void SaveAction()
         {
             if (_dataRecordId > 0)
             {
@@ -210,7 +211,7 @@ namespace Gui.Desktop.Forms
             IsModified = false;
         }
 
-        void DeleteAction()
+        protected virtual void DeleteAction()
         {
             if (_dataRecordId > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
             {
@@ -239,7 +240,7 @@ namespace Gui.Desktop.Forms
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
 
             // Confirm user wants to close
-            if (MessageBox.Show("Not saved! Continue close?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+            if (IsModified && MessageBox.Show("Not saved! Continue close?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
             {
                 e.Cancel = true;
             }
