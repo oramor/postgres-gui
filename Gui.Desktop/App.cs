@@ -67,5 +67,10 @@ namespace Gui.Desktop
         {
             return DbProvider.Query<T>(cmd);
         }
+
+        public static void CallApiCommandVoid(ApiCommand cmd)
+        {
+            DbProvider.Execute(cmd);
+        }
     }
 }

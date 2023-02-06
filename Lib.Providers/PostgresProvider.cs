@@ -182,9 +182,27 @@ namespace Lib.Providers
             }
         }
 
-        public void Execute(ApiCommand cmd)
+        public void Execute(ApiCommand apiCommand)
         {
-            throw new NotImplementedException();
+            if (apiCommand.HasOutParam || apiCommand.CommandType == ApiCommandType.Func)
+            {
+                throw new Exception("PostgresProvider: you should use Query method for api commands with out-parameters");
+            }
+
+            using var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
+            var apiParams = apiCommand.Params;
+
+            foreach (var param in apiParams)
+            {
+                if (param.ParamType == ApiParameterType.In)
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter(param.ParamName, GetNpgsqlDbType(param.ParamDataType)) { NpgsqlValue = param.ParamValue });
+                }
+            }
+
+            cmd.ExecuteNonQuery();
+            //var reader = cmd.ExecuteReader(CommandBehavior.Default);
+            //reader.Close();
         }
     }
 }

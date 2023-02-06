@@ -16,10 +16,13 @@ namespace Lib.GuiCommander.Controls
         public string Title { get; init; }
     }
 
-    public partial class ComboBoxControl : ComboBox, IBaseControl, IJsonControl<int?> //IAsyncControl
+    public partial class ComboBoxControl : ComboBox, IBaseControl //IAsyncControl
     {
         bool _isRequired;
         bool _isReadOnly;
+        bool _isInvalid;
+        bool _isImmutable;
+        int _invalidValueCache = 0;
         string? _dataSourceRoutine;
 
         public ComboBoxControl()
@@ -40,10 +43,7 @@ namespace Lib.GuiCommander.Controls
             get => _isRequired;
             set {
                 _isRequired = value;
-                if (_isReadOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -57,10 +57,7 @@ namespace Lib.GuiCommander.Controls
             set {
                 _isReadOnly = value;
                 Enabled = !_isReadOnly;
-                if (_isReadOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -111,7 +108,6 @@ namespace Lib.GuiCommander.Controls
                 if (isExists)
                 {
                     SelectedValue = value;
-                    // TODO OnControlValueChanged();
                     return;
                 }
 
@@ -132,6 +128,26 @@ namespace Lib.GuiCommander.Controls
             ControlValueChanged += ctx.ControlValueChangedEventHandler;
             ctx.ContextPropertyChanged += C_ContextPropertyChanged;
             ctx.PropertyInvalidated += C_PropertyInvalidated;
+        }
+
+        Color GetBackgroundColor()
+        {
+            if (_isReadOnly)
+            {
+                return LibSettings.ControlReadOnlyColor;
+            }
+            else if (_isInvalid)
+            {
+                return LibSettings.ControlInvalidColor;
+            }
+            else if (_isRequired)
+            {
+                return LibSettings.ControlRequiredColor;
+            }
+            else
+            {
+                return LibSettings.ControlBaseColor;
+            }
         }
 
         public void SetDataSource(IDictionary<int, string> dic)
@@ -195,6 +211,13 @@ namespace Lib.GuiCommander.Controls
 
         void C_PropertyInvalidated(object? sender, PropertyInvalidatedEventArgs e)
         {
+            if (e.PropertyName == PascalName)
+            {
+                _isInvalid = true;
+                _isImmutable = e.IsImmutable;
+                _invalidValueCache = SelectedIndex;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
@@ -208,6 +231,17 @@ namespace Lib.GuiCommander.Controls
         private void C_SelectedIndexChanged(object sender, EventArgs e)
         {
             OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
+
+            if (_isInvalid)
+            {
+                _isInvalid = false;
+                BackColor = GetBackgroundColor();
+            }
+            else if (_isImmutable && SelectedIndex == _invalidValueCache)
+            {
+                _isInvalid = true;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         private void C_KeyDown(object sender, KeyEventArgs e)

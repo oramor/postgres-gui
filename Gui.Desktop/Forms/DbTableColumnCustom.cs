@@ -10,22 +10,22 @@ namespace Gui.Desktop.Forms
         }
 
         public DbTableColumnCustom(int? objId)
-            : base("Table column", "db_table_column", 265)
+            : base("Table column", "db_table_column", objId)
         {
             InitializeComponent();
-            FillComboBoxTypes();
-            FillComboBoxDbTable();
+            LoadComboBoxTypes();
+            LoadComboBoxDbTable();
             Init<DbTableColumnDto>();
         }
 
-        private void FillComboBoxTypes()
+        private void LoadComboBoxTypes()
         {
             var cmd = ApiAdmin.GetLogicalDataTypeShortList();
             var dt = App.CallApiCommand<DataTable>(cmd);
             logicalTypeComboBoxControl.SetDataSource(dt);
         }
 
-        private void FillComboBoxDbTable()
+        private void LoadComboBoxDbTable()
         {
             var cmd = ApiAdmin.GetDbTableList();
             var dt = App.CallApiCommand<DataTable>(cmd);

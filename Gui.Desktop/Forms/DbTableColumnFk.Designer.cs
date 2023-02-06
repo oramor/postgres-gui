@@ -48,13 +48,17 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(322, 226);
+            this.saveButton.Location = new System.Drawing.Point(322, 236);
             this.saveButton.TabIndex = 8;
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(241, 226);
+            this.closeButton.Location = new System.Drawing.Point(241, 236);
             this.closeButton.TabIndex = 9;
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(160, 236);
             // 
             // dbTableFieldLabelControl
             // 
@@ -67,7 +71,7 @@
             // 
             // dbTableComboBoxControl
             // 
-            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
+            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightYellow;
             this.dbTableComboBoxControl.BindingName = "dbTableId";
             this.dbTableComboBoxControl.CurrentValue = null;
             this.dbTableComboBoxControl.DataSourceRoutine = null;
@@ -93,7 +97,7 @@
             // 
             // comboBoxControl1
             // 
-            this.comboBoxControl1.BackColor = System.Drawing.Color.LightBlue;
+            this.comboBoxControl1.BackColor = System.Drawing.Color.LightYellow;
             this.comboBoxControl1.BindingName = "FkTableId";
             this.comboBoxControl1.CurrentValue = null;
             this.comboBoxControl1.DataSourceRoutine = null;
@@ -110,7 +114,7 @@
             // 
             // snakeNameStringControl
             // 
-            this.snakeNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.snakeNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.snakeNameStringControl.BindingName = "snakeName";
             this.snakeNameStringControl.CurrentValue = "";
             this.snakeNameStringControl.IsReadOnly = false;
@@ -132,7 +136,7 @@
             // 
             // defaultGuiNameStringControl
             // 
-            this.defaultGuiNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.defaultGuiNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.defaultGuiNameStringControl.BindingName = "defaultGuiName";
             this.defaultGuiNameStringControl.CurrentValue = "";
             this.defaultGuiNameStringControl.IsReadOnly = false;
@@ -154,7 +158,7 @@
             // 
             // defaultGuiShortNameStringControl
             // 
-            this.defaultGuiShortNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.defaultGuiShortNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.defaultGuiShortNameStringControl.BindingName = "defaultGuiShortName";
             this.defaultGuiShortNameStringControl.CurrentValue = "";
             this.defaultGuiShortNameStringControl.IsReadOnly = false;
@@ -176,7 +180,7 @@
             // 
             // logicalDataTypeIdComboBoxControl
             // 
-            this.logicalDataTypeIdComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
+            this.logicalDataTypeIdComboBoxControl.BackColor = System.Drawing.Color.LightYellow;
             this.logicalDataTypeIdComboBoxControl.BindingName = "logicalDataTypeId";
             this.logicalDataTypeIdComboBoxControl.CurrentValue = null;
             this.logicalDataTypeIdComboBoxControl.DataSourceRoutine = null;
@@ -216,6 +220,7 @@
             // 
             // defaultPriorityIntControl
             // 
+            this.defaultPriorityIntControl.BackColor = System.Drawing.Color.White;
             this.defaultPriorityIntControl.BindingName = "defaultPriority";
             this.defaultPriorityIntControl.CurrentValue = 0;
             this.defaultPriorityIntControl.IsReadOnly = false;
@@ -239,7 +244,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 261);
+            this.ClientSize = new System.Drawing.Size(409, 271);
             this.Controls.Add(this.defaultPriorityFieldLabelControl);
             this.Controls.Add(this.defaultPriorityIntControl);
             this.Controls.Add(this.isReqiredBoolControl);
@@ -257,6 +262,7 @@
             this.Controls.Add(this.dbTableFieldLabelControl);
             this.Name = "DbTableColumnFk";
             this.Text = "DbTableColumnFk";
+            this.Controls.SetChildIndex(this.deleteButton, 0);
             this.Controls.SetChildIndex(this.saveButton, 0);
             this.Controls.SetChildIndex(this.closeButton, 0);
             this.Controls.SetChildIndex(this.dbTableFieldLabelControl, 0);

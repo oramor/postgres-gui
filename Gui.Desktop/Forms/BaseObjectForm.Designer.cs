@@ -83,6 +83,6 @@
 
         protected Button saveButton;
         protected Button closeButton;
-        private Button deleteButton;
+        protected Button deleteButton;
     }
 }

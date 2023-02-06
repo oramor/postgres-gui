@@ -7,13 +7,27 @@ using System.Data;
 
 namespace Gui.Desktop.Forms
 {
+    public enum RecordActionPermitEnum
+    {
+        Select, Insert, Update, Delete, Commit
+    }
+
     public partial class BaseObjectForm : Form // BaseRecordForm
     {
         bool _isModified;
         protected bool _keyDownHandled;
         readonly string? _dataDomainName;
         readonly string? _token;
-        readonly int? _dataRecordId;
+        readonly Dictionary<string, IBaseControl> _baseControls = new();
+
+        /// <summary>
+        /// Идентификатор объекта, с которым форма могла быть загружена. Если
+        /// не определен, форма считается открытой в режиме создания новой записи.
+        /// При создании записи будет создан контекст и Id созданной сущности
+        /// будет помещен уже в _ctx.Id, поэтому _initRecordId создан
+        /// с модификатором readonly
+        /// </summary>
+        readonly int? _initRecordId;
         IRecordFormContext? _ctx;
         BaseFormDto? _dto;
 
@@ -28,7 +42,7 @@ namespace Gui.Desktop.Forms
         {
             InitializeComponent();
             _dataDomainName = dataDomainName;
-            _dataRecordId = dataRecordId;
+            _initRecordId = dataRecordId;
             _token = token;
         }
 
@@ -74,7 +88,9 @@ namespace Gui.Desktop.Forms
         {
             _dto = new T();
             _ctx = MakeContext();
-            BindControls(this);
+            GrabControls(this);
+            BindControls();
+            BindButtons();
 
             /// Форма подписывается на изменение контекста, которое
             /// инициировано со стороны пользователя
@@ -84,12 +100,12 @@ namespace Gui.Desktop.Forms
 
         IRecordFormContext MakeContext()
         {
-            if (_dataRecordId.HasValue)
+            if (Id.HasValue)
             {
                 var funcName = "fn_get_" + _token + "_item_r";
 
                 var cmd = new ApiCommand("api_admin", funcName);
-                cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
+                cmd.AddParam(new ApiParameter("p_id", Id));
                 var row = App.CallApiCommand<DataRow>(cmd);
 
                 return new RecordContext(row);
@@ -104,29 +120,42 @@ namespace Gui.Desktop.Forms
             }
         }
 
-        void BindControls(Control parentControl)
+        void GrabControls(Control parentControl)
         {
-            if (_ctx == null)
-                return;
-
             foreach (Control c in parentControl.Controls)
             {
-                if (c is IBaseControl bc)
+                if (c is IBaseControl bc && bc.PascalName != null)
                 {
-                    bc.Bind(_ctx);
+                    _baseControls.Add(bc.PascalName, bc);
                 }
                 else if (c.Controls.Count > 0)
                 {
-                    BindControls(c);
+                    GrabControls(c);
                 }
             }
         }
 
+        void BindControls()
+        {
+            if (_ctx == null)
+                return;
+
+            foreach (IBaseControl bc in _baseControls.Values)
+            {
+                bc.Bind(_ctx);
+            }
+        }
+
+        protected virtual void BindButtons()
+        {
+            deleteButton.Enabled = Id.HasValue;
+        }
+
         void SetTitle()
         {
-            Text = _dataRecordId.HasValue
+            Text = Id.HasValue
                 ? "Create " + _dataDomainName
-                : _dataDomainName + " #" + _dataRecordId.ToString();
+                : _dataDomainName + " #" + Id.ToString();
         }
 
         JsonParameter MakeJsonParameter()
@@ -155,6 +184,36 @@ namespace Gui.Desktop.Forms
             return jp;
         }
 
+        #region Record Properties
+
+        public int? Id
+        {
+            get {
+                if (_ctx != null)
+                {
+                    return _ctx.Id == 0 ? null : _ctx.Id;
+                }
+                return _initRecordId;
+            }
+            set {
+                if (_ctx != null && value != null)
+                {
+                    _ctx.Id = (int)value;
+                }
+            }
+        }
+
+        public int Version
+        {
+            get => _ctx == null ? 0 : _ctx.Version;
+            set {
+                if (_ctx != null)
+                {
+                    _ctx.Version = value;
+                }
+            }
+        }
+
         public DataRecordState State
         {
             get {
@@ -171,15 +230,47 @@ namespace Gui.Desktop.Forms
             }
         }
 
+        #endregion
+
         #region Checks
 
-        /// <summary>
-        /// Обязательно сохранить, если форма была модифицирована, либо
-        /// ее текущий статус отличается от целевого
-        /// </summary>
-        protected virtual bool SaveRequired(DataRecordState targetState)
+        protected virtual bool CheckPermit(RecordActionPermitEnum permit)
         {
-            return State != targetState || IsModified;
+            return true;
+        }
+
+        /// <summary>
+        /// Проверяет лишь те поля, которые явно заданы обязательными.
+        /// Это не отменяет проверки обязательности на стороне сервера,
+        /// поэтому события OnPropertyInvalidated могут быть вызвани
+        /// из обработчика результатов ответа
+        /// </summary>
+        bool CheckRequiredFields()
+        {
+            var isValid = true;
+
+            foreach (var k in _baseControls.Keys)
+            {
+                IBaseControl bc = _baseControls[k];
+
+                if (bc.IsRequired && bc.IsEmpty)
+                {
+                    if (_ctx != null)
+                    {
+                        var args = new PropertyInvalidatedEventArgs(k, "Is required", true);
+                        _ctx.OnPropertyInvalidated(args);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Field {k} is required");
+                        break;
+                    }
+
+                    isValid = false;
+                }
+            }
+
+            return isValid;
         }
 
         #endregion
@@ -188,6 +279,11 @@ namespace Gui.Desktop.Forms
 
         protected virtual void CreateAction()
         {
+            if (!CheckPermit(RecordActionPermitEnum.Insert))
+            {
+                throw new Exception("Forbidden!");
+            }
+
             var jp = MakeJsonParameter();
 
             var procName = "pr_" + _token + "_create_n";
@@ -195,33 +291,59 @@ namespace Gui.Desktop.Forms
             var cmd = new ApiCommand("api_admin", procName);
             cmd.AddParam(new ApiParameter("p_id", ApiParameterDataType.Integer));
             cmd.AddParam(new ApiParameter(jp));
-            var result = App.CallApiCommand<int>(cmd);
+            var id = App.CallApiCommand<int>(cmd);
 
-            App.Logger.GuiReport($"Created {_dataDomainName} with id {result}");
+            App.Logger.GuiReport($"Created {_dataDomainName} with id {id}");
 
             IsModified = false;
+            Id = id;
+            Version = 1;
+
         }
 
-        protected virtual void SaveAction()
+        protected virtual void UpdateAction()
         {
-            if (_dataRecordId > 0)
+            if (!CheckPermit(RecordActionPermitEnum.Update))
             {
-                var procName = "pr_" + _token + "_update_";
+                throw new Exception("Forbidden!");
             }
-            IsModified = false;
+
+            if (Id > 0)
+            {
+                CheckRequiredFields();
+
+                var jp = MakeJsonParameter();
+
+                var procName = "pr_" + _token + "_update_";
+
+                var cmd = new ApiCommand("api_admin", procName);
+                cmd.AddParam(new ApiParameter("p_ver", ApiParameterDataType.Integer));
+                cmd.AddParam(new ApiParameter(jp));
+                var ver = App.CallApiCommand<int>(cmd);
+
+                App.Logger.GuiReport($"Updated {_dataDomainName} with id {Id} (version {ver})");
+
+                IsModified = false;
+                Version = ver;
+            }
         }
 
         protected virtual void DeleteAction()
         {
-            if (_dataRecordId > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
+            if (!CheckPermit(RecordActionPermitEnum.Delete))
+            {
+                throw new Exception("Forbidden!");
+            }
+
+            if (Id > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
             {
                 var procName = "pr_" + _token + "_remove_";
 
                 var cmd = new ApiCommand("api_admin", procName);
-                cmd.AddParam(new ApiParameter("p_id", _dataRecordId));
-                var result = App.CallApiCommand<int>(cmd);
+                cmd.AddParam(new ApiParameter("p_id", Id));
+                App.CallApiCommandVoid(cmd);
 
-                App.Logger.GuiReport($"{_dataDomainName} with id {result} REMOVED");
+                App.Logger.GuiReport($"{_dataDomainName} with id {Id} REMOVED");
 
                 IsModified = false;
             }
@@ -262,9 +384,11 @@ namespace Gui.Desktop.Forms
 
         void saveButton_Click(object sender, EventArgs e)
         {
-            if (_dataRecordId.HasValue)
+            if (!CheckRequiredFields()) return;
+
+            if (Id.HasValue)
             {
-                SaveAction();
+                UpdateAction();
             }
             else
             {

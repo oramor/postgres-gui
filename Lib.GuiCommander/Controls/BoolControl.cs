@@ -3,10 +3,10 @@ using System.ComponentModel;
 
 namespace Lib.GuiCommander
 {
-    public partial class BoolControl : CheckBox, IBaseControl, IJsonControl<bool?>
+    public partial class BoolControl : CheckBox, IBaseControl
     {
         bool _isRequired;
-        bool _readOnly;
+        bool _isReadOnly;
 
         public BoolControl()
         {
@@ -30,8 +30,8 @@ namespace Lib.GuiCommander
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
         {
-            get => _readOnly;
-            set { _readOnly = value; base.Enabled = !_readOnly; }
+            get => _isReadOnly;
+            set { _isReadOnly = value; base.Enabled = !_isReadOnly; }
         }
 
         public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();

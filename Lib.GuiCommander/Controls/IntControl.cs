@@ -2,10 +2,13 @@
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class IntControl : NumericUpDown, IBaseControl, IJsonControl<int?>
+    public partial class IntControl : NumericUpDown, IBaseControl
     {
         bool _isRequired;
         bool _isReadOnly;
+        bool _isInvalid;
+        bool _isImmutable;
+        int _invalidValueCache;
 
         public IntControl()
         {
@@ -20,10 +23,7 @@ namespace Lib.GuiCommander.Controls
             get => _isRequired;
             set {
                 _isRequired = value;
-                if (_isReadOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -42,11 +42,8 @@ namespace Lib.GuiCommander.Controls
             get => _isReadOnly;
             set {
                 _isReadOnly = value;
-                base.ReadOnly = value;
-                if (_isReadOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                ReadOnly = value;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -101,6 +98,26 @@ namespace Lib.GuiCommander.Controls
             ctx.PropertyInvalidated += C_PropertyInvalidated;
         }
 
+        Color GetBackgroundColor()
+        {
+            if (_isReadOnly)
+            {
+                return LibSettings.ControlReadOnlyColor;
+            }
+            else if (_isInvalid)
+            {
+                return LibSettings.ControlInvalidColor;
+            }
+            else if (_isRequired)
+            {
+                return LibSettings.ControlRequiredColor;
+            }
+            else
+            {
+                return LibSettings.ControlBaseColor;
+            }
+        }
+
         public event ControlValueChangedEventHandler? ControlValueChanged;
         protected void OnControlValueChanged(IBaseControl sender, ControlValueChangedEventArgs e)
         {
@@ -123,6 +140,13 @@ namespace Lib.GuiCommander.Controls
 
         void C_PropertyInvalidated(object? sender, PropertyInvalidatedEventArgs e)
         {
+            if (e.PropertyName == PascalName)
+            {
+                _isInvalid = true;
+                _isImmutable = e.IsImmutable;
+                _invalidValueCache = (int)Value;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
@@ -143,6 +167,17 @@ namespace Lib.GuiCommander.Controls
             ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
 
             OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
+
+            if (_isInvalid)
+            {
+                _isInvalid = false;
+                BackColor = GetBackgroundColor();
+            }
+            else if (_isImmutable && (int)Value == _invalidValueCache)
+            {
+                _isInvalid = true;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         #endregion

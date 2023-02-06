@@ -57,6 +57,10 @@
             this.closeButton.Location = new System.Drawing.Point(241, 246);
             this.closeButton.TabIndex = 10;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(160, 246);
+            // 
             // dbTableLabel
             // 
             this.dbTableLabel.AutoSize = true;
@@ -68,7 +72,7 @@
             // 
             // snakeNameStringControl
             // 
-            this.snakeNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.snakeNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.snakeNameStringControl.BindingName = "snakeName";
             this.snakeNameStringControl.CurrentValue = "";
             this.snakeNameStringControl.IsReadOnly = false;
@@ -90,7 +94,7 @@
             // 
             // guiNameStringControl
             // 
-            this.guiNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.guiNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.guiNameStringControl.BindingName = "defaultGuiName";
             this.guiNameStringControl.CurrentValue = "";
             this.guiNameStringControl.IsReadOnly = false;
@@ -112,7 +116,7 @@
             // 
             // guiShortNameStringControl
             // 
-            this.guiShortNameStringControl.BackColor = System.Drawing.Color.LightBlue;
+            this.guiShortNameStringControl.BackColor = System.Drawing.Color.LightYellow;
             this.guiShortNameStringControl.BindingName = "defaultGuiShortName";
             this.guiShortNameStringControl.CurrentValue = "";
             this.guiShortNameStringControl.IsReadOnly = false;
@@ -175,7 +179,7 @@
             // 
             // logicalTypeComboBoxControl
             // 
-            this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
+            this.logicalTypeComboBoxControl.BackColor = System.Drawing.Color.LightYellow;
             this.logicalTypeComboBoxControl.BindingName = "logicalDataTypeId";
             this.logicalTypeComboBoxControl.CurrentValue = null;
             this.logicalTypeComboBoxControl.DataSourceRoutine = null;
@@ -192,7 +196,7 @@
             // 
             // dbTableComboBoxControl
             // 
-            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightBlue;
+            this.dbTableComboBoxControl.BackColor = System.Drawing.Color.LightYellow;
             this.dbTableComboBoxControl.BindingName = "dbTableId";
             this.dbTableComboBoxControl.CurrentValue = null;
             this.dbTableComboBoxControl.DataSourceRoutine = null;
@@ -209,16 +213,16 @@
             // 
             // defaultPriorityIntControl
             // 
-            this.defaultPriorityIntControl.BackColor = System.Drawing.Color.White;
+            this.defaultPriorityIntControl.BackColor = System.Drawing.Color.LightYellow;
             this.defaultPriorityIntControl.BindingName = "defaultPriority";
-            this.defaultPriorityIntControl.CurrentValue = 0;
+            this.defaultPriorityIntControl.CurrentValue = null;
             this.defaultPriorityIntControl.IsReadOnly = false;
-            this.defaultPriorityIntControl.IsRequired = false;
+            this.defaultPriorityIntControl.IsRequired = true;
             this.defaultPriorityIntControl.Location = new System.Drawing.Point(113, 158);
             this.defaultPriorityIntControl.Name = "defaultPriorityIntControl";
             this.defaultPriorityIntControl.Size = new System.Drawing.Size(84, 23);
             this.defaultPriorityIntControl.TabIndex = 6;
-            this.defaultPriorityIntControl.ZeroAsNull = false;
+            this.defaultPriorityIntControl.ZeroAsNull = true;
             // 
             // defaultSizeIntControl
             // 
@@ -255,6 +259,7 @@
             this.Controls.Add(this.dbTableLabel);
             this.Name = "DbTableColumnCustom";
             this.Text = "EntityColumnForm";
+            this.Controls.SetChildIndex(this.deleteButton, 0);
             this.Controls.SetChildIndex(this.saveButton, 0);
             this.Controls.SetChildIndex(this.closeButton, 0);
             this.Controls.SetChildIndex(this.dbTableLabel, 0);

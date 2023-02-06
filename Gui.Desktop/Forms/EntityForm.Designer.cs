@@ -42,11 +42,15 @@ namespace Gui.Desktop.Forms
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(247, 127);
+            this.saveButton.Location = new System.Drawing.Point(271, 131);
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(166, 127);
+            this.closeButton.Location = new System.Drawing.Point(190, 131);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(109, 131);
             // 
             // stringControlPublicName
             // 
@@ -58,7 +62,7 @@ namespace Gui.Desktop.Forms
             this.stringControlPublicName.Length = 32767;
             this.stringControlPublicName.Location = new System.Drawing.Point(109, 44);
             this.stringControlPublicName.Name = "stringControlPublicName";
-            this.stringControlPublicName.Size = new System.Drawing.Size(213, 23);
+            this.stringControlPublicName.Size = new System.Drawing.Size(237, 23);
             this.stringControlPublicName.TabIndex = 7;
             // 
             // stringControlPascalName
@@ -71,7 +75,7 @@ namespace Gui.Desktop.Forms
             this.stringControlPascalName.Length = 32767;
             this.stringControlPascalName.Location = new System.Drawing.Point(109, 15);
             this.stringControlPascalName.Name = "stringControlPascalName";
-            this.stringControlPascalName.Size = new System.Drawing.Size(213, 23);
+            this.stringControlPascalName.Size = new System.Drawing.Size(237, 23);
             this.stringControlPascalName.TabIndex = 8;
             // 
             // checkBoxIsDocument
@@ -132,7 +136,7 @@ namespace Gui.Desktop.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 161);
+            this.ClientSize = new System.Drawing.Size(359, 166);
             this.Controls.Add(this.publicCodeFieldLabelControl);
             this.Controls.Add(this.publicNameFieldLabelControl);
             this.Controls.Add(this.pascalNameFieldLabelControl);
@@ -142,6 +146,7 @@ namespace Gui.Desktop.Forms
             this.Controls.Add(this.stringControlPublicName);
             this.Name = "EntityForm";
             this.Text = "Entity";
+            this.Controls.SetChildIndex(this.deleteButton, 0);
             this.Controls.SetChildIndex(this.stringControlPublicName, 0);
             this.Controls.SetChildIndex(this.stringControlPascalName, 0);
             this.Controls.SetChildIndex(this.checkBoxIsDocument, 0);

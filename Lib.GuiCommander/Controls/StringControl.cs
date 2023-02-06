@@ -3,10 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lib.GuiCommander.Controls
 {
-    public partial class StringControl : TextBox, IBaseControl, IJsonControl<string?>
+    public partial class StringControl : TextBox, IBaseControl
     {
         bool _isRequired;
-        bool _readOnly;
+        bool _isReadOnly;
+        bool _isInvalid;
+        bool _isImmutable;
+        string _invalidValueCache = string.Empty;
 
         public StringControl()
         {
@@ -21,10 +24,7 @@ namespace Lib.GuiCommander.Controls
             get => _isRequired;
             set {
                 _isRequired = value;
-                if (_readOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -42,14 +42,11 @@ namespace Lib.GuiCommander.Controls
         [Bindable(true), Category("Object properties")]
         public bool IsReadOnly
         {
-            get => _readOnly;
+            get => _isReadOnly;
             set {
-                _readOnly = value;
+                _isReadOnly = value;
                 base.ReadOnly = value;
-                if (_readOnly)
-                    BackColor = LibSettings.ControlReadOnlyColor;
-                else
-                    BackColor = _isRequired ? LibSettings.ControlMandatoryColor : LibSettings.ControlBaseColor;
+                BackColor = GetBackgroundColor();
             }
         }
 
@@ -100,6 +97,26 @@ namespace Lib.GuiCommander.Controls
 
         }
 
+        Color GetBackgroundColor()
+        {
+            if (_isReadOnly)
+            {
+                return LibSettings.ControlReadOnlyColor;
+            }
+            else if (_isInvalid)
+            {
+                return LibSettings.ControlInvalidColor;
+            }
+            else if (_isRequired)
+            {
+                return LibSettings.ControlRequiredColor;
+            }
+            else
+            {
+                return LibSettings.ControlBaseColor;
+            }
+        }
+
         /// <summary>
         /// Событие можно сделать приватным (или напрямую добавлять в делегат),
         /// если работа с родительскими контролами так же будет строиться
@@ -126,6 +143,13 @@ namespace Lib.GuiCommander.Controls
 
         void C_PropertyInvalidated(object? sender, PropertyInvalidatedEventArgs e)
         {
+            if (e.PropertyName == PascalName)
+            {
+                _isInvalid = true;
+                _isImmutable = e.IsImmutable;
+                _invalidValueCache = Text;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         /// <summary>
@@ -153,6 +177,23 @@ namespace Lib.GuiCommander.Controls
             /// значение отличается от текущего, генерирует событие
             /// о свобем обновлении.
             OnControlValueChanged(this, new ControlValueChangedEventArgs(Text));
+
+            /// Снимаем пометку, т.к. новое значение может
+            /// оказаться валидным
+            if (_isInvalid)
+            {
+                _isInvalid = false;
+                BackColor = GetBackgroundColor();
+            }
+            /// Снова помечаем поле не валидным, если пользователь
+            /// вернулся к некорректному значению (но только при наличии
+            /// пометки об иммутабельности, т.е. ошибка всегда ошибочно
+            /// и не зависит от данных других полей и состояния системы)
+            else if (_isImmutable && Text == _invalidValueCache)
+            {
+                _isInvalid = true;
+                BackColor = GetBackgroundColor();
+            }
         }
 
         private void StringControl_Enter(object sender, EventArgs e)
