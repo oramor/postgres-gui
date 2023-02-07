@@ -1,5 +1,6 @@
 using Gui.Desktop.Forms;
 using Lib.Providers;
+using Lib.GuiCommander;
 
 namespace Gui.Desktop
 {

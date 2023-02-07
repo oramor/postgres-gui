@@ -40,8 +40,8 @@ namespace Gui.Desktop.Forms
         }
 
         public BaseObjectForm(string dataDomainName, string token, int? dataRecordId)
+            : this()
         {
-            InitializeComponent();
             _dataDomainName = dataDomainName;
             _initRecordId = dataRecordId;
             _token = token;

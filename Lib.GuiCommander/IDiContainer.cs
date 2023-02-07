@@ -1,6 +1,6 @@
 ﻿using Lib.Providers;
 
-namespace Gui.Desktop
+namespace Lib.GuiCommander
 {
     /// <summary>
     /// Простейший DI-контейнер, который хранится на уровне

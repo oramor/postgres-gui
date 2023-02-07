@@ -20,11 +20,21 @@
         string _schemaName = string.Empty;
         string _routineName = string.Empty;
 
+        #region Constructors
+
         public ApiCommand(string schemaName, string routineName)
         {
             _schemaName = schemaName;
             _routineName = routineName;
         }
+
+        public ApiCommand(string pathName)
+        {
+            _schemaName = pathName[.._routineName.IndexOf('.')];
+            _routineName = pathName[(_routineName.IndexOf('.') + 1)..];
+        }
+
+        #endregion
 
         public IList<ApiParameter> Params { get { return _params; } }
 

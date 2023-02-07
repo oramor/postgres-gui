@@ -1,10 +1,7 @@
-﻿namespace Gui.Desktop
-{
-    public interface ILogger
-    {
-        void GuiReport(string message);
-    }
+﻿using Lib.GuiCommander;
 
+namespace Gui.Desktop
+{
     public class Logger : ILogger
     {
         public delegate void UpdateGuiStatusReportDelegate(string message);
