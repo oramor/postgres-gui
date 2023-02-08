@@ -70,7 +70,7 @@ namespace Lib.GuiCommander.Controls
         public string CamelName => BindingName == null ? string.Empty : BindingName.LowFirstChar();
         public string PascalName => BindingName == null ? string.Empty : BindingName.UpFirstChar();
 
-        public void Bind(IRecordFormContext ctx)
+        public void Bind(IDataRecordContext ctx)
         {
             if (CamelName == null)
                 return;

@@ -20,7 +20,7 @@ namespace Lib.GuiCommander
         bool IsEmpty { get; }
         bool IsRequired { get; set; }
         bool IsReadOnly { get; set; }
-        void Bind(IRecordFormContext ctx);
+        void Bind(IDataRecordContext ctx);
         /// <summary>
         /// На это событие подписываются как заинтересованные контролы,
         /// так и стейт формы.

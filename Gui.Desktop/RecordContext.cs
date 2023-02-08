@@ -10,7 +10,7 @@ namespace Gui.Desktop
     /// DTO, которая наследуется от этого контекста, отслеживаемой. На событие
     /// PropertyChanged подписываются контролы.
     /// </summary>
-    public class RecordContext : IRecordFormContext
+    public class RecordContext : IDataRecordContext
     {
         readonly DataRow _row;
 
@@ -91,6 +91,11 @@ namespace Gui.Desktop
             OnContextChangedByUser();
         }
 
+        public void ShowForm()
+        {
+            throw new NotImplementedException();
+        }
+
         public int Id
         {
             get => _row["id"] == DBNull.Value ? 0 : Convert.ToInt32(_row["id"]);
@@ -112,6 +117,7 @@ namespace Gui.Desktop
             get => _row["ver"] == DBNull.Value ? 0 : Convert.ToInt32(_row["ver"]);
             set => _row["ver"] = value;
         }
+        public string DataDomainName { get => throw new NotImplementedException(); init => throw new NotImplementedException(); }
 
         /// <summary>
         /// Если свойство не будет найдено по ключу, вернется null.

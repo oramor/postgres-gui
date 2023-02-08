@@ -49,7 +49,7 @@ namespace Lib.GuiCommander
             }
         }
 
-        public void Bind(IRecordFormContext ctx)
+        public void Bind(IDataRecordContext ctx)
         {
             if (CamelName == null)
                 return;

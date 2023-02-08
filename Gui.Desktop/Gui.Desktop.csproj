@@ -13,4 +13,10 @@
     <ProjectReference Include="..\Lib.Providers\Lib.Providers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Forms\DataRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
