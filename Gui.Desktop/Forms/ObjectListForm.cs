@@ -1,8 +1,4 @@
 ﻿using Lib.GuiCommander;
-using Lib.GuiCommander.Controls;
-using Lib.Providers;
-using System.Data;
-using static Gui.Desktop.Forms.ObjectListGridWrapper;
 
 namespace Gui.Desktop.Forms
 {
@@ -37,13 +33,13 @@ namespace Gui.Desktop.Forms
 
         #endregion
 
-        public void Init<T>(string routinePathName) where T: BaseObjectForm, new()
-        {
-            var cmd = new ApiCommand(routinePathName);
-            var dt = _di.DbProvider.Query<DataTable>(cmd);
-            OpenRecordFormDelegate d = (int id) => new T();
-            var grid = new ObjectListGridWrapper(gridControl, _di, d);
-            //grid.Load(dt);
-        }
+        //public void Init<T>(string routinePathName) where T: DataRecordForm, new()
+        //{
+        //    var cmd = new ApiCommand(routinePathName);
+        //    var dt = _di.DbProvider.Query<DataTable>(cmd);
+        //    OpenRecordFormDelegate d = (int id) => new T();
+        //    var grid = new ObjectListGridWrapper(gridControl, _di, d);
+        //    //grid.Load(dt);
+        //}
     }
 }

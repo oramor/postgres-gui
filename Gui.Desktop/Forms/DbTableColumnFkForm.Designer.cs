@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop.Forms
 {
-    partial class DbTableColumnFk
+    partial class DbTableColumnFkForm
     {
         /// <summary>
         /// Required designer variable.

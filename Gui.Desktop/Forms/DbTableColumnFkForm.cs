@@ -2,14 +2,14 @@
 
 namespace Gui.Desktop.Forms
 {
-    public partial class DbTableColumnFk : DataRecordForm
+    public partial class DbTableColumnFkForm : DataRecordForm
     {
-        protected DbTableColumnFk() : base()
+        protected DbTableColumnFkForm() : base()
         {
             InitializeComponent();
         }
 
-        public DbTableColumnFk(IDataRecordContext ctx)
+        public DbTableColumnFkForm(IDataRecordContext ctx)
             : base(ctx)
         {
             InitializeComponent();

@@ -3,14 +3,14 @@ using System.Data;
 
 namespace Gui.Desktop.Forms
 {
-    public partial class DbTableColumnCustom : DataRecordForm
+    public partial class DbTableColumnCustomForm : DataRecordForm
     {
-        protected DbTableColumnCustom() : base()
+        protected DbTableColumnCustomForm() : base()
         {
             InitializeComponent();
         }
 
-        public DbTableColumnCustom(IDataRecordContext ctx)
+        public DbTableColumnCustomForm(IDataRecordContext ctx)
             : base(ctx)
         {
             InitializeComponent();

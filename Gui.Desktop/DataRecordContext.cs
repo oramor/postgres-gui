@@ -94,7 +94,7 @@ namespace Gui.Desktop
 
         public void ShowForm(string postfix = "")
         {
-            var formName = "Gui.Desktop.Forms." + DataDomainName + "Form" + postfix;
+            var formName = "Gui.Desktop.Forms." + DataDomainName + postfix + "Form";
             var formType = Type.GetType(formName);
 
             if (formType == null)
