@@ -67,6 +67,8 @@ namespace Gui.Desktop
         /// оповещая таким образом контролы на форме
         /// </summary>
         public event EventHandler<PropertyInvalidatedEventArgs>? PropertyInvalidated;
+        public event EventHandler<EventArgs> ActionSucceed;
+
         public void OnPropertyInvalidated(PropertyInvalidatedEventArgs e)
         {
             PropertyInvalidated?.Invoke(this, e);
@@ -92,6 +94,21 @@ namespace Gui.Desktop
         }
 
         public void ShowForm()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete()
         {
             throw new NotImplementedException();
         }

@@ -1,9 +1,6 @@
-﻿using Gui.Desktop.Dto;
-
-namespace Gui.Desktop
+﻿
+namespace Gui.Desktop.Dto
 {
-
-
     public class DbTableColumnDto : BaseFormDto
     {
         public int? Id { get; set; }

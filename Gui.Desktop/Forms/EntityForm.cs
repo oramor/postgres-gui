@@ -1,16 +1,18 @@
-﻿namespace Gui.Desktop.Forms
+﻿using Lib.GuiCommander;
+
+namespace Gui.Desktop.Forms
 {
-    public partial class EntityForm : BaseObjectForm
+    public partial class EntityForm : DataRecordForm
     {
         protected EntityForm() : base()
         {
             InitializeComponent();
         }
 
-        public EntityForm(int? entityId) : base("entity", "entity", entityId)
+        public EntityForm(IDataRecordContext ctx) : base(ctx)
         {
             InitializeComponent();
-            Init<EntityDto>();
+            Init();
         }
     }
 }

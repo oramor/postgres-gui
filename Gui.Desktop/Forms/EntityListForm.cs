@@ -8,7 +8,7 @@ namespace Gui.Desktop.Forms
         public EntityListForm()
         {
             InitializeComponent();
-            var cmd = ApiAdmin.GetEntityList();
+            var cmd = ApiProvider.GetEntityList();
             var result = App.CallApiCommand<DataTable>(cmd);
             entityDataGridView.DataSource = result;
         }
@@ -46,7 +46,7 @@ namespace Gui.Desktop.Forms
             var id = entityDataGridView.GetColumnIdValue();
             if (canOpen && id > 0)
             {
-                App.ShowModalForm(new EntityForm(id));
+                App.ShowDataRecordForm("Entity", id);
             }
         }
     }

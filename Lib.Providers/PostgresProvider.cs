@@ -149,7 +149,7 @@ namespace Lib.Providers
                     case ApiCommandResultType.Row:
                         reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                         var dt = ReadTable(reader);
-                        result = dt.AsEnumerable().FirstOrDefault();
+                        result = dt.Rows[0];
                         break;
                     // Для таблиц _t
                     case ApiCommandResultType.Table:

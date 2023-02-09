@@ -51,6 +51,18 @@ namespace Gui.Desktop
             form.ShowDialog();
         }
 
+        public static void ShowDataRecordForm(string dataDomainName, int? id)
+        {
+            var ctx = new DataRecordContext(dataDomainName, id);
+            ctx.ShowForm();
+        }
+
+        public static void ShowDataRecordForm(string dataDomainName, string postfix, int? id)
+        {
+            var ctx = new DataRecordContext(dataDomainName, id);
+            ctx.ShowForm(postfix);
+        }
+
         public static void ShowErrorDialog(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

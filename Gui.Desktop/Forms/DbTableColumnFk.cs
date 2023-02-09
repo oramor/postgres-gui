@@ -1,17 +1,19 @@
-﻿namespace Gui.Desktop.Forms
+﻿using Lib.GuiCommander;
+
+namespace Gui.Desktop.Forms
 {
-    public partial class DbTableColumnFk : BaseObjectForm
+    public partial class DbTableColumnFk : DataRecordForm
     {
         protected DbTableColumnFk() : base()
         {
             InitializeComponent();
         }
 
-        public DbTableColumnFk(int? objId)
-    : base("Table column (FK)", "db_table_column", objId)
+        public DbTableColumnFk(IDataRecordContext ctx)
+            : base(ctx)
         {
             InitializeComponent();
-            Init<DbTableColumnDto>();
+            Init();
         }
     }
 }

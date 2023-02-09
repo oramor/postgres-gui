@@ -8,6 +8,8 @@ using System.Data;
 
 namespace Gui.Desktop
 {
+    public enum RecordActionPermitEnum { Insert, Update, Delete };
+
     /// <summary>
     /// Это один из вариантов реализации интефейса <see cref="IDataRecordContext"/>.
     /// Здесь приложение не работает с метаданными, а информацю о колонках получает
@@ -31,21 +33,22 @@ namespace Gui.Desktop
             var dt = new DataTable("dto");
             _row = dt.NewRow();
 
-            /// Если идентификатор был передан, грузим из базы (можно
-            /// асинхронно, помечая, что контекст в работе), иначе быстро
+            /// Если идентификатор был передан, грузим из базы (можно вынести в
+            /// асинхронный метод, помечая, что контекст в работе), иначе быстро
             /// собираем из готовой Dto
             if (recordId.HasValue)
             {
-                LoadRowFromDb();
+                var row = ApiProvider.GetDataRecordRow(Token, (int)recordId);
+                _row = row;
             }
             else
             {
-                var dtoClassName = dataDomainName + "Dto";
-                var dtoType = Type.GetType(dtoClassName);
+                var dtoPathName = "Gui.Desktop.Dto." + dataDomainName + "Dto";
+                var dtoType = Type.GetType(dtoPathName, false, true);
 
                 if (dtoType == null)
                 {
-                    throw new Exception($"Not found Dto with name {dtoClassName}");
+                    throw new Exception($"Not found Dto with name {dtoPathName}");
                 }
                 else
                 {
@@ -54,9 +57,10 @@ namespace Gui.Desktop
                         var camelName = prop.Name.LowFirstChar();
                         dt.Columns.Add(camelName);
 
-                        var propValue = prop.GetValue(dtoType);
-
-                        _row[camelName] = propValue ?? DBNull.Value;
+                        /// Если требуется добавлять дефолтные значения, то придется
+                        /// создать индекс объекта из _dtoType, а затем передать
+                        /// этот инстанс в метод _dtoType.GetValue(dto)
+                        _row[camelName] = DBNull.Value;
                     }
                 }
             }
@@ -64,19 +68,9 @@ namespace Gui.Desktop
 
         #endregion
 
-        void LoadRowFromDb()
-        {
-            var funcName = "fn_get_" + Token + "_item_r";
-
-            var cmd = new ApiCommand("api_admin", funcName);
-            cmd.AddParam(new ApiParameter("p_id", Id));
-            _row = App.CallApiCommand<DataRow>(cmd);
-        }
-
         public string DataDomainName { get; init; }
 
-        public string Token => DataDomainName.ToLower(); //TODO!!!!!!!!!!!!!!!!
-
+        public string Token => DataDomainName.ToSnakeCase();
 
         JsonParameter MakeJsonParameter()
         {
@@ -96,9 +90,31 @@ namespace Gui.Desktop
             return true;
         }
 
+        #region Form Manager
+
+        public void ShowForm(string postfix = "")
+        {
+            var formName = "Gui.Desktop.Forms." + DataDomainName + "Form" + postfix;
+            var formType = Type.GetType(formName);
+
+            if (formType == null)
+            {
+                throw new ArgumentException($"Not found form type with name {formName}. Did you forgot path?");
+            }
+
+            if (Activator.CreateInstance(formType, this) is not DataRecordForm form)
+            {
+                throw new Exception($"Form {formName} is not an instance of DataRecordForm");
+            }
+
+            form.ShowDialog();
+        }
+
+        #endregion
+
         #region Actions
 
-        public void CreateAction()
+        public void Create()
         {
             if (!CheckPermit(RecordActionPermitEnum.Insert))
             {
@@ -122,7 +138,7 @@ namespace Gui.Desktop
             Version = 1;
         }
 
-        public void UpdateAction()
+        public void Update()
         {
             if (!CheckPermit(RecordActionPermitEnum.Update))
             {
@@ -147,7 +163,7 @@ namespace Gui.Desktop
             }
         }
 
-        public void DeleteAction()
+        public void Delete()
         {
             if (!CheckPermit(RecordActionPermitEnum.Delete))
             {
@@ -224,24 +240,6 @@ namespace Gui.Desktop
 
             _row[colName] = e.NewValue;
             OnContextChangedByUser();
-        }
-
-        public void ShowForm()
-        {
-            var formName = DataDomainName + "Form";
-            var formType = Type.GetType(formName);
-
-            if (formType == null)
-            {
-                throw new ArgumentException($"Not found form type with name {formName}");
-            }
-
-            if (Activator.CreateInstance(formType) is not BaseObjectForm form)
-            {
-                throw new Exception($"Form {formName} is not an instance of BaseObjectForm");
-            }
-
-            form.ShowDialog();
         }
 
         #endregion

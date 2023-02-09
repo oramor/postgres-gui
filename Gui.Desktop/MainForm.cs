@@ -1,6 +1,6 @@
 using Gui.Desktop.Forms;
-using Lib.Providers;
 using Lib.GuiCommander;
+using Lib.Providers;
 
 namespace Gui.Desktop
 {
@@ -42,7 +42,6 @@ namespace Gui.Desktop
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -58,7 +57,7 @@ namespace Gui.Desktop
 
         private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new EntityForm(null));
+            App.ShowDataRecordForm("Entity", null);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,12 +72,12 @@ namespace Gui.Desktop
 
         private void newEntityColumnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new DbTableColumnCustom(null));
+            App.ShowDataRecordForm("DbTableColumn", "Custom", null);
         }
 
         private void newDbTableColumnFkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new DbTableColumnFk(null));
+            App.ShowDataRecordForm("DbTableColumn", "Fk", null);
         }
 
         #endregion

@@ -1,10 +1,26 @@
-﻿using Lib.Providers;
+﻿using Gui.Desktop.Dto;
+using Lib.Providers;
+using System.Data;
 
 namespace Gui.Desktop
 {
-    internal static class ApiAdmin
+    /// <summary>
+    /// Провайдер инкапсулирует в себе логику именования рутин для доступа
+    /// к объектам. В данном приложении _schemaName статична и провайдер удобнее
+    /// сделать статичным. В более сложном приложении инстанс провайдера может
+    /// помещаться в каждый объект метаданных или DataDomain
+    /// </summary>
+    internal static class ApiProvider
     {
         static readonly string _schemaName = "api_admin";
+
+        public static DataRow GetDataRecordRow(string token, int id)
+        {
+            var funcName = "fn_get_" + token + "_item_r";
+            var cmd = new ApiCommand(_schemaName, funcName);
+            cmd.AddParam(new ApiParameter("p_id", id));
+            return App.DbProvider.Query<DataRow>(cmd);
+        }
 
         #region Entity
 

@@ -22,13 +22,14 @@
         /// </summary>
         ICollection<IDataRecord> GetList(object? filter);
         /// <summary>
-        /// Возвращает идентификатор созданного экземпляря сущности
+        /// Возвращает кортех, где первый параметр это идентификатор созданного
+        /// экземпляря сущности, а второй — статус, с которым она была создана
         /// </summary>
-        int Create();
+        (int, int) Create();
         /// <summary>
         /// Возвращает версию после обновления
         /// </summary>
-        int Update();
+        (int, int) Update();
         void Delete();
     }
 }

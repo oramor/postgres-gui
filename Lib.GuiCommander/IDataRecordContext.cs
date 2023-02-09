@@ -20,14 +20,14 @@ namespace Lib.GuiCommander
         /// не должны создаваться в коде явно — только чере позднее связывание
         /// из вьюмоделей.
         /// </summary>
-        void ShowForm();
+        void ShowForm(string postfix = "");
         /// Можно добавить перегрузку этого метода с указанием постфикса
         /// для записей, которые имеют несколько вариантов форм
         //void ShowForm(string formCode);
 
         event EventHandler<EventArgs> ActionSucceed;
-        void CreateAction();
-        void UpdateAction();
-        void DeleteAction();
+        void Create();
+        void Update();
+        void Delete();
     }
 }

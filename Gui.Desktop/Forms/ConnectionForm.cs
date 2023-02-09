@@ -58,8 +58,11 @@ namespace Gui.Desktop.Forms
 
             try
             {
+#if DEBUG
                 _db.TryConnect(new DbConnectionParams("localhost", "5435", "demo", "demo", "demo"));
-                //_db.TryConnect(new DbConnectionParams(_hostField, _portField, _databaseField, _usernameField, _passwordField));
+#else
+                _db.TryConnect(new DbConnectionParams(_hostField, _portField, _databaseField, _usernameField, _passwordField));
+#endif
             } catch
             {
                 App.ShowErrorDialog("Connection attempt failed: database error occured");

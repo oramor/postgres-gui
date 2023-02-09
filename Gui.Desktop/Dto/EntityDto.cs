@@ -1,6 +1,4 @@
-﻿using Gui.Desktop.Dto;
-
-namespace Gui.Desktop
+﻿namespace Gui.Desktop.Dto
 {
     public class EntityDto : BaseFormDto
     {

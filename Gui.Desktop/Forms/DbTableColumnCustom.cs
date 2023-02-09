@@ -1,33 +1,34 @@
-﻿using System.Data;
+﻿using Lib.GuiCommander;
+using System.Data;
 
 namespace Gui.Desktop.Forms
 {
-    public partial class DbTableColumnCustom : BaseObjectForm
+    public partial class DbTableColumnCustom : DataRecordForm
     {
         protected DbTableColumnCustom() : base()
         {
             InitializeComponent();
         }
 
-        public DbTableColumnCustom(int? objId)
-            : base("Table column", "db_table_column", objId)
+        public DbTableColumnCustom(IDataRecordContext ctx)
+            : base(ctx)
         {
             InitializeComponent();
             LoadComboBoxTypes();
             LoadComboBoxDbTable();
-            Init<DbTableColumnDto>();
+            Init();
         }
 
         private void LoadComboBoxTypes()
         {
-            var cmd = ApiAdmin.GetLogicalDataTypeShortList();
+            var cmd = ApiProvider.GetLogicalDataTypeShortList();
             var dt = App.CallApiCommand<DataTable>(cmd);
             logicalTypeComboBoxControl.SetDataSource(dt);
         }
 
         private void LoadComboBoxDbTable()
         {
-            var cmd = ApiAdmin.GetDbTableList();
+            var cmd = ApiProvider.GetDbTableList();
             var dt = App.CallApiCommand<DataTable>(cmd);
             dbTableComboBoxControl.SetDataSource(dt);
         }

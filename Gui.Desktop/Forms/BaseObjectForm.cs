@@ -7,11 +7,6 @@ using System.Data;
 
 namespace Gui.Desktop.Forms
 {
-    public enum RecordActionPermitEnum
-    {
-        Select, Insert, Update, Delete, Commit
-    }
-
     public partial class BaseObjectForm : Form // BaseRecordForm
     {
         bool _isModified;

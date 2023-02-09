@@ -1,5 +1,4 @@
-﻿using Gui.Desktop.Dto;
-using Lib.GuiCommander;
+﻿using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
 
 namespace Gui.Desktop.Forms
@@ -8,13 +7,9 @@ namespace Gui.Desktop.Forms
     {
         bool _isModified;
         protected bool _keyDownHandled;
-        readonly string? _dataDomainName;
-        readonly string? _token;
         readonly Dictionary<string, IBaseControl> _baseControls = new();
         ParentTabControl? _parentTabControl;
-
-        readonly IDataRecordContext _ctx;
-        BaseFormDto? _dto;
+        readonly IDataRecordContext? _ctx;
 
         #region Constructrs
 
@@ -112,17 +107,20 @@ namespace Gui.Desktop.Forms
 
         protected virtual void BindButtons()
         {
-            deleteButton.Enabled = Id > 0;
+            var id = _ctx?.Id ?? 0;
+            deleteButton.Enabled = id > 0;
         }
 
         void SetTitle()
         {
+            var dataDomainName = _ctx?.DataDomainName ?? "<Not found context>";
+
             Text = Id.HasValue
-                ? "Create " + _dataDomainName
-                : _dataDomainName + " #" + Id.ToString();
+                ? "Create " + dataDomainName
+: dataDomainName + " #" + Id.ToString();
         }
 
-        #region Record Properties
+        #region Record Properties Views
 
         public int? Id
         {
@@ -133,23 +131,6 @@ namespace Gui.Desktop.Forms
                 }
                 return null;
             }
-            set {
-                if (_ctx != null && value != null)
-                {
-                    _ctx.Id = (int)value;
-                }
-            }
-        }
-
-        public int Version
-        {
-            get => _ctx == null ? 0 : _ctx.Version;
-            set {
-                if (_ctx != null)
-                {
-                    _ctx.Version = value;
-                }
-            }
         }
 
         public DataRecordState State
@@ -159,12 +140,6 @@ namespace Gui.Desktop.Forms
                     return DataRecordState.None;
 
                 return _ctx.State;
-            }
-            set {
-                if (_ctx == null)
-                    return;
-
-                _ctx.State = value;
             }
         }
 
@@ -232,7 +207,7 @@ namespace Gui.Desktop.Forms
         /// <summary>
         /// Если статус поменялся, отсчет обновления начинается заново, флаг снимаем
         /// </summary>
-        void ActionSucceedHandler(object sender, EventArgs e)
+        void ActionSucceedHandler(object? sender, EventArgs e)
         {
             IsModified = false;
         }
@@ -249,22 +224,28 @@ namespace Gui.Desktop.Forms
 
         void saveButton_Click(object sender, EventArgs e)
         {
+            if (_ctx == null)
+                return;
+
             if (!CheckRequiredFields()) return;
 
             if (Id.HasValue)
             {
-                _ctx.UpdateAction();
+                _ctx.Update();
             }
             else
             {
-                _ctx.CreateAction();
+                _ctx.Create();
             }
             Close();
         }
 
         void deleteButton_Click(object sender, EventArgs e)
         {
-            _ctx.DeleteAction();
+            if (_ctx == null)
+                return;
+
+            _ctx.Delete();
             Close();
         }
 
