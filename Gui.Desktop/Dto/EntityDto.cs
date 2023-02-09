@@ -2,7 +2,6 @@
 {
     public class EntityDto : BaseFormDto
     {
-        public int? Id { get; set; }
         public string? PascalName { get; set; }
         public string? PublicName { get; set; }
         public string? PublicCode { get; set; }

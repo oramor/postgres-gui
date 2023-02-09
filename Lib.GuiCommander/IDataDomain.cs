@@ -20,7 +20,7 @@
         /// <summary>
         /// Возвращает коллекцию объектов
         /// </summary>
-        ICollection<IDataRecord> GetList(object? filter);
+        ICollection<IDataRecordView> GetList(object? filter);
         /// <summary>
         /// Возвращает кортех, где первый параметр это идентификатор созданного
         /// экземпляря сущности, а второй — статус, с которым она была создана

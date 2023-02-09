@@ -90,8 +90,6 @@ namespace Gui.Desktop
             return true;
         }
 
-        #region Form Manager
-
         public void ShowForm(string postfix = "")
         {
             var formName = "Gui.Desktop.Forms." + DataDomainName + postfix + "Form";
@@ -109,8 +107,6 @@ namespace Gui.Desktop
 
             form.ShowDialog();
         }
-
-        #endregion
 
         #region Actions
 
@@ -133,9 +129,7 @@ namespace Gui.Desktop
             App.Logger.GuiReport($"Created {DataDomainName} with id {id}");
 
             OnActionSucceed();
-            State = DataRecordState.Saved; // Commited???????????????????
-            Id = id;
-            Version = 1;
+            _row["id"] = id;
         }
 
         public void Update()
@@ -159,7 +153,6 @@ namespace Gui.Desktop
                 App.Logger.GuiReport($"Updated {DataDomainName} with id {Id} (version {ver})");
 
                 OnActionSucceed();
-                Version = ver;
             }
         }
 
@@ -207,7 +200,7 @@ namespace Gui.Desktop
         public event EventHandler<EventArgs>? ActionSucceed;
         private void OnActionSucceed()
         {
-            ActionSucceed?.Invoke(State, EventArgs.Empty);
+            ActionSucceed?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -246,27 +239,26 @@ namespace Gui.Desktop
 
         #region Data Fields
 
-        public int Id
+        public int? Id
         {
-            get => _row["id"] == DBNull.Value ? 0 : Convert.ToInt32(_row["id"]);
-            set => _row["id"] = value;
+            get => _row["id"] == DBNull.Value ? null : Convert.ToInt32(_row["id"]);
         }
 
-        public DataRecordState State
-        {
-            get {
-                return _row["state"] == DBNull.Value
-                    ? DataRecordState.None
-                    : (DataRecordState)Convert.ToInt32(_row["state"]);
-            }
-            set => _row["state"] = (int)value;
-        }
+        //public DataRecordState State
+        //{
+        //    get {
+        //        return _row["state"] == DBNull.Value
+        //            ? DataRecordState.None
+        //            : (DataRecordState)Convert.ToInt32(_row["state"]);
+        //    }
+        //    set => _row["state"] = (int)value;
+        //}
 
-        public int Version
-        {
-            get => _row["ver"] == DBNull.Value ? 0 : Convert.ToInt32(_row["ver"]);
-            set => _row["ver"] = value;
-        }
+        //public int Version
+        //{
+        //    get => _row["ver"] == DBNull.Value ? 0 : Convert.ToInt32(_row["ver"]);
+        //    set => _row["ver"] = value;
+        //}
 
         /// <summary>
         /// Если свойство не будет найдено по ключу, вернется null.

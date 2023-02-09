@@ -32,14 +32,6 @@ namespace Gui.Desktop
             return cmd;
         }
 
-        public static ApiCommand RemoveEntity(int entityId)
-        {
-            var cmd = new ApiCommand(_schemaName, "pr_remove_entity_");
-            cmd.AddParam(new ApiParameter("p_id", entityId));
-
-            return cmd;
-        }
-
         public static ApiCommand GetEntityList()
         {
             return new ApiCommand(_schemaName, "fn_get_entity_list_t");
@@ -57,18 +49,6 @@ namespace Gui.Desktop
         public static ApiCommand GetLogicalDataTypeShortList()
         {
             return new ApiCommand(_schemaName, "fn_get_logical_data_type_sl_t");
-        }
-
-        #endregion
-
-        #region EntityColumn
-
-        public static ApiCommand CreateEntityColumn(DbTableColumnDto dao)
-        {
-            var cmd = new ApiCommand(_schemaName, "pr_create_db_table_col_custom_n");
-            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Integer));
-            cmd.AddParam(new ApiParameter("p_obj", dao));
-            return cmd;
         }
 
         #endregion

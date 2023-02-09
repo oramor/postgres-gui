@@ -12,7 +12,7 @@
     public interface IDataProvider
     {
         // GetRecordOwner
-        IDataRecord GetRecord(string dataDomainName, int dataRecordId);
+        IDataRecordView GetRecord(string dataDomainName, int dataRecordId);
         IDataDomain GetRecordDomain(string recordDomainName);
     }
 }

@@ -159,7 +159,7 @@ namespace Lib.GuiCommander.Controls
         /// и может изменить свое состоение, если получит оповещение о новом значении
         /// свойства, от которого он зависит.
         /// </summary>
-        void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
+        void C_ContextPropertyChanged(IDataRecordContext sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == CamelName && sender[e.PropertyName] is string v)
             {

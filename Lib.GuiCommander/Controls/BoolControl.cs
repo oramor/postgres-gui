@@ -84,7 +84,7 @@ namespace Lib.GuiCommander
         {
         }
 
-        public void C_ContextPropertyChanged(IObservableContext sender, PropertyChangedEventArgs e)
+        public void C_ContextPropertyChanged(IDataRecordContext sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != null && sender[CamelName] is bool v)
             {

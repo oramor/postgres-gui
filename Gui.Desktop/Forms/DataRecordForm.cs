@@ -133,16 +133,6 @@ namespace Gui.Desktop.Forms
             }
         }
 
-        public DataRecordState State
-        {
-            get {
-                if (_ctx == null)
-                    return DataRecordState.None;
-
-                return _ctx.State;
-            }
-        }
-
         #endregion
 
         #region Checks
@@ -212,7 +202,7 @@ namespace Gui.Desktop.Forms
             IsModified = false;
         }
 
-        void C_ContextChangedByUser(IObservableContext sender, EventArgs e)
+        void C_ContextChangedByUser(IDataRecordContext sender, EventArgs e)
         {
             IsModified = true;
         }

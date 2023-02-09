@@ -3,7 +3,6 @@ namespace Gui.Desktop.Dto
 {
     public class DbTableColumnDto : BaseFormDto
     {
-        public int? Id { get; set; }
         public int? DbTableId { get; set; }
         public string? SnakeName { get; set; }
         public string? CamelName { get; set; }
