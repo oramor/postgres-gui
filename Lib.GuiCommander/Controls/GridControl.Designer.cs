@@ -30,8 +30,14 @@ namespace Lib.GuiCommander.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Name = "contextMenuStrip";
             // 
             // GridControl
             // 
@@ -39,6 +45,7 @@ namespace Lib.GuiCommander.Controls
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
             this.AllowUserToResizeColumns = false;
+            this.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -52,5 +59,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         #endregion
+
+        private ContextMenuStrip contextMenuStrip;
     }
 }

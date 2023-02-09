@@ -55,19 +55,25 @@ namespace Gui.Desktop
             Application.Exit();
         }
 
-        private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            App.ShowDataRecordForm("Entity", null);
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(App.About);
         }
 
+        #region List Menu
+
         private void entitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new EntityListForm());
+            App.ShowDataRecordListForm("Entity");
+        }
+
+        #endregion
+
+        #region Create Menu
+
+        private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            App.ShowDataRecordForm("Entity", null);
         }
 
         private void newEntityColumnToolStripMenuItem_Click(object sender, EventArgs e)
@@ -79,6 +85,8 @@ namespace Gui.Desktop
         {
             App.ShowDataRecordForm("DbTableColumn", "Fk", null);
         }
+
+        #endregion
 
         #endregion
     }

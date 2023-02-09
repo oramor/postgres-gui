@@ -1,6 +1,6 @@
 ﻿namespace Gui.Desktop.Forms
 {
-    partial class ObjectListForm
+    partial class DataRecordListForm
     {
         /// <summary>
         /// Required designer variable.

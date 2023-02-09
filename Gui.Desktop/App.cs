@@ -1,4 +1,5 @@
-﻿using Lib.GuiCommander;
+﻿using Gui.Desktop.Forms;
+using Lib.GuiCommander;
 using Lib.Providers;
 
 namespace Gui.Desktop
@@ -20,6 +21,8 @@ namespace Gui.Desktop
             throw new Exception("Main Form did not found");
         }
 
+        #region Dependency Injection
+
         public static IDiContainer DiContainer
         {
             get {
@@ -40,6 +43,8 @@ namespace Gui.Desktop
         public static IDbProvider DbProvider => DiContainer.DbProvider;
         public static ILogger Logger => DiContainer.Logger;
 
+        #endregion
+
         public static void ShowChildForm(Form form)
         {
             // Mdi TODO
@@ -55,6 +60,12 @@ namespace Gui.Desktop
         {
             var ctx = new DataRecordContext(dataDomainName, id);
             ctx.ShowForm();
+        }
+
+        public static void ShowDataRecordListForm(string dataDomainName)
+        {
+            var form = new DataRecordListForm(dataDomainName);
+            form.Show();
         }
 
         public static void ShowDataRecordForm(string dataDomainName, string postfix, int? id)

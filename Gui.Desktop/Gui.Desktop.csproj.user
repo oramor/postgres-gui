@@ -16,7 +16,7 @@
     <Compile Update="Forms\EntityListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\ObjectListForm.cs">
+    <Compile Update="Forms\DataRecordListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="MainForm.cs">
