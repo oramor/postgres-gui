@@ -21,15 +21,13 @@ namespace Gui.Desktop.Forms
 
         private void LoadComboBoxTypes()
         {
-            var cmd = ApiProvider.GetLogicalDataTypeShortList();
-            var dt = App.CallApiCommand<DataTable>(cmd);
+            DataTable dt = ApiProvider.GetShortList("logical_data_type");
             logicalTypeComboBoxControl.SetDataSource(dt);
         }
 
         private void LoadComboBoxDbTable()
         {
-            var cmd = ApiProvider.GetDbTableList();
-            var dt = App.CallApiCommand<DataTable>(cmd);
+            DataTable dt = ApiProvider.GetShortList("db_table");
             dbTableComboBoxControl.SetDataSource(dt);
         }
     }

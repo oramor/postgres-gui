@@ -1,7 +1,6 @@
 ﻿using Gui.Desktop.Forms;
 using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
-using Lib.Providers;
 using Lib.Providers.JsonProvider;
 using System.ComponentModel;
 using System.Data;
@@ -117,17 +116,9 @@ namespace Gui.Desktop
                 throw new Exception("Forbidden!");
             }
 
-            var jp = MakeJsonParameter();
-
-            var procName = "pr_" + Token + "_create_n";
-
-            var cmd = new ApiCommand("api_admin", procName);
-            cmd.AddParam(new ApiParameter("p_id", ApiParameterDataType.Integer));
-            cmd.AddParam(new ApiParameter(jp));
-            var id = App.CallApiCommand<int>(cmd);
-
+            var json = MakeJsonParameter();
+            var id = ApiProvider.Create(Token, json);
             App.Logger.GuiReport($"Created {DataDomainName} with id {id}");
-
             OnActionSucceed();
             _row["id"] = id;
         }
@@ -141,17 +132,9 @@ namespace Gui.Desktop
 
             if (Id > 0)
             {
-                var jp = MakeJsonParameter();
-
-                var procName = "pr_" + Token + "_update_";
-
-                var cmd = new ApiCommand("api_admin", procName);
-                cmd.AddParam(new ApiParameter("p_ver", ApiParameterDataType.Integer));
-                cmd.AddParam(new ApiParameter(jp));
-                var ver = App.CallApiCommand<int>(cmd);
-
+                var json = MakeJsonParameter();
+                int ver = ApiProvider.Update(Token, json);
                 App.Logger.GuiReport($"Updated {DataDomainName} with id {Id} (version {ver})");
-
                 OnActionSucceed();
             }
         }
@@ -165,14 +148,8 @@ namespace Gui.Desktop
 
             if (Id > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
             {
-                var procName = "pr_" + Token + "_remove_";
-
-                var cmd = new ApiCommand("api_admin", procName);
-                cmd.AddParam(new ApiParameter("p_id", Id));
-                App.CallApiCommandVoid(cmd);
-
+                ApiProvider.Delete(Token, (int)Id);
                 App.Logger.GuiReport($"{DataDomainName} with id {Id} REMOVED");
-
                 OnActionSucceed();
             }
         }
@@ -243,22 +220,6 @@ namespace Gui.Desktop
         {
             get => _row["id"] == DBNull.Value ? null : Convert.ToInt32(_row["id"]);
         }
-
-        //public DataRecordState State
-        //{
-        //    get {
-        //        return _row["state"] == DBNull.Value
-        //            ? DataRecordState.None
-        //            : (DataRecordState)Convert.ToInt32(_row["state"]);
-        //    }
-        //    set => _row["state"] = (int)value;
-        //}
-
-        //public int Version
-        //{
-        //    get => _row["ver"] == DBNull.Value ? 0 : Convert.ToInt32(_row["ver"]);
-        //    set => _row["ver"] = value;
-        //}
 
         /// <summary>
         /// Если свойство не будет найдено по ключу, вернется null.

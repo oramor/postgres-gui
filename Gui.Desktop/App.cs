@@ -75,15 +75,5 @@ namespace Gui.Desktop
         }
 
         public static string About { get => "The about message will be soon later"; }
-
-        public static T CallApiCommand<T>(ApiCommand cmd)
-        {
-            return DbProvider.Query<T>(cmd);
-        }
-
-        public static void CallApiCommandVoid(ApiCommand cmd)
-        {
-            DbProvider.Execute(cmd);
-        }
     }
 }

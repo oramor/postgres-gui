@@ -1,5 +1,5 @@
-﻿using Gui.Desktop.Dto;
-using Lib.Providers;
+﻿using Lib.Providers;
+using Lib.Providers.JsonProvider;
 using System.Data;
 
 namespace Gui.Desktop
@@ -22,41 +22,44 @@ namespace Gui.Desktop
             return App.DbProvider.Query<DataRow>(cmd);
         }
 
-        #region Entity
-
-        public static ApiCommand CreateEntity(EntityDto dao)
+        public static DataTable GetList(string token)
         {
-            var cmd = new ApiCommand(_schemaName, "pr_create_entity_n");
-            cmd.AddParam(new ApiParameter("p_entity_id", ApiParameterDataType.Integer));
-            cmd.AddParam(new ApiParameter("p_obj", dao));
-            return cmd;
+            var funcName = "fn_get_" + token + "_list_t";
+            var cmd = new ApiCommand(_schemaName, funcName);
+            return App.DbProvider.Query<DataTable>(cmd);
         }
 
-        public static ApiCommand GetEntityList()
+        public static DataTable GetShortList(string token)
         {
-            return new ApiCommand(_schemaName, "fn_get_entity_list_t");
+            var funcName = "fn_get_" + token + "_sl_t";
+            var cmd = new ApiCommand(_schemaName, funcName);
+            return App.DbProvider.Query<DataTable>(cmd);
         }
 
-        public static ApiCommand GetEntityShortList()
+        public static int Create(string token, JsonParameter json)
         {
-            return new ApiCommand(_schemaName, "fn_get_entity_sl_t");
+            var procName = "pr_" + token + "_create_n";
+            var cmd = new ApiCommand(_schemaName, procName);
+            cmd.AddParam(new ApiParameter("p_id", ApiParameterDataType.Integer));
+            cmd.AddParam(new ApiParameter(json));
+            return App.DbProvider.Query<int>(cmd);
         }
 
-        #endregion
-
-        #region LogicalDataType
-
-        public static ApiCommand GetLogicalDataTypeShortList()
+        public static int Update(string token, JsonParameter json)
         {
-            return new ApiCommand(_schemaName, "fn_get_logical_data_type_sl_t");
+            var procName = "pr_" + token + "_update_n";
+            var cmd = new ApiCommand(_schemaName, procName);
+            cmd.AddParam(new ApiParameter("p_ver", ApiParameterDataType.Integer));
+            cmd.AddParam(new ApiParameter(json));
+            return App.DbProvider.Query<int>(cmd);
         }
 
-        #endregion
-
-        public static ApiCommand GetDbTableList()
+        public static void Delete(string token, int id)
         {
-            return new ApiCommand(_schemaName, "fn_get_db_table_sl_t");
+            var procName = "pr_" + token + "_remove_";
+            var cmd = new ApiCommand(_schemaName, procName);
+            cmd.AddParam(new ApiParameter("p_id", id));
+            App.DbProvider.Execute(cmd);
         }
-
     }
 }
