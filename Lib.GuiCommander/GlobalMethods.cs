@@ -79,5 +79,52 @@
         //}
 
         #endregion
+
+        /// Можно сделать приватным и добавить статические методы расширения
+        /// для каждого типа меню
+        public static void CorrectSeparators(ToolStripItemCollection items)
+        {
+            ToolStripItem? prevItem = null;
+            /// Флаг указывает, является ли предыдущий пункт сепаратором.
+            /// Для удаления двойных сепараторов
+            bool prevSeparator = false;
+
+            foreach (ToolStripItem i in items)
+            {
+                /// В рамках этого корректора все не доступные пункты
+                /// окажутся скрытыми
+                i.Visible = i.Enabled;
+                if (!i.Enabled)
+                    continue;
+
+                if (i is ToolStripSeparator)
+                {
+                    if (prevItem == null || prevSeparator)
+                    {
+                        /// Отключаем, если перед сепаратором ничего нет,
+                        /// либо там тоже сепаратор
+                        i.Visible = false;
+                        continue;
+                    }
+
+                    prevSeparator = true;
+                }
+                else
+                {
+                    prevSeparator = false;
+                }
+
+                if (i is ToolStripDropDownItem d)
+                    /// Циклично для вложенных пунктов. Собственно, этот
+                    /// фрагмент не позволил сходу сделать данный метод
+                    /// методом расширения для ToolStripMenu
+                    CorrectSeparators(d.DropDownItems);
+
+                prevItem = i;
+            }
+
+            if (prevItem != null && prevSeparator)
+                prevItem.Visible = false;
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Lib.GuiCommander.Controls.DataRecordGrid;
 
 namespace Lib.GuiCommander.Controls
 {
@@ -26,12 +27,12 @@ namespace Lib.GuiCommander.Controls
 
             var reloadItem = new ToolStripMenuItem("Reload");
             reloadItem.Click += ReloadClickHandler;
-            this.Items.Add(reloadItem);
+            Items.Add(reloadItem);
 
             var openItem = new ToolStripMenuItem("Open");
             openItem.Click += OpenDataRecordFormHandler;
             openItem.Visible = true;
-            this.Items.Add(openItem);
+            Items.Add(openItem);
         }
 
         void ClearSeparators()

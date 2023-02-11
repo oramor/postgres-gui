@@ -2,5 +2,6 @@
 {
     public static class AppSettings
     {
+        public static string IdColumnName => "id";
     }
 }

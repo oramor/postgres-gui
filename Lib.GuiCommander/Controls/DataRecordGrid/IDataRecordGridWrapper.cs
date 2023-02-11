@@ -1,4 +1,4 @@
-﻿namespace Lib.GuiCommander.Controls
+﻿namespace Lib.GuiCommander.Controls.DataRecordGrid
 {
     public interface IDataRecordGridWrapper
     {

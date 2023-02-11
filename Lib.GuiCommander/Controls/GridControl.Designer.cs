@@ -38,6 +38,7 @@ namespace Lib.GuiCommander.Controls
             // contextMenuStrip
             // 
             this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(61, 4);
             // 
             // GridControl
             // 
@@ -48,12 +49,15 @@ namespace Lib.GuiCommander.Controls
             this.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ContextMenuStrip = this.contextMenuStrip;
             this.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReadOnly = true;
             this.RowHeadersVisible = false;
             this.RowTemplate.Height = 26;
             this.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            // Отключаем всплывающие подсказки для ячеек
+            this.ShowCellToolTips = false;
             this.ResumeLayout(false);
 
         }

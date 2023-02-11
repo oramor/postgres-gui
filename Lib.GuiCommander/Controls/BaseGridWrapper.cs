@@ -9,5 +9,10 @@
             _gridControl = gridControl;
             _gridControl.Wrapper = this;
         }
+
+        /// <summary>
+        /// Контекстное меню добавлено на уровне дизайнера <see cref="GridControl"/>
+        /// </summary>
+        protected ContextMenuStrip ContextMenu => _gridControl.ContextMenuStrip!;
     }
 }

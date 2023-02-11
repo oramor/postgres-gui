@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace Lib.GuiCommander.Controls
+﻿namespace Lib.GuiCommander.Controls
 {
     public partial class GridControl : DataGridView
     {

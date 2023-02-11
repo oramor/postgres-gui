@@ -17,7 +17,7 @@
         public DataRecordListForm(string dataDomainName)
             : this()
         {
-            var grid = new DataRecordListGridWrapper(gridControl, dataDomainName);
+            var grid = new DataRecordGridWrapper(gridControl, dataDomainName);
             grid.Load();
         }
 
