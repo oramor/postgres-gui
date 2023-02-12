@@ -47,7 +47,6 @@ namespace Gui.Desktop
 
         public static void ShowChildForm(Form form)
         {
-            // Mdi TODO
             form.Show();
         }
 
@@ -59,6 +58,7 @@ namespace Gui.Desktop
         public static void ShowDataRecordListForm(string dataDomainName)
         {
             var form = new DataRecordListForm(dataDomainName);
+            form.TopMost = true;
             form.Show();
         }
 

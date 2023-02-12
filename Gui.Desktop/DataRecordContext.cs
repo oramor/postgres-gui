@@ -7,8 +7,6 @@ using System.Data;
 
 namespace Gui.Desktop
 {
-    public enum RecordActionPermitEnum { Insert, Update, Delete };
-
     /// <summary>
     /// Это один из вариантов реализации интефейса <see cref="IDataRecordContext"/>.
     /// Здесь приложение не работает с метаданными, а информацю о колонках получает
@@ -84,7 +82,7 @@ namespace Gui.Desktop
             return jp;
         }
 
-        protected virtual bool CheckPermit(RecordActionPermitEnum permit)
+        protected virtual bool CheckPermit(DataRecordActionType permit)
         {
             return true;
         }
@@ -129,20 +127,20 @@ namespace Gui.Desktop
 
         public void Create()
         {
-            if (!CheckPermit(RecordActionPermitEnum.Insert))
+            if (!CheckPermit(DataRecordActionType.Insert))
             {
                 throw new Exception("Forbidden!");
             }
 
             var json = MakeJsonParameter();
             var id = ApiProvider.Create(Token, json);
-            OnActionSucceed();
             _row["id"] = id;
+            OnActionSucceed(DataRecordActionType.Insert, id);
         }
 
         public void Update()
         {
-            if (!CheckPermit(RecordActionPermitEnum.Update))
+            if (!CheckPermit(DataRecordActionType.Update))
             {
                 throw new Exception("Forbidden!");
             }
@@ -151,13 +149,13 @@ namespace Gui.Desktop
             {
                 var json = MakeJsonParameter();
                 ApiProvider.Update(Token, json);
-                OnActionSucceed();
+                OnActionSucceed(DataRecordActionType.Update, (int)Id);
             }
         }
 
         public void Delete()
         {
-            if (!CheckPermit(RecordActionPermitEnum.Delete))
+            if (!CheckPermit(DataRecordActionType.Delete))
             {
                 throw new Exception("Forbidden!");
             }
@@ -165,7 +163,7 @@ namespace Gui.Desktop
             if (Id > 0)
             {
                 ApiProvider.Delete(Token, (int)Id);
-                OnActionSucceed();
+                OnActionSucceed(DataRecordActionType.Delete, (int)Id);
             }
         }
 
@@ -189,10 +187,10 @@ namespace Gui.Desktop
         /// Оповещает форму об изменении статуса записи, что приводит
         /// к обновлению бидндинга форм и снятию статуса модификации
         /// </summary>
-        public event EventHandler<EventArgs>? ActionSucceed;
-        private void OnActionSucceed()
+        public event EventHandler<DataRecordActionSucceedEventArgs>? ActionSucceed;
+        private void OnActionSucceed(DataRecordActionType type, int id)
         {
-            ActionSucceed?.Invoke(this, EventArgs.Empty);
+            ActionSucceed?.Invoke(this, new DataRecordActionSucceedEventArgs(type, id));
         }
 
         /// <summary>

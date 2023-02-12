@@ -5,6 +5,34 @@ using System.Data;
 
 namespace Gui.Desktop.Forms
 {
+    /// <summary>
+    /// Например, событие удаления строки может по-разному обрабатываться на формах.
+    /// Например, если на форме есть фильтр по удаленным и он активен, то удаленная строка
+    /// просто будет подсвечена. А если в приложении строки удаляются физически,
+    /// то форма отдаст врапперу команду удалить строку с нужным индексом из таблицы,
+    /// что позволит не обновлять всю таблицу целиком.
+    /// </summary>
+    public class RowActionSucceedEventArgs : EventArgs
+    {
+        public RowActionSucceedEventArgs(DataRecordActionType actionType, int rowIndex)
+        {
+            ActionType = actionType;
+            RowIndex = rowIndex;
+        }
+        public DataRecordActionType ActionType { get; }
+        /// <summary>
+        /// По иднексу строки мы всегда можем получить id сущности
+        /// </summary>
+        public int RowIndex { get; }
+    }
+
+    /// <summary>
+    /// На форме может быть несколько грид-контролов, которые получают оповещения
+    /// от различных врапперов. Чтобы форма могла определить, какому врапперу
+    /// передавать команду, возвращается ссылка на сам враппер.
+    /// </summary>
+    public delegate void RowActionSucceedEventHandler(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs args);
+
     public class DataRecordGridWrapper : BaseGridWrapper
     {
         readonly string _dataDomainName;
@@ -48,6 +76,20 @@ namespace Gui.Desktop.Forms
             DataTable dt = ApiProvider.GetList(Token);
             _gridControl.DataSource = dt;
         }
+
+        #region Events
+
+        /// <summary>
+        /// Формы, которые инициировали грид через враппер, могут получать оповещения
+        /// о событиях со строками этого грида (например, оповещение об удалении)
+        /// </summary>
+        public event RowActionSucceedEventHandler? RowActionSucceed;
+        private void OnRowActionSucceed(DataRecordActionType actionType, int rowIndex)
+        {
+            RowActionSucceed?.Invoke(this, new RowActionSucceedEventArgs(actionType, rowIndex));
+        }
+
+        #endregion
 
         #region Handlers
 
@@ -94,7 +136,10 @@ namespace Gui.Desktop.Forms
                 {
                     var id = (int)row.Cells[AppSettings.IdColumnName].Value;
                     var ctx = App.GetDataRecordContext(_dataDomainName, id);
+                    /// Но вообще у Delete есть свое событие об успешном заверщении операции,
+                    /// но может ли подписка на него в цикле привести к утечке памяти?
                     ctx.Delete();
+                    OnRowActionSucceed(DataRecordActionType.Delete, row.Index);
                 }
 
                 App.Logger.GuiReport($"Removed {cnt} {_dataDomainName} object(s)");

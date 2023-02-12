@@ -13,6 +13,23 @@ namespace Lib.GuiCommander
         Commited = 8    // объект записан и проведен по регистрам (Saved+)
     }
 
+    public enum DataRecordActionType { Insert, Update, Delete };
+
+    /// <summary>
+    /// Вобще это, наверное, лучше менять на асинхронную обработку.
+    /// </summary>
+    public class DataRecordActionSucceedEventArgs : EventArgs
+    {
+        public DataRecordActionSucceedEventArgs(DataRecordActionType type, int id)
+        {
+            Type = type;
+            Id = id;
+        }
+
+        public DataRecordActionType Type { get; }
+        public int Id { get; }
+    }
+
     /// <summary>
     /// В отличие от стандартного делегата <see cref="INotifyPropertyChanged"/>
     /// здесь отправителем всегда является инстанс контекста, что позволяет контролу
@@ -46,7 +63,7 @@ namespace Lib.GuiCommander
         /// для записей, которые имеют несколько вариантов форм
         //void ShowForm(string formCode);
 
-        event EventHandler<EventArgs> ActionSucceed;
+        event EventHandler<DataRecordActionSucceedEventArgs> ActionSucceed;
         /// <summary>
         /// Потребителями этого события являются контролы, реализовавшие интерфейс <see cref="IBaseControl"/>, что позволяет им отслеживать изменение контекста
         /// и приводить свой состояние в актуальное. Важно иметь в виду, что форма,

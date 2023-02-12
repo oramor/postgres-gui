@@ -18,9 +18,15 @@
             : this()
         {
             var grid = new DataRecordGridWrapper(gridControl, dataDomainName);
+            grid.RowActionSucceed += Grid_ActionSucceed;
             grid.Load();
         }
 
         #endregion
+
+        void Grid_ActionSucceed(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs args)
+        {
+            MessageBox.Show("Removed row with index " + args.RowIndex);
+        }
     }
 }
