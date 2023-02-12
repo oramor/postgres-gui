@@ -33,6 +33,13 @@ namespace Gui.Desktop.Forms
     /// </summary>
     public delegate void RowActionSucceedEventHandler(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs args);
 
+    /// <summary>
+    /// Врапперы не должны модифицировать себя самостоятельно. Это решение
+    /// принимает форма, которую они оповещают. Это обусловлено тем, что 
+    /// на форме могут быть контролы, состояние которых определяет опведение грида
+    /// (например, фильтры). Враппер ничего не знает (и не должне знать)
+    /// об этих контролах.
+    /// </summary>
     public class DataRecordGridWrapper : BaseGridWrapper
     {
         readonly string _dataDomainName;
