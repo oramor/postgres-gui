@@ -4,6 +4,7 @@
     /// По дефолту для активации меню нужно сперва активировать главную форму.
     /// Этот класс отслеживает события операционной системы, чтобы лишний
     /// клик не требовался. Аналогично можно поступить с ToolStrip
+    /// https://stackoverflow.com/questions/3427696/windows-requires-a-click-to-activate-a-window-before-a-second-click-will-select
     /// </summary>
     public class MainMenuControl : MenuStrip
     {

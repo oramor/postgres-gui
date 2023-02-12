@@ -1,4 +1,6 @@
-﻿namespace Gui.Desktop
+﻿using Lib.GuiCommander.Controls;
+
+namespace Gui.Desktop
 {
     partial class MainForm
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.mainMenu = new MainMenuControl();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,12 +50,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLastCommandReport = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mainMenuControl1 = new Lib.GuiCommander.Controls.MainMenuControl();
             this.weweweToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weweeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.mainMenuControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -213,16 +213,6 @@
             this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
             this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
-            // mainMenuControl1
-            // 
-            this.mainMenuControl1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.weweweToolStripMenuItem});
-            this.mainMenuControl1.Location = new System.Drawing.Point(0, 0);
-            this.mainMenuControl1.Name = "mainMenuControl1";
-            this.mainMenuControl1.Size = new System.Drawing.Size(800, 24);
-            this.mainMenuControl1.TabIndex = 2;
-            this.mainMenuControl1.Text = "mainMenuControl1";
-            // 
             // weweweToolStripMenuItem
             // 
             this.weweweToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -245,7 +235,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mainMenu);
-            this.Controls.Add(this.mainMenuControl1);
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.Text = "Postgres Gui";
@@ -255,16 +244,13 @@
             this.mainMenu.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.mainMenuControl1.ResumeLayout(false);
-            this.mainMenuControl1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
-        private MenuStrip mainMenu;
+        private MainMenuControl mainMenu;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem connectToolStripMenuItem;
         private ToolStripMenuItem createToolStripMenuItem;
@@ -284,7 +270,6 @@
         private ToolStripStatusLabel toolStripStatusLastCommandReport;
         private ToolStripMenuItem newDbTableColumnToolStripMenuItem;
         private ToolStripMenuItem newDbTableColumnFkToolStripMenuItem;
-        private Lib.GuiCommander.Controls.MainMenuControl mainMenuControl1;
         private ToolStripMenuItem weweweToolStripMenuItem;
         private ToolStripMenuItem weweeToolStripMenuItem;
     }
