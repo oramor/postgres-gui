@@ -117,7 +117,7 @@ namespace Gui.Desktop.Forms
 
             Text = Id.HasValue
                 ? "Create " + dataDomainName
-: dataDomainName + " #" + Id.ToString();
+                : dataDomainName + " #" + Id.ToString();
         }
 
         #region Record Properties Views
@@ -132,6 +132,8 @@ namespace Gui.Desktop.Forms
                 return null;
             }
         }
+
+        public string DataDomainName => _ctx?.DataDomainName ?? String.Empty;
 
         #endregion
 
@@ -222,21 +224,24 @@ namespace Gui.Desktop.Forms
             if (Id.HasValue)
             {
                 _ctx.Update();
+                App.Logger.GuiReport($"Updated {DataDomainName} with id {Id}");
             }
             else
             {
                 _ctx.Create();
+                App.Logger.GuiReport($"Created {DataDomainName} with id {Id}");
             }
             Close();
         }
 
         void deleteButton_Click(object sender, EventArgs e)
         {
-            if (_ctx == null)
-                return;
-
-            _ctx.Delete();
-            Close();
+            if (_ctx != null && MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+                _ctx.Delete();
+                App.Logger.GuiReport($"{DataDomainName} with id {Id} REMOVED");
+                Close();
+            }
         }
 
         void Form_KeyDown(object sender, KeyEventArgs e)

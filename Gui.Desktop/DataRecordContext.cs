@@ -107,6 +107,24 @@ namespace Gui.Desktop
             form.ShowDialog();
         }
 
+        public DataRecordForm GetForm(string postfix = "")
+        {
+            var formName = "Gui.Desktop.Forms." + DataDomainName + postfix + "Form";
+            var formType = Type.GetType(formName);
+
+            if (formType == null)
+            {
+                throw new ArgumentException($"Not found form type with name {formName}. Did you forgot path?");
+            }
+
+            if (Activator.CreateInstance(formType, this) is not DataRecordForm form)
+            {
+                throw new Exception($"Form {formName} is not an instance of DataRecordForm");
+            }
+
+            return form;
+        }
+
         #region Actions
 
         public void Create()
@@ -118,7 +136,6 @@ namespace Gui.Desktop
 
             var json = MakeJsonParameter();
             var id = ApiProvider.Create(Token, json);
-            App.Logger.GuiReport($"Created {DataDomainName} with id {id}");
             OnActionSucceed();
             _row["id"] = id;
         }
@@ -133,8 +150,7 @@ namespace Gui.Desktop
             if (Id > 0)
             {
                 var json = MakeJsonParameter();
-                int ver = ApiProvider.Update(Token, json);
-                App.Logger.GuiReport($"Updated {DataDomainName} with id {Id} (version {ver})");
+                ApiProvider.Update(Token, json);
                 OnActionSucceed();
             }
         }
@@ -146,10 +162,9 @@ namespace Gui.Desktop
                 throw new Exception("Forbidden!");
             }
 
-            if (Id > 0 && (MessageBox.Show("Delete this object from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK))
+            if (Id > 0)
             {
                 ApiProvider.Delete(Token, (int)Id);
-                App.Logger.GuiReport($"{DataDomainName} with id {Id} REMOVED");
                 OnActionSucceed();
             }
         }

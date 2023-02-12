@@ -56,22 +56,28 @@ namespace Gui.Desktop
             form.ShowDialog();
         }
 
-        public static void ShowDataRecordForm(string dataDomainName, int? id)
-        {
-            var ctx = new DataRecordContext(dataDomainName, id);
-            ctx.ShowForm();
-        }
-
         public static void ShowDataRecordListForm(string dataDomainName)
         {
             var form = new DataRecordListForm(dataDomainName);
             form.Show();
         }
 
+        public static void ShowDataRecordForm(string dataDomainName, int? id)
+        {
+            ShowDataRecordForm(dataDomainName, "", id);
+        }
+
         public static void ShowDataRecordForm(string dataDomainName, string postfix, int? id)
         {
             var ctx = new DataRecordContext(dataDomainName, id);
-            ctx.ShowForm(postfix);
+            var form = ctx.GetForm(postfix);
+            //form.MdiParent = GetMainForm();
+            form.Show();
+        }
+
+        public static IDataRecordContext GetDataRecordContext(string dataDomainName, int id)
+        {
+            return new DataRecordContext(dataDomainName, id);
         }
 
         public static void ShowErrorDialog(string message)

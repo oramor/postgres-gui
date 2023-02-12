@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gridControl = new Lib.GuiCommander.Controls.GridControl();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             this.SuspendLayout();
@@ -38,6 +39,7 @@
             this.gridControl.AllowUserToAddRows = false;
             this.gridControl.AllowUserToDeleteRows = false;
             this.gridControl.AllowUserToResizeColumns = false;
+            this.gridControl.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridControl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -47,18 +49,20 @@
             this.gridControl.RowHeadersVisible = false;
             this.gridControl.RowTemplate.Height = 26;
             this.gridControl.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridControl.ShowCellToolTips = false;
             this.gridControl.Size = new System.Drawing.Size(800, 450);
             this.gridControl.TabIndex = 0;
             this.gridControl.Wrapper = null;
             // 
-            // ObjectListForm
+            // DataRecordListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.gridControl);
-            this.Name = "ObjectListForm";
+            this.Name = "DataRecordListForm";
             this.Text = "ObjectListForm";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
             this.ResumeLayout(false);
 

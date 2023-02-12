@@ -35,6 +35,7 @@
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDbTableColumnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newDbTableColumnFkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTablePartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDTOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLastCommandReport = new System.Windows.Forms.ToolStripStatusLabel();
-            this.newDbTableColumnFkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +115,13 @@
             this.newDbTableColumnToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.newDbTableColumnToolStripMenuItem.Text = "New DB Table Column...";
             this.newDbTableColumnToolStripMenuItem.Click += new System.EventHandler(this.newEntityColumnToolStripMenuItem_Click);
+            // 
+            // newDbTableColumnFkToolStripMenuItem
+            // 
+            this.newDbTableColumnFkToolStripMenuItem.Name = "newDbTableColumnFkToolStripMenuItem";
+            this.newDbTableColumnFkToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.newDbTableColumnFkToolStripMenuItem.Text = "New DB Table Column (FK)...";
+            this.newDbTableColumnFkToolStripMenuItem.Click += new System.EventHandler(this.newDbTableColumnFkToolStripMenuItem_Click);
             // 
             // newTablePartToolStripMenuItem
             // 
@@ -201,13 +208,6 @@
             this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
             this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
-            // newDbTableColumnFkToolStripMenuItem
-            // 
-            this.newDbTableColumnFkToolStripMenuItem.Name = "newDbTableColumnFkToolStripMenuItem";
-            this.newDbTableColumnFkToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.newDbTableColumnFkToolStripMenuItem.Text = "New DB Table Column (FK)...";
-            this.newDbTableColumnFkToolStripMenuItem.Click += new System.EventHandler(this.newDbTableColumnFkToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -219,6 +219,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Postgres Gui";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

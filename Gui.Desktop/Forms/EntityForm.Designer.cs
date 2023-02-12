@@ -144,8 +144,10 @@ namespace Gui.Desktop.Forms
             this.Controls.Add(this.checkBoxIsDocument);
             this.Controls.Add(this.stringControlPascalName);
             this.Controls.Add(this.stringControlPublicName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "EntityForm";
             this.Text = "Entity";
+            this.TopMost = true;
             this.Controls.SetChildIndex(this.deleteButton, 0);
             this.Controls.SetChildIndex(this.stringControlPublicName, 0);
             this.Controls.SetChildIndex(this.stringControlPascalName, 0);

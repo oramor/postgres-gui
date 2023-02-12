@@ -1,5 +1,6 @@
 ﻿using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
+using System.ComponentModel;
 using System.Data;
 
 namespace Gui.Desktop.Forms
@@ -14,10 +15,7 @@ namespace Gui.Desktop.Forms
             : base(gridControl)
         {
             _dataDomainName = dataDomainName;
-
             _gridControl.CellMouseDoubleClick += GridControl_CellMouseDoubleClick;
-            _gridControl.CellMouseDown += GridControl_CellMouseDown;
-
             InitContextMenu();
         }
 
@@ -53,8 +51,26 @@ namespace Gui.Desktop.Forms
 
         #region Handlers
 
-        void ContextMenu_Opening(object? sender, EventArgs e)
+        void ContextMenu_Opening(object? sender, CancelEventArgs e)
         {
+            Point locp = _gridControl.PointToClient(Cursor.Position);
+            DataGridView.HitTestInfo hti = _gridControl.HitTest(locp.X, locp.Y);
+
+            if (hti.Type == DataGridViewHitTestType.ColumnHeader)
+            {
+                // Вообще не открываем меню при клике на заголовке
+                e.Cancel = true;
+            }
+            else if (hti.Type == DataGridViewHitTestType.Cell)
+            {
+                _openMenuItem.Enabled = _gridControl.SelectedRows.Count == 1;
+                _deleteMenuItem.Enabled = true;
+
+                /// Это не только позволяет выделить строку, но и через CurrentRow
+                /// получить id в обработчике клика
+                _gridControl.CurrentCell = _gridControl[hti.ColumnIndex, hti.RowIndex];
+            }
+
             GlobalMethods.CorrectSeparators(ContextMenu.Items);
         }
 
@@ -66,35 +82,29 @@ namespace Gui.Desktop.Forms
             _deleteMenuItem.Enabled = false;
         }
 
-        /// <summary>
-        /// Потребителем этой переменной является только обработчик клика, поэтому
-        /// не важно, что кеш подвисает в случае клика за пределами ячейки
-        /// </summary>
-        int? _idCache;
-        void GridControl_CellMouseDown(object? sender, DataGridViewCellMouseEventArgs e)
-        {
-            // Reset cache
-            _idCache = Convert.ToInt32(_gridControl[AppSettings.IdColumnName, e.RowIndex].Value);
-
-            // Чтобы подсветилась строка после клика
-            _gridControl.CurrentCell = _gridControl[e.ColumnIndex, e.RowIndex];
-
-            if (_idCache.HasValue)
-            {
-                // Здесь же возможна проверка прав
-                _openMenuItem.Enabled = true;
-                _deleteMenuItem.Enabled = true;
-            }
-        }
-
         void DeleteMenuItem_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Remove with id " + _idCache);
+            var cnt = _gridControl.SelectedRows.Count;
+            if (cnt < 1)
+                return;
+
+            if (MessageBox.Show($"Delete {cnt} object(s) from Database? You will not undo this action!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+                foreach (DataGridViewRow row in _gridControl.SelectedRows)
+                {
+                    var id = (int)row.Cells[AppSettings.IdColumnName].Value;
+                    var ctx = App.GetDataRecordContext(_dataDomainName, id);
+                    ctx.Delete();
+                }
+
+                App.Logger.GuiReport($"Removed {cnt} {_dataDomainName} object(s)");
+            }
         }
 
         void OpenMenuItem_Click(object? sender, EventArgs e)
         {
-            App.ShowDataRecordForm(_dataDomainName, _idCache);
+            var id = (int)_gridControl.CurrentRow.Cells[AppSettings.IdColumnName].Value;
+            App.ShowDataRecordForm(_dataDomainName, id);
         }
 
         void ReloadMenuItem_Click(object? sender, EventArgs e)
@@ -107,7 +117,7 @@ namespace Gui.Desktop.Forms
             if (e.RowIndex < 0)
                 return;
 
-            int id = Convert.ToInt32(_gridControl[AppSettings.IdColumnName, e.RowIndex].Value);
+            int id = (int)_gridControl[AppSettings.IdColumnName, e.RowIndex].Value;
             App.ShowDataRecordForm(_dataDomainName, id);
         }
 
