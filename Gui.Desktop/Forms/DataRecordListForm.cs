@@ -1,4 +1,6 @@
-﻿namespace Gui.Desktop.Forms
+﻿using Lib.GuiCommander;
+
+namespace Gui.Desktop.Forms
 {
     public partial class DataRecordListForm : Form
     {
@@ -19,14 +21,23 @@
         {
             var grid = new DataRecordGridWrapper(gridControl, dataDomainName);
             grid.RowActionSucceed += Grid_ActionSucceed;
+            grid.LogReported += Grid_LogReported;
             grid.Load();
         }
 
         #endregion
 
-        void Grid_ActionSucceed(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs args)
+        void Grid_ActionSucceed(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs<DataRecordActionType> args)
         {
-            MessageBox.Show("Removed row with index " + args.RowIndex);
+            if (args.ActionType == DataRecordActionType.Delete)
+            {
+                wrapper.RemoveRow(args.RowIndex);
+            }
+        }
+
+        void Grid_LogReported(object? sender, LogMessageEventArgs e)
+        {
+            App.Logger.GuiReport(e);
         }
     }
 }

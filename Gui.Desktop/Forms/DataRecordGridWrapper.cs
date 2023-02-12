@@ -1,5 +1,6 @@
 ﻿using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Data;
 
@@ -11,15 +12,19 @@ namespace Gui.Desktop.Forms
     /// просто будет подсвечена. А если в приложении строки удаляются физически,
     /// то форма отдаст врапперу команду удалить строку с нужным индексом из таблицы,
     /// что позволит не обновлять всю таблицу целиком.
+    /// 
+    /// Класс создан обобщенным, т.к. в различных вариантах приложения, для разных
+    /// врапперов, возможны свои варианты ActionType (например, для документов
+    /// добавляется Commited).
     /// </summary>
-    public class RowActionSucceedEventArgs : EventArgs
+    public class RowActionSucceedEventArgs<T> : EventArgs
     {
-        public RowActionSucceedEventArgs(DataRecordActionType actionType, int rowIndex)
+        public RowActionSucceedEventArgs(T actionType, int rowIndex)
         {
             ActionType = actionType;
             RowIndex = rowIndex;
         }
-        public DataRecordActionType ActionType { get; }
+        public T ActionType { get; }
         /// <summary>
         /// По иднексу строки мы всегда можем получить id сущности
         /// </summary>
@@ -31,7 +36,7 @@ namespace Gui.Desktop.Forms
     /// от различных врапперов. Чтобы форма могла определить, какому врапперу
     /// передавать команду, возвращается ссылка на сам враппер.
     /// </summary>
-    public delegate void RowActionSucceedEventHandler(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs args);
+    public delegate void RowActionSucceedEventHandler(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs<DataRecordActionType> args);
 
     /// <summary>
     /// Врапперы не должны модифицировать себя самостоятельно. Это решение
@@ -42,19 +47,19 @@ namespace Gui.Desktop.Forms
     /// </summary>
     public class DataRecordGridWrapper : BaseGridWrapper
     {
-        readonly string _dataDomainName;
+        //readonly string DataDomainName;
         readonly ToolStripMenuItem _openMenuItem = new("Open") { Enabled = false };
         readonly ToolStripMenuItem _deleteMenuItem = new("Delete") { Enabled = false };
 
         public DataRecordGridWrapper(GridControl gridControl, string dataDomainName)
             : base(gridControl)
         {
-            _dataDomainName = dataDomainName;
+            DataDomainName = dataDomainName;
             _gridControl.CellMouseDoubleClick += GridControl_CellMouseDoubleClick;
             InitContextMenu();
         }
 
-        string Token => _dataDomainName.ToSnakeCase();
+        string Token => DataDomainName.ToSnakeCase();
 
         void InitContextMenu()
         {
@@ -78,11 +83,22 @@ namespace Gui.Desktop.Forms
             ContextMenu.Closed += ContextMenu_Closed;
         }
 
+        #region Public Methods
+
         public void Load()
         {
             DataTable dt = ApiProvider.GetList(Token);
             _gridControl.DataSource = dt;
         }
+
+        public void RemoveRow(int rowIndex)
+        {
+            _gridControl.Rows.RemoveAt(rowIndex);
+        }
+
+        public string DataDomainName { get; }
+
+        #endregion
 
         #region Events
 
@@ -93,7 +109,7 @@ namespace Gui.Desktop.Forms
         public event RowActionSucceedEventHandler? RowActionSucceed;
         private void OnRowActionSucceed(DataRecordActionType actionType, int rowIndex)
         {
-            RowActionSucceed?.Invoke(this, new RowActionSucceedEventArgs(actionType, rowIndex));
+            RowActionSucceed?.Invoke(this, new RowActionSucceedEventArgs<DataRecordActionType>(actionType, rowIndex));
         }
 
         #endregion
@@ -142,21 +158,22 @@ namespace Gui.Desktop.Forms
                 foreach (DataGridViewRow row in _gridControl.SelectedRows)
                 {
                     var id = (int)row.Cells[AppSettings.IdColumnName].Value;
-                    var ctx = App.GetDataRecordContext(_dataDomainName, id);
+                    var ctx = App.GetDataRecordContext(DataDomainName, id);
                     /// Но вообще у Delete есть свое событие об успешном заверщении операции,
                     /// но может ли подписка на него в цикле привести к утечке памяти?
                     ctx.Delete();
                     OnRowActionSucceed(DataRecordActionType.Delete, row.Index);
                 }
 
-                App.Logger.GuiReport($"Removed {cnt} {_dataDomainName} object(s)");
+                var logMessage = $"Removed {cnt} {DataDomainName} object(s)";
+                OnLogReported(LogLevel.Information, logMessage);
             }
         }
 
         void OpenMenuItem_Click(object? sender, EventArgs e)
         {
             var id = (int)_gridControl.CurrentRow.Cells[AppSettings.IdColumnName].Value;
-            App.ShowDataRecordForm(_dataDomainName, id);
+            App.ShowDataRecordForm(DataDomainName, id);
         }
 
         void ReloadMenuItem_Click(object? sender, EventArgs e)
@@ -170,7 +187,7 @@ namespace Gui.Desktop.Forms
                 return;
 
             int id = (int)_gridControl[AppSettings.IdColumnName, e.RowIndex].Value;
-            App.ShowDataRecordForm(_dataDomainName, id);
+            App.ShowDataRecordForm(DataDomainName, id);
         }
 
         #endregion

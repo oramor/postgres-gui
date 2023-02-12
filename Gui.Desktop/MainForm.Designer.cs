@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,23 +48,28 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLastCommandReport = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1.SuspendLayout();
+            this.mainMenuControl1 = new Lib.GuiCommander.Controls.MainMenuControl();
+            this.weweweToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.weweeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.mainMenuControl1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // mainMenu
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.createToolStripMenuItem,
             this.listsToolStripMenuItem,
             this.windowsToolStripMenuItem,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenu.Location = new System.Drawing.Point(0, 24);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(800, 24);
+            this.mainMenu.TabIndex = 0;
+            this.mainMenu.Text = "menuStrip1";
+            this.mainMenu.Visible = true;
             // 
             // fileToolStripMenuItem
             // 
@@ -208,6 +213,30 @@
             this.toolStripStatusLastCommandReport.Size = new System.Drawing.Size(197, 17);
             this.toolStripStatusLastCommandReport.Text = "toolStripStatusLastCommandReport";
             // 
+            // mainMenuControl1
+            // 
+            this.mainMenuControl1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.weweweToolStripMenuItem});
+            this.mainMenuControl1.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuControl1.Name = "mainMenuControl1";
+            this.mainMenuControl1.Size = new System.Drawing.Size(800, 24);
+            this.mainMenuControl1.TabIndex = 2;
+            this.mainMenuControl1.Text = "mainMenuControl1";
+            // 
+            // weweweToolStripMenuItem
+            // 
+            this.weweweToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.weweeToolStripMenuItem});
+            this.weweweToolStripMenuItem.Name = "weweweToolStripMenuItem";
+            this.weweweToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.weweweToolStripMenuItem.Text = "wewewe";
+            // 
+            // weweeToolStripMenuItem
+            // 
+            this.weweeToolStripMenuItem.Name = "weweeToolStripMenuItem";
+            this.weweeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.weweeToolStripMenuItem.Text = "wewee";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -215,16 +244,19 @@
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.mainMenu);
+            this.Controls.Add(this.mainMenuControl1);
+            this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.Text = "Postgres Gui";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.mainMenuControl1.ResumeLayout(false);
+            this.mainMenuControl1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,7 +264,7 @@
 
         #endregion
 
-        private MenuStrip menuStrip1;
+        private MenuStrip mainMenu;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem connectToolStripMenuItem;
         private ToolStripMenuItem createToolStripMenuItem;
@@ -252,5 +284,8 @@
         private ToolStripStatusLabel toolStripStatusLastCommandReport;
         private ToolStripMenuItem newDbTableColumnToolStripMenuItem;
         private ToolStripMenuItem newDbTableColumnFkToolStripMenuItem;
+        private Lib.GuiCommander.Controls.MainMenuControl mainMenuControl1;
+        private ToolStripMenuItem weweweToolStripMenuItem;
+        private ToolStripMenuItem weweeToolStripMenuItem;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Lib.GuiCommander.Controls
+﻿using Microsoft.Extensions.Logging;
+
+namespace Lib.GuiCommander.Controls
 {
     public abstract class BaseGridWrapper
     {
@@ -14,5 +16,11 @@
         /// Контекстное меню добавлено на уровне дизайнера <see cref="GridControl"/>
         /// </summary>
         protected ContextMenuStrip ContextMenu => _gridControl.ContextMenuStrip!;
+
+        public event EventHandler<LogMessageEventArgs>? LogReported;
+        protected void OnLogReported(LogLevel logLevel, string message)
+        {
+            LogReported?.Invoke(this, new LogMessageEventArgs(logLevel, message));
+        }
     }
 }

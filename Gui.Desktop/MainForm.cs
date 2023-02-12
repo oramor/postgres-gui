@@ -15,6 +15,9 @@ namespace Gui.Desktop
             ReloadConnectionStatusLabel();
             UpdateLastCommandReportStatusStrip(string.Empty);
 
+            //mainMenu.Click += MainMenu_Click;
+            //mainMenu.
+
             _logger = new Logger(UpdateLastCommandReportStatusStrip);
         }
 
@@ -34,6 +37,11 @@ namespace Gui.Desktop
         }
 
         #region Event Handlers
+
+        //void MainMenu_Click(object? sender, EventArgs e)
+        //{
+        //    MessageBox.Show("!!!");
+        //}
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
