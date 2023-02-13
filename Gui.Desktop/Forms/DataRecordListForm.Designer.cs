@@ -62,7 +62,6 @@
             this.Controls.Add(this.gridControl);
             this.Name = "DataRecordListForm";
             this.Text = "ObjectListForm";
-            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
             this.ResumeLayout(false);
 

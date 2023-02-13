@@ -14,9 +14,7 @@ namespace Gui.Desktop
             InitializeComponent();
             ReloadConnectionStatusLabel();
             UpdateLastCommandReportStatusStrip(string.Empty);
-
-            //mainMenu.Click += MainMenu_Click;
-            //mainMenu.
+            //this.LostFocus += MainForm_LostFocus;
 
             _logger = new Logger(UpdateLastCommandReportStatusStrip);
         }
@@ -38,10 +36,13 @@ namespace Gui.Desktop
 
         #region Event Handlers
 
-        //void MainMenu_Click(object? sender, EventArgs e)
-        //{
-        //    MessageBox.Show("!!!");
-        //}
+        void MainForm_LostFocus(object sender, EventArgs e)
+        {
+            //foreach (Form form in Application.OpenForms)
+            //{
+            //    form.TopMost = false;
+            //}
+        }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
