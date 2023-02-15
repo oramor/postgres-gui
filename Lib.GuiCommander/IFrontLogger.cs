@@ -1,6 +1,6 @@
 ﻿namespace Lib.GuiCommander
 {
-    public interface ILogger
+    public interface IFrontLogger
     {
         void GuiReport(ILogMessage message);
         void GuiReport(string message);

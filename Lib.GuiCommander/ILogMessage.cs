@@ -4,7 +4,7 @@ namespace Lib.GuiCommander
 {
     /// <summary>
     /// Интерфейс нужен для того, чтобы типизировать параметр метода
-    /// GuiReport у <see cref="ILogger"/>
+    /// GuiReport у <see cref="IFrontLogger"/>
     /// </summary>
     public interface ILogMessage
     {

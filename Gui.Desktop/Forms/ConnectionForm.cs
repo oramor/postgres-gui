@@ -1,25 +1,24 @@
 ﻿using Lib.Providers;
+using System.Data;
 
 namespace Gui.Desktop.Forms
 {
     public partial class ConnectionForm : Form
     {
-        private readonly IDbProvider _db;
-        private readonly ReloadParentForm _reloadParentDelegate;
+        readonly IDbProvider _db;
+        readonly bool _closeAfterAction;
 
-        private string _hostField = string.Empty;
-        private string _portField = string.Empty;
-        private string _databaseField = string.Empty;
-        private string _usernameField = string.Empty;
-        private string _passwordField = string.Empty;
+        string _hostField = string.Empty;
+        string _portField = string.Empty;
+        string _databaseField = string.Empty;
+        string _usernameField = string.Empty;
+        string _passwordField = string.Empty;
 
-        public delegate void ReloadParentForm();
-
-        public ConnectionForm(IDbProvider pg, ReloadParentForm reload)
+        public ConnectionForm(IDbProvider dbProvider, bool closeAfterAction = false)
         {
             InitializeComponent();
-            _db = App.DbProvider;
-            _reloadParentDelegate = reload;
+            _db = dbProvider;
+            _closeAfterAction = closeAfterAction;
 
             ReloadButtons();
 
@@ -27,6 +26,8 @@ namespace Gui.Desktop.Forms
             {
                 FillFields();
             }
+
+            _db.ConnectionStatusChanged += Db_ConnectionStatusChanged;
         }
 
         private void FillFields()
@@ -52,6 +53,13 @@ namespace Gui.Desktop.Forms
             this.btnConnect.Enabled = !_db.IsConnected;
         }
 
+        #region Handlers
+
+        void Db_ConnectionStatusChanged(object? sender, ConnectionState e)
+        {
+            if (_closeAfterAction) this.Close();
+        }
+
         private void btnConnect_Click(object sender, EventArgs e)
         {
             SetFieldValues();
@@ -69,7 +77,6 @@ namespace Gui.Desktop.Forms
             }
 
             ReloadButtons();
-            _reloadParentDelegate();
         }
 
         private void btnDisconnect_Click(object sender, EventArgs e)
@@ -83,7 +90,8 @@ namespace Gui.Desktop.Forms
             }
 
             ReloadButtons();
-            _reloadParentDelegate();
         }
+
+        #endregion
     }
 }

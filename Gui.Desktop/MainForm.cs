@@ -1,40 +1,40 @@
-using Gui.Desktop.Forms;
 using Lib.GuiCommander;
 using Lib.Providers;
+using System.Data;
 
 namespace Gui.Desktop
 {
-    public partial class MainForm : Form, IDiContainer
+    public partial class MainForm : Form, IDiContainerFront<IFrontLogger>
     {
         readonly IDbProvider _pg = new PostgresProvider();
-        readonly ILogger _logger;
+        readonly IFrontLogger _logger;
 
         public MainForm()
         {
             InitializeComponent();
-            ReloadConnectionStatusLabel();
             UpdateLastCommandReportStatusStrip(string.Empty);
             //this.LostFocus += MainForm_LostFocus;
+            _pg.ConnectionStatusChanged += Db_ConnectionStatusChanged;
 
             _logger = new Logger(UpdateLastCommandReportStatusStrip);
         }
 
         public IDbProvider DbProvider => _pg;
-        public ILogger Logger => _logger;
-
-        private void ReloadConnectionStatusLabel()
-        {
-            this.toolStripStatusLabel1.Text = _pg.IsConnected
-                    ? $"Connected to PostgreSQL {_pg.ServerVersion} (database {_pg.Database})"
-                    : "Without database connection";
-        }
+        public IFrontLogger Logger => _logger;
 
         private void UpdateLastCommandReportStatusStrip(string message)
         {
             this.toolStripStatusLastCommandReport.Text = message;
         }
 
-        #region Event Handlers
+        #region Handlers
+
+        void Db_ConnectionStatusChanged(object? sender, ConnectionState e)
+        {
+            this.toolStripStatusLabel1.Text = e == ConnectionState.Open
+                    ? $"Connected to PostgreSQL {_pg.ServerVersion} (database {_pg.Database})"
+                    : "Without database connection";
+        }
 
         void MainForm_LostFocus(object sender, EventArgs e)
         {
@@ -46,7 +46,7 @@ namespace Gui.Desktop
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowModalForm(new ConnectionForm(_pg, ReloadConnectionStatusLabel));
+            App.ShowConnectionForm(false);
         }
 
         private void MainForm_Load(object sender, EventArgs e)

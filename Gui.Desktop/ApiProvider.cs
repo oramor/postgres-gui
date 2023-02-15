@@ -26,7 +26,18 @@ namespace Gui.Desktop
         {
             var funcName = "fn_get_" + token + "_list_t";
             var cmd = new ApiCommand(_schemaName, funcName);
-            return App.DbProvider.Query<DataTable>(cmd);
+
+            try
+            {
+                var dt = App.DbProvider.Query<DataTable>(cmd);
+                return dt;
+            } catch (DbDisconnectException)
+            {
+                App.ShowConnectionForm(true);
+            } catch
+            {
+                throw;
+            }
         }
 
         public static DataTable GetShortList(string token)

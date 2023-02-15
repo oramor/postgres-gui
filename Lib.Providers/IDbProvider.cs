@@ -1,4 +1,6 @@
-﻿namespace Lib.Providers
+﻿using System.Data;
+
+namespace Lib.Providers
 {
     public readonly record struct DbConnectionParams(string Host, string Port, string Database, string Username, string Password);
 
@@ -19,5 +21,6 @@
         /// </summary>
         T Query<T>(ApiCommand cmd);
         void Execute(ApiCommand cmd);
+        event EventHandler<ConnectionState> ConnectionStatusChanged;
     }
 }

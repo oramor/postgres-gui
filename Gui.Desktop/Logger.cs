@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Gui.Desktop
 {
-    public class Logger : Lib.GuiCommander.ILogger
+    public class Logger : IFrontLogger
     {
         public delegate void UpdateGuiStatusReportDelegate(string message);
         UpdateGuiStatusReportDelegate _updDelegate;

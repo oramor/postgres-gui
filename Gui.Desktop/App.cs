@@ -23,14 +23,14 @@ namespace Gui.Desktop
 
         #region Dependency Injection
 
-        public static IDiContainer DiContainer
+        public static IDiContainerFront<IFrontLogger> DiContainer
         {
             get {
                 var mainForm = GetMainForm();
                 /// Фактически у нас инстанс главной формы и является DI-контейнером.
                 /// То есть ссылка на инстанс главной формы передается во все другие
                 /// формы, где нужно реализовать DI
-                var di = (IDiContainer)mainForm;
+                var di = (IDiContainerFront<IFrontLogger>)mainForm;
                 if (di == null)
                 {
                     throw new Exception("MainForm should be compatible with IDiContainer");
@@ -41,7 +41,7 @@ namespace Gui.Desktop
         }
 
         public static IDbProvider DbProvider => DiContainer.DbProvider;
-        public static ILogger Logger => DiContainer.Logger;
+        public static IFrontLogger Logger => DiContainer.Logger;
 
         #endregion
 
@@ -89,6 +89,11 @@ namespace Gui.Desktop
         {
             var message = $"Field {inputName} is required";
             MessageBox.Show(message, "Form", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static void ShowConnectionForm(bool closeAfterAction)
+        {
+            ShowModalForm(new ConnectionForm(DbProvider, closeAfterAction));
         }
 
         public static string About { get => "The about message will be soon later"; }

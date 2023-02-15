@@ -62,6 +62,7 @@ namespace Lib.Providers
             {
                 dataSource = NpgsqlDataSource.Create(connString);
                 connection = dataSource.OpenConnection();
+                OnConnectionStatusChanged(ConnectionState.Open);
             } catch
             {
                 throw new Exception("Connection filed");
@@ -79,6 +80,14 @@ namespace Lib.Providers
             if (dataSource == null) return;
             dataSource.Dispose();
             dataSource = null;
+
+            OnConnectionStatusChanged(ConnectionState.Closed);
+        }
+
+        public event EventHandler<ConnectionState>? ConnectionStatusChanged;
+        void OnConnectionStatusChanged(ConnectionState e)
+        {
+            ConnectionStatusChanged?.Invoke(this, e);
         }
 
         private static NpgsqlDbType GetNpgsqlDbType(ApiParameterDataType value)
@@ -108,6 +117,11 @@ namespace Lib.Providers
 
         T IDbProvider.Query<T>(ApiCommand apiCommand)
         {
+            if (!IsConnected)
+            {
+                throw new DbDisconnectException(apiCommand, CommanHandlerType.Query);
+            }
+
             using var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
             var apiParams = apiCommand.Params;
 
@@ -184,6 +198,11 @@ namespace Lib.Providers
 
         public void Execute(ApiCommand apiCommand)
         {
+            if (!IsConnected)
+            {
+                throw new DbDisconnectException(apiCommand, CommanHandlerType.Execute);
+            }
+
             if (apiCommand.HasOutParam || apiCommand.CommandType == ApiCommandType.Func)
             {
                 throw new Exception("PostgresProvider: you should use Query method for api commands with out-parameters");

@@ -6,9 +6,9 @@ namespace Lib.GuiCommander
     /// Простейший DI-контейнер, который хранится на уровне
     /// инстанса главной формы
     /// </summary>
-    public interface IDiContainer
+    public interface IDiContainerFront<TLogger>
     {
         IDbProvider DbProvider { get; }
-        ILogger Logger { get; }
+        TLogger Logger { get; }
     }
 }
