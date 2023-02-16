@@ -52,6 +52,7 @@ namespace Gui.Desktop
 
         public static void ShowModalForm(Form form)
         {
+            form.TopMost = true;
             form.ShowDialog();
         }
 

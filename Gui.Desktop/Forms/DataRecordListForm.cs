@@ -19,7 +19,7 @@ namespace Gui.Desktop.Forms
         public DataRecordListForm(string dataDomainName)
             : this()
         {
-            var grid = new DataRecordGridWrapper(gridControl, dataDomainName);
+            var grid = new DataRecordGridWrapper(gridControl, dataDomainName, () => App.ShowConnectionForm(true));
             grid.RowActionSucceed += Grid_ActionSucceed;
             grid.LogReported += Grid_LogReported;
             grid.Load();

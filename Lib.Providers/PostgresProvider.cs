@@ -119,7 +119,7 @@ namespace Lib.Providers
         {
             if (!IsConnected)
             {
-                throw new DbDisconnectException(apiCommand, CommanHandlerType.Query);
+                throw new SessionLostException(apiCommand, CommanHandlerType.Query);
             }
 
             using var cmd = new NpgsqlCommand(apiCommand.CommandString, connection);
@@ -200,7 +200,7 @@ namespace Lib.Providers
         {
             if (!IsConnected)
             {
-                throw new DbDisconnectException(apiCommand, CommanHandlerType.Execute);
+                throw new SessionLostException(apiCommand, CommanHandlerType.Execute);
             }
 
             if (apiCommand.HasOutParam || apiCommand.CommandType == ApiCommandType.Func)

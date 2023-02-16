@@ -1,5 +1,6 @@
 ﻿using Lib.GuiCommander;
 using Lib.GuiCommander.Controls;
+using Lib.Providers;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +40,12 @@ namespace Gui.Desktop.Forms
     public delegate void RowActionSucceedEventHandler(DataRecordGridWrapper wrapper, RowActionSucceedEventArgs<DataRecordActionType> args);
 
     /// <summary>
+    /// If <see cref="SessionLostException"/> has occured, user get a form for
+    /// restore session or connection. This for is a part of App responsibility.
+    /// </summary>
+    public delegate void OpenSessionRestoreFormDelegate();
+
+    /// <summary>
     /// Врапперы не должны модифицировать себя самостоятельно. Это решение
     /// принимает форма, которую они оповещают. Это обусловлено тем, что 
     /// на форме могут быть контролы, состояние которых определяет опведение грида
@@ -50,11 +57,13 @@ namespace Gui.Desktop.Forms
         //readonly string DataDomainName;
         readonly ToolStripMenuItem _openMenuItem = new("Open") { Enabled = false };
         readonly ToolStripMenuItem _deleteMenuItem = new("Delete") { Enabled = false };
+        readonly OpenSessionRestoreFormDelegate _openRestoreSessionFormDelegate;
 
-        public DataRecordGridWrapper(GridControl gridControl, string dataDomainName)
+        public DataRecordGridWrapper(GridControl gridControl, string dataDomainName, OpenSessionRestoreFormDelegate openRestoreSessionFormDelegate)
             : base(gridControl)
         {
             DataDomainName = dataDomainName;
+            _openRestoreSessionFormDelegate = openRestoreSessionFormDelegate;
             _gridControl.CellMouseDoubleClick += GridControl_CellMouseDoubleClick;
             InitContextMenu();
         }
@@ -87,8 +96,20 @@ namespace Gui.Desktop.Forms
 
         public void Load()
         {
-            DataTable dt = ApiProvider.GetList(Token);
-            _gridControl.DataSource = dt;
+            try
+            {
+                DataTable dt = ApiProvider.GetList(Token);
+                _gridControl.DataSource = dt;
+            }
+            catch (SessionLostException)
+            {
+                _openRestoreSessionFormDelegate();
+                Load();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void RemoveRow(int rowIndex)
@@ -136,7 +157,7 @@ namespace Gui.Desktop.Forms
                 _gridControl.CurrentCell = _gridControl[hti.ColumnIndex, hti.RowIndex];
             }
 
-            GlobalMethods.CorrectSeparators(ContextMenu.Items);
+            Lib.GuiCommander.GlobalMethods.CorrectSeparators(ContextMenu.Items);
         }
 
         void ContextMenu_Closed(object? sender, EventArgs e)
