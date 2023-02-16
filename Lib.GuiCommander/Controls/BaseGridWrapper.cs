@@ -13,7 +13,7 @@ namespace Lib.GuiCommander.Controls
         }
 
         /// <summary>
-        /// Контекстное меню добавлено на уровне дизайнера <see cref="GridControl"/>
+        /// Already added in <see cref="GridControl"/> with designer
         /// </summary>
         protected ContextMenuStrip ContextMenu => _gridControl.ContextMenuStrip!;
 
