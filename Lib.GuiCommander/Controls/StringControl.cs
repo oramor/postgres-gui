@@ -101,19 +101,19 @@ namespace Lib.GuiCommander.Controls
         {
             if (_isReadOnly)
             {
-                return LibSettings.ControlReadOnlyColor;
+                return ColorSchema.ControlReadOnlyColor;
             }
             else if (_isInvalid)
             {
-                return LibSettings.ControlInvalidColor;
+                return ColorSchema.ControlInvalidColor;
             }
             else if (_isRequired)
             {
-                return LibSettings.ControlRequiredColor;
+                return ColorSchema.ControlRequiredColor;
             }
             else
             {
-                return LibSettings.ControlBaseColor;
+                return ColorSchema.ControlBaseColor;
             }
         }
 

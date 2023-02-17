@@ -1,6 +1,6 @@
 ﻿namespace Lib.GuiCommander
 {
-    public static class GlobalMethods
+    public static class WinFormsUtils
     {
         #region Extension Methods
 
@@ -55,28 +55,6 @@
 
             return id;
         }
-
-        /// <summary>
-        /// Позволяет проверить обязательные контролы и, возможно,
-        /// выделить их отдельным цветом
-        /// </summary>
-        //public static bool CheckRequiredControls(Control parentControl, bool parentReturn)
-        //{
-        //    IBind bc;
-        //    foreach (Control c in parentControl.Controls)
-        //    {
-        //        bc = c as IBaseControl;
-        //        if (bc != null && bc.IsRequired && bc.IsEmpty)
-        //        {
-        //            parentReturn = false;
-        //        }
-        //        else if (c.Controls.Count > 0)
-        //        {
-        //            parentReturn = CheckMandatoryControls(c, parentReturn);
-        //        }
-        //    }
-        //    return parentReturn;
-        //}
 
         #endregion
 

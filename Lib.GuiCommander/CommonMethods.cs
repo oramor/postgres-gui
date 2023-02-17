@@ -2,7 +2,7 @@
 
 namespace Lib.GuiCommander
 {
-    public static class ExtMethods
+    public static class CommonMethods
     {
         public static string UpFirstChar(this string str)
         {

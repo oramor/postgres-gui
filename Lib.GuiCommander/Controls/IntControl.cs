@@ -102,19 +102,19 @@ namespace Lib.GuiCommander.Controls
         {
             if (_isReadOnly)
             {
-                return LibSettings.ControlReadOnlyColor;
+                return ColorSchema.ControlReadOnlyColor;
             }
             else if (_isInvalid)
             {
-                return LibSettings.ControlInvalidColor;
+                return ColorSchema.ControlInvalidColor;
             }
             else if (_isRequired)
             {
-                return LibSettings.ControlRequiredColor;
+                return ColorSchema.ControlRequiredColor;
             }
             else
             {
-                return LibSettings.ControlBaseColor;
+                return ColorSchema.ControlBaseColor;
             }
         }
 
@@ -164,7 +164,7 @@ namespace Lib.GuiCommander.Controls
 
         private void IntControl_ValueChanged(object sender, EventArgs e)
         {
-            ForeColor = Value < 0 ? LibSettings.ControlValueNegativeColor : LibSettings.ControlValuePositiveColor;
+            ForeColor = Value < 0 ? ColorSchema.ControlValueNegativeColor : ColorSchema.ControlValuePositiveColor;
 
             OnControlValueChanged(this, new ControlValueChangedEventArgs(CurrentValue));
 

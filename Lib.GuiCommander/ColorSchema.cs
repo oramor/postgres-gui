@@ -1,8 +1,8 @@
 ﻿namespace Lib.GuiCommander
 {
-    public static class LibSettings
+    public static class ColorSchema
     {
-        #region Controls settings
+        #region Controls Colors
 
         public static readonly Color ControlReadOnlyColor = Color.FromKnownColor(KnownColor.Silver);
         public static readonly Color ControlRequiredColor = Color.FromKnownColor(KnownColor.LightYellow);

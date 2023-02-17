@@ -157,7 +157,7 @@ namespace Gui.Desktop.Forms
                 _gridControl.CurrentCell = _gridControl[hti.ColumnIndex, hti.RowIndex];
             }
 
-            Lib.GuiCommander.GlobalMethods.CorrectSeparators(ContextMenu.Items);
+            Lib.GuiCommander.WinFormsUtils.CorrectSeparators(ContextMenu.Items);
         }
 
         void ContextMenu_Closed(object? sender, EventArgs e)
